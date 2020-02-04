@@ -1,0 +1,61 @@
+DinoSprites.png
+size: 583, 96
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+douxSprites
+  rotate: false
+  xy: 0, 0
+  size: 576, 24
+  orig: 576, 24
+  offset: 0, 0
+  index: -1
+douxStock
+  rotate: false
+  xy: 576, 0
+  size: 7, 4
+  orig: 7, 4
+  offset: 0, 0
+  index: -1
+mortSprites
+  rotate: false
+  xy: 0, 24
+  size: 576, 24
+  orig: 576, 24
+  offset: 0, 0
+  index: -1
+mortStock
+  rotate: false
+  xy: 576, 24
+  size: 7, 4
+  orig: 7, 4
+  offset: 0, 0
+  index: -1
+tardSprites
+  rotate: false
+  xy: 0, 48
+  size: 576, 24
+  orig: 576, 24
+  offset: 0, 0
+  index: -1
+tardStock
+  rotate: false
+  xy: 576, 48
+  size: 7, 4
+  orig: 7, 4
+  offset: 0, 0
+  index: -1
+vitaSprites
+  rotate: false
+  xy: 0, 72
+  size: 576, 24
+  orig: 576, 24
+  offset: 0, 0
+  index: -1
+vitaStock
+  rotate: false
+  xy: 576, 72
+  size: 7, 4
+  orig: 7, 4
+  offset: 0, 0
+  index: -1

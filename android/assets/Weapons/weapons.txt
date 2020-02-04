@@ -1,0 +1,12 @@
+weapons.png
+size: 307, 255
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+guns
+  rotate: false
+  xy: 0, 0
+  size: 307, 255
+  orig: 307, 255
+  offset: 0, 0
+  index: -1
