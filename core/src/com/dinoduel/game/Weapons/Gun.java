@@ -107,12 +107,42 @@ public abstract class Gun extends Sprite implements Weapon  {
     public void setUser(Dino dino) {
         user = dino;
         wBody.setAwake(false);
-        wBody.destroyFixture(fixture);
+        world.destroyBody(wBody);
+        wBody = null;
     }
     public abstract String getName();
 
     public Dino getUser() {
         return this.user;
+    }
+    public void clearUser() {
+        this.user = null;
+    }
+
+    public void dropped() {
+        //moves it to the ground
+        //this.setPosition(user.b2body.getPosition().x-getWidth()/2, user.b2body.getPosition().y+getHeight()/2-user.getHeight()/2);
+
+        //recreates fixture
+        BodyDef bdef = new BodyDef();
+        bdef.position.set(user.b2body.getPosition().x-getWidth()/2, user.b2body.getPosition().y+getHeight()/2-user.getHeight()/2);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        wBody = world.createBody(bdef);
+
+        FixtureDef fdef = new FixtureDef();
+        PolygonShape shape = new PolygonShape();
+        shape.setAsBox(xSize/2 / DinoDuel.PPM, ySize/2 / DinoDuel.PPM);
+
+        fdef.shape = shape;
+
+        fdef.filter.categoryBits = DinoDuel.CATEGORY_WEAPON;
+        fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
+        fixture = wBody.createFixture(fdef);
+        wBody.setAwake(true);
+        this.clearUser();
+
+        this.update();
+
     }
 
 

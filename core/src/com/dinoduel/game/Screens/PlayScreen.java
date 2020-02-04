@@ -201,7 +201,13 @@ public class PlayScreen implements Screen {
 
         //calls the pickup method for player1
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
-            player1.pickupGun(guns);
+
+                player1.pickupGun(guns);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
+
+            if (player1.hasWeapon)
+                player1.dropGun();
         }
     }//end handleInput
 
