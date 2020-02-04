@@ -34,6 +34,9 @@ public abstract class Gun extends Sprite implements Weapon  {
     protected boolean right;
     protected Fixture fixture;
     protected Dino user;
+    protected boolean  facingRight= true;
+    private boolean flip = false;
+    public boolean drawn = false;
 
     public Gun (float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("guns"));
@@ -43,7 +46,10 @@ public abstract class Gun extends Sprite implements Weapon  {
         right = true;
 
 
+
     }
+
+
 
 
     public void defineWeapon() {
@@ -68,9 +74,10 @@ public abstract class Gun extends Sprite implements Weapon  {
     public void update() {
 
         //based off dino update class, unsure if it works. Should move it with a user if it has one.
-        if (user == PlayScreen.player1) {
+        if (user != null) {
             //wBody.setLinearVelocity(user.b2body.getLinearVelocity());
-            setPosition(user.b2body.getPosition().x-getWidth()/2, user.b2body.getPosition().y-getHeight()/2);
+            setPosition(user.b2body.getPosition().x-getWidth()/2, user.b2body.getPosition().y-getHeight()/2 - 3/DinoDuel.PPM);
+
             setRegion(getFrame());
         } else {
             setPosition(wBody.getPosition().x-getWidth()/2, wBody.getPosition().y-getHeight()/2);
@@ -82,12 +89,17 @@ public abstract class Gun extends Sprite implements Weapon  {
     public TextureRegion getFrame() {
         TextureRegion region = img;
         if ((user.b2body.getLinearVelocity().x < 0 || !right) && !region.isFlipX()) {
+
             region.flip(true, false);
+
             right = false;
         } else if ((user.b2body.getLinearVelocity().x > 0 || right) && region.isFlipX()) {
             region.flip(true, false);
+
             right = true;
         }
+
+
 
         return region;
     }
@@ -97,8 +109,10 @@ public abstract class Gun extends Sprite implements Weapon  {
         wBody.setAwake(false);
         wBody.destroyFixture(fixture);
     }
-    public String getName() {
-        return "Mossberg";
+    public abstract String getName();
+
+    public Dino getUser() {
+        return this.user;
     }
 
 

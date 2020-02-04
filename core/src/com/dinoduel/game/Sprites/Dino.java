@@ -44,6 +44,7 @@ public class Dino extends Sprite {
     public boolean playerDucking = true;
     private Weapon weapon;
     private boolean hasWeapon = false;
+    public boolean flip;
 
     public Dino(World world, PlayScreen screen, String name, int spriteStartingYValue) {
         //Initialize Variables
@@ -337,10 +338,12 @@ public class Dino extends Sprite {
                         (this.b2body.getPosition().x  <= gun.wBody.getPosition().x + gun.xSize / 2/DinoDuel.PPM && this.b2body.getPosition().x  >= gun.wBody.getPosition().x - gun.xSize / 2/DinoDuel.PPM)) {
 
 
-                    if ((this.b2body.getPosition().y - 8/DinoDuel.PPM <= gun.wBody.getPosition().y + gun.ySize / 2/DinoDuel.PPM && this.b2body.getPosition().y - 8/DinoDuel.PPM  >= gun.wBody.getPosition().y - gun.ySize / 2/DinoDuel.PPM) || (this.b2body.getPosition().y + 8/DinoDuel.PPM <= gun.wBody.getPosition().y + gun.ySize / 2/DinoDuel.PPM && this.b2body.getPosition().y + 8/DinoDuel.PPM >= gun.wBody.getPosition().y - gun.ySize / 2/DinoDuel.PPM)) {
+                    if ((this.b2body.getPosition().y - 8/DinoDuel.PPM <= gun.wBody.getPosition().y + gun.ySize / 2/DinoDuel.PPM - 1/DinoDuel.PPM && this.b2body.getPosition().y - 8/DinoDuel.PPM  >= gun.wBody.getPosition().y - gun.ySize / 2/DinoDuel.PPM- 1/DinoDuel.PPM) ||
+                            (this.b2body.getPosition().y + 8/DinoDuel.PPM <= gun.wBody.getPosition().y + gun.ySize / 2/DinoDuel.PPM- 1/DinoDuel.PPM && this.b2body.getPosition().y + 8/DinoDuel.PPM >= gun.wBody.getPosition().y - gun.ySize / 2/DinoDuel.PPM- 1/DinoDuel.PPM)) {
                         Gdx.app.log("Dino", gun.getName());
                         hasWeapon = true;
                         gun.setUser(this);
+                        weapon = gun;
 
                         break;
                     }

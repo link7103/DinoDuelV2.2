@@ -226,10 +226,19 @@ public class PlayScreen implements Screen {
 
 
         player1.draw(game.batch);
+        for (Gun drawGun : guns) {
+            if (gun.getUser()==player1) {
+                drawGun.draw(game.batch);
+                gun.drawn = true;
+            }
+        }
         player2.draw(game.batch);
 
         for (Gun drawGun : guns) {
-            drawGun.draw(game.batch);
+            if (!gun.drawn)
+                drawGun.draw(game.batch);
+            else
+                gun.drawn = false;
         }
 
         game.batch.end();

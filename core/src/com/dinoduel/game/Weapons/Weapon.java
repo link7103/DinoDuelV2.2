@@ -15,6 +15,8 @@ public interface Weapon  {
     void update();
     void defineWeapon();
     void setUser(Dino dino);
+    Dino getUser();
+
 
 
 }
