@@ -3,6 +3,7 @@ package com.dinoduel.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -37,10 +38,12 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
+
     //Map
-    private TmxMapLoader maploader;
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+    //Asset Manager
+    private AssetManager assetManager;
 
     //Box2d variables
     private World world;
@@ -58,6 +61,7 @@ public class PlayScreen implements Screen {
     private float spawnX;
     private float spawnY;
     int spawnType = -1;
+
     public static PlayScreen screen;
 
     //dictates wether a player can jump
@@ -83,14 +87,21 @@ public class PlayScreen implements Screen {
         //Creates the hud
         hud = new Hud(game.batch);
         //Renders the map
-        maploader = new TmxMapLoader();
-        map = maploader.load("DinoDuel Basic Tilesets/testLevel.tmx");
+        assetManager = new AssetManager();
+        assetManager.setLoader(TiledMap.class, new TmxMapLoader());
+        assetManager.load("DinoDuel Basic Tilesets/testLevel.tmx", TiledMap.class);
+        assetManager.finishLoading();
+        map = assetManager.get("DinoDuel Basic Tilesets/testLevel.tmx", TiledMap.class);
+
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
+
+
         //Creates the world
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
         new B2WorldCreator(world, map, this);
+
         //Player1
         player1 = new Dino(world, this, "douxSprites", 0);
         player2 = new Dino(world, this, "tardSprites", 48);
@@ -208,7 +219,7 @@ public class PlayScreen implements Screen {
         //calls the pickup method for player1
         if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
 
-                player1.pickupGun(guns);
+            player1.pickupGun(guns);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
 
@@ -239,7 +250,7 @@ public class PlayScreen implements Screen {
 
         player1.draw(game.batch);
         for (Gun drawGun : guns) {
-            if (gun.getUser()==player1) {
+            if (gun.getUser() == player1) {
                 drawGun.draw(game.batch);
                 gun.drawn = true;
             }
@@ -263,7 +274,7 @@ public class PlayScreen implements Screen {
     public void setCameraPosition() {
 //attach the gamecam to the the middle x and y coordinate
         gameCam.position.x = player1.b2body.getPosition().x;
-       // gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
+        // gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
 
         /*FIX
         //sets the width to the default
@@ -337,7 +348,8 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
-        map.dispose();
+        //map.dispose();
+        assetManager.dispose();
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
