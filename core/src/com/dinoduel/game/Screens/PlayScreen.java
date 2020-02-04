@@ -60,6 +60,10 @@ public class PlayScreen implements Screen {
     int spawnType = -1;
     public static PlayScreen screen;
 
+    //dictates wether a player can jump
+    // TODO: 2020-02-03 change this to better suit number of players
+    public boolean[] canJump = {true, true};
+
     //weapon list
     public ArrayList<Gun> guns = new ArrayList<>();
 
@@ -169,8 +173,9 @@ public class PlayScreen implements Screen {
 
     private void handleInput(float dt) {
         //Player1
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && canJump[0]) {
             player1.b2body.applyLinearImpulse(new Vector2(0, 3f), player1.b2body.getWorldCenter(), true);
+            //canJump[0] = false;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
             player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
@@ -184,8 +189,9 @@ public class PlayScreen implements Screen {
             player1.playerDucking = false;
         }
         //Player2
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump[1]) {
             player2.b2body.applyLinearImpulse(new Vector2(0, 3f), player2.b2body.getWorldCenter(), true);
+            //canJump[1] = false;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.b2body.getLinearVelocity().x <= 2) {
             player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);

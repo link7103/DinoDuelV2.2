@@ -44,6 +44,20 @@ public class WorldContactListener implements ContactListener {
             }
         }
 
+        // FIXME: 2020-02-03 doesnt work
+        if (!PlayScreen.screen.canJump[0]) {
+            Gdx.app.log("working", "collision ");
+            if ((fixA.getUserData() == PlayScreen.screen.player1 || fixB.getUserData() == PlayScreen.screen.player1) ) {
+                Fixture feet = fixA.getUserData() == PlayScreen.screen.player1 ? fixA : fixB;
+                Fixture object = feet == fixA ? fixB : fixA;
+                Gdx.app.log("feet", "collision ");
+                if (object.getUserData() == "ground" || object.getUserData() instanceof InteractiveTileObject) {
+                    //Gdx.app.log("Gun Box", "Collision");
+                    PlayScreen.screen.canJump[0] = true;
+                }
+            }
+        }
+
 
     }
 

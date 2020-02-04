@@ -30,6 +30,8 @@ public class Dino extends Sprite {
 
     public State currentState;
     public State previousState;
+    public static int dinoNumber =0;
+    public int dinoID;
 
     public World world;
     public Body b2body;
@@ -54,6 +56,8 @@ public class Dino extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
+        dinoID = dinoNumber;
+        dinoNumber++;
 
         //Sets up the various animations - will need to adjust the y value for subsequent players
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -216,6 +220,14 @@ public class Dino extends Sprite {
             fdef.isSensor = true;
             b2body.createFixture(fdef).setUserData("head");
 
+            //feet sensor
+            EdgeShape feet = new EdgeShape();
+            head.set(new Vector2(-(float)2.5/DinoDuel.PPM, -8/DinoDuel.PPM ), new Vector2((float)3/DinoDuel.PPM, -8/DinoDuel.PPM ));
+            fdef.shape = feet;
+            fdef.isSensor = true;
+            b2body.createFixture(fdef).setUserData(this);
+            //Gdx.app.log("userData",(String) b2body.getFixtureList().get(2).getUserData());
+
             //side sensors
             EdgeShape right = new EdgeShape();
             right.set(new Vector2(3/DinoDuel.PPM, -8/DinoDuel.PPM), new Vector2(5/DinoDuel.PPM, 8/DinoDuel.PPM));
@@ -295,6 +307,14 @@ public class Dino extends Sprite {
                 fdef.shape = head;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
+
+                //feet sensor
+                EdgeShape feet = new EdgeShape();
+                head.set(new Vector2(-(float)2.5/DinoDuel.PPM, -8/DinoDuel.PPM ), new Vector2((float)3/DinoDuel.PPM, -8/DinoDuel.PPM ));
+                fdef.shape = feet;
+                fdef.isSensor = true;
+                b2body.createFixture(fdef).setUserData(this);
+
 
                 //side sensors
                 EdgeShape right = new EdgeShape();
