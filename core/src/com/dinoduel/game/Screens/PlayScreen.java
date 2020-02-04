@@ -171,7 +171,7 @@ public class PlayScreen implements Screen {
         //updates player sprite position
         player1.update(dt);
         for (Gun updateGun : guns) {
-            if (gun.getUser() == player1) {
+            if (updateGun.getUser() == player1) {
                 updateGun.update();
                 updateGun.update = true;
             }
@@ -261,18 +261,18 @@ public class PlayScreen implements Screen {
 
         player1.draw(game.batch);
         for (Gun drawGun : guns) {
-            if (gun.getUser() == player1) {
+            if (drawGun.getUser() == player1) {
                 drawGun.draw(game.batch);
-                gun.drawn = true;
+                drawGun.drawn = true;
             }
         }
         player2.draw(game.batch);
 
         for (Gun drawGun : guns) {
-            if (!gun.drawn)
+            if (!drawGun.drawn)
                 drawGun.draw(game.batch);
             else
-                gun.drawn = false;
+                drawGun.drawn = false;
         }
 
         game.batch.end();
