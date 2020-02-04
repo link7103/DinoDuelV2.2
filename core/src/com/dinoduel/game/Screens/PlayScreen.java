@@ -194,8 +194,9 @@ public class PlayScreen implements Screen {
     private void handleInput(float dt) {
         //Player1
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && canJump[0]) {
-            player1.b2body.applyLinearImpulse(new Vector2(0, 3f), player1.b2body.getWorldCenter(), true);
-            //canJump[0] = false;
+            if (player1.currentState != Dino.State.JUMPING)
+                player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
             player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
@@ -210,8 +211,9 @@ public class PlayScreen implements Screen {
         }
         //Player2
         if (Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump[1]) {
-            player2.b2body.applyLinearImpulse(new Vector2(0, 3f), player2.b2body.getWorldCenter(), true);
-            //canJump[1] = false;
+            if (player2.currentState != Dino.State.JUMPING)
+                player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.b2body.getLinearVelocity().x <= 2) {
             player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);

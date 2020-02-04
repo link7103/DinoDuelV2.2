@@ -220,13 +220,7 @@ public class Dino extends Sprite {
             fdef.isSensor = true;
             b2body.createFixture(fdef).setUserData("head");
 
-            //feet sensor
-            EdgeShape feet = new EdgeShape();
-            head.set(new Vector2(-(float)2.5/DinoDuel.PPM, -8/DinoDuel.PPM ), new Vector2((float)3/DinoDuel.PPM, -8/DinoDuel.PPM ));
-            fdef.shape = feet;
-            fdef.isSensor = true;
-            b2body.createFixture(fdef).setUserData(this);
-            //Gdx.app.log("userData",(String) b2body.getFixtureList().get(2).getUserData());
+
 
             //side sensors
             EdgeShape right = new EdgeShape();
@@ -308,12 +302,7 @@ public class Dino extends Sprite {
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
 
-                //feet sensor
-                EdgeShape feet = new EdgeShape();
-                head.set(new Vector2(-(float)2.5/DinoDuel.PPM, -8/DinoDuel.PPM ), new Vector2((float)3/DinoDuel.PPM, -8/DinoDuel.PPM ));
-                fdef.shape = feet;
-                fdef.isSensor = true;
-                b2body.createFixture(fdef).setUserData(this);
+
 
 
                 //side sensors
