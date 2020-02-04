@@ -170,11 +170,20 @@ public class PlayScreen implements Screen {
         }
         //updates player sprite position
         player1.update(dt);
+        for (Gun updateGun : guns) {
+            if (gun.getUser() == player1) {
+                updateGun.update();
+                updateGun.update = true;
+            }
+        }
+
         player2.update(dt);
 
-        for (Gun gunU : guns
-        ) {
-            gunU.update();
+        for (Gun updateGun : guns) {
+            if (!gun.drawn)
+                updateGun.update();
+            else
+                updateGun.update = false;
         }
 
         setCameraPosition();
@@ -221,7 +230,7 @@ public class PlayScreen implements Screen {
 
             player1.pickupGun(guns);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_RIGHT)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
 
             if (player1.hasWeapon)
                 player1.dropGun();

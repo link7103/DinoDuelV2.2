@@ -37,6 +37,7 @@ public abstract class Gun extends Sprite implements Weapon  {
     protected boolean  facingRight= true;
     private boolean flip = false;
     public boolean drawn = false;
+    public boolean update = false;
 
     public Gun (float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("guns"));
