@@ -89,9 +89,9 @@ public class PlayScreen implements Screen {
         //Renders the map
         assetManager = new AssetManager();
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
-        assetManager.load("DinoDuel Basic Tilesets/testLevel.tmx", TiledMap.class);
+        assetManager.load("DinoDuel Basic Tilesets/map1.tmx", TiledMap.class);
         assetManager.finishLoading();
-        map = assetManager.get("DinoDuel Basic Tilesets/testLevel.tmx", TiledMap.class);
+        map = assetManager.get("DinoDuel Basic Tilesets/map1.tmx", TiledMap.class);
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);

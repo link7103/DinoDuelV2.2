@@ -30,7 +30,7 @@ public class B2WorldCreator {
 
         //the first get(x); x = layer number in tiled counting from bottom up starting at 0
         //Ground layer
-        for (MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)
+        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
@@ -49,7 +49,7 @@ public class B2WorldCreator {
         }
 
         //Guns 6
-        for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
@@ -66,7 +66,7 @@ public class B2WorldCreator {
             fixture.setUserData("ground");
         }
         //normal GunBox 7
-        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
