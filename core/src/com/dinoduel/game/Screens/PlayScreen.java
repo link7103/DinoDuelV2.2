@@ -106,7 +106,7 @@ public class PlayScreen implements Screen {
         player1 = new Dino(world, this, "douxSprites", 0);
         player2 = new Dino(world, this, "tardSprites", 48);
 
-        //Barrett test
+        //Barrett test Fix (needed for the rest of em)w
         gun = new Mossberg(40, 32, world, this);
         guns.add(gun);
 
@@ -262,7 +262,7 @@ public class PlayScreen implements Screen {
         player1.draw(game.batch);
         for (Gun drawGun : guns) {
             if (drawGun.getUser() == player1) {
-                drawGun.setSize(gun.xSize/2/DinoDuel.PPM, gun.ySize/2/DinoDuel.PPM);
+                drawGun.setSize(drawGun.xSize/2/DinoDuel.PPM, drawGun.ySize/2/DinoDuel.PPM);
                 drawGun.draw(game.batch);
                 drawGun.drawn = true;
             }
@@ -271,7 +271,7 @@ public class PlayScreen implements Screen {
 
         for (Gun drawGun : guns) {
             if (!drawGun.drawn) {
-                drawGun.setSize(gun.xSize/2/DinoDuel.PPM, gun.ySize/2/DinoDuel.PPM);
+                drawGun.setSize(drawGun.xSize/2/DinoDuel.PPM, drawGun.ySize/2/DinoDuel.PPM);
                 drawGun.draw(game.batch);
             }
             else {

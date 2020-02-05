@@ -42,11 +42,12 @@ public class Dino extends Sprite {
     private Animation<TextureRegion> dinoJump;
     private Animation<TextureRegion> dinoDuckRun;
     private float stateTimer;
+
     private boolean runningRight;
     public boolean playerDucking = true;
     private Weapon weapon;
     public boolean hasWeapon = false;
-    public boolean flip;
+    //public boolean flip;
 
     public Dino(World world, PlayScreen screen, String name, int spriteStartingYValue) {
         //Initialize Variables
@@ -367,5 +368,9 @@ public class Dino extends Sprite {
 
         weapon.dropped();
         weapon = null;
+    }
+
+    public boolean isRunningRight() {
+        return runningRight;
     }
 }//end Dino
