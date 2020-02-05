@@ -31,8 +31,8 @@ public abstract class Gun extends Sprite implements Weapon {
     protected float x;
     protected float y;
     //When Held:
-    public float heldXOffset;
-    public float heldYOffset;
+    protected float heldXOffset;
+    protected float heldYOffset;
 
     //Size
     public int xSize;
