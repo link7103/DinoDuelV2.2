@@ -85,10 +85,8 @@ public abstract class Gun extends Sprite implements Weapon {
         TextureRegion region = img;
         if (!user.isRunningRight() && !region.isFlipX()) {
             region.flip(true, false);
-
         } else if (user.isRunningRight() && region.isFlipX()) {
             region.flip(true, false);
-
         }
         return region;
     }//end getFrame
@@ -104,19 +102,16 @@ public abstract class Gun extends Sprite implements Weapon {
 
     public Dino getUser() {
         return this.user;
-    }
+    }//end getUser
 
     public void clearUser() {
         this.user = null;
-    }
+    }//end clearUser
 
     public void dropped() {
-        //moves it to the ground
-        //this.setPosition(user.b2body.getPosition().x-getWidth()/2, user.b2body.getPosition().y+getHeight()/2-user.getHeight()/2);
-
         //recreates fixture
         BodyDef bdef = new BodyDef();
-        bdef.position.set(user.b2body.getPosition().x , user.b2body.getPosition().y - user.getHeight() / 2);
+        bdef.position.set(user.b2body.getPosition().x, user.b2body.getPosition().y - user.getHeight() / 2);
         bdef.type = BodyDef.BodyType.DynamicBody;
         wBody = world.createBody(bdef);
 
@@ -133,6 +128,6 @@ public abstract class Gun extends Sprite implements Weapon {
         wBody.setAwake(true);
         this.clearUser();
         this.update();
-    }
+    }//end dropped
 }//end class
 

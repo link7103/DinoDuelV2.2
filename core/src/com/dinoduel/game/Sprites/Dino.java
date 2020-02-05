@@ -27,24 +27,28 @@ import java.util.ArrayList;
 public class Dino extends Sprite {
 
     public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING}
-
     public State currentState;
     public State previousState;
-    public static int dinoNumber =0;
+
+    //Why Do these exist
+    public static int dinoNumber = 0;
     public int dinoID;
 
     public World world;
     public Body b2body;
+    //Animations and Textures
     private TextureRegion dinoIdle0;
     private Animation<TextureRegion> dinoIdle;
     private TextureRegion dinoDuck;
     private Animation<TextureRegion> dinoRun;
     private Animation<TextureRegion> dinoJump;
     private Animation<TextureRegion> dinoDuckRun;
-    private float stateTimer;
 
+    private float stateTimer;
+    //Used for mapping the textures
     private boolean runningRight;
     public boolean playerDucking = true;
+    //Weapons
     private Weapon weapon;
     public boolean hasWeapon = false;
     //public boolean flip;
@@ -94,18 +98,18 @@ public class Dino extends Sprite {
     }//end constructor
 
     public void update(float dt) { //Updates the sprite every frame
-        if(playerDucking && currentState != State.FALLING && currentState != State.JUMPING) {
-            if(runningRight){
-                setPosition(b2body.getPosition().x - (float)0.025 - getWidth() / 2, b2body.getPosition().y + (float) 0.0125 - getHeight() / 2);
-            }else{
-                setPosition(b2body.getPosition().x + (float)0.025 - getWidth() / 2, b2body.getPosition().y + (float) 0.0125 - getHeight() / 2);
+        if (playerDucking && currentState != State.FALLING && currentState != State.JUMPING) {
+            if (runningRight) {
+                setPosition(b2body.getPosition().x - (float) 0.025 - getWidth() / 2, b2body.getPosition().y + (float) 0.0125 - getHeight() / 2);
+            } else {
+                setPosition(b2body.getPosition().x + (float) 0.025 - getWidth() / 2, b2body.getPosition().y + (float) 0.0125 - getHeight() / 2);
 
             }
-        }else {
+        } else {
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
         }
         setRegion(getFrame(dt));
-        if (weapon!= null) {
+        if (weapon != null) {
             weapon.update();
         }
     }//end update
@@ -152,16 +156,15 @@ public class Dino extends Sprite {
     }//end getFrame
 
     public State getState() {
-
-        if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING){
+        if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
             return State.JUMPING;
-        } else if (b2body.getLinearVelocity().y < 0 && !playerDucking && previousState == State.DUCKFALLING ){
+        } else if (b2body.getLinearVelocity().y < 0 && !playerDucking && previousState == State.DUCKFALLING) {
             defineDino(2);
             return State.FALLING;
         }
         //Calls for a change in collision box
-        if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && b2body.getLinearVelocity().y == 0) ) {
+        if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && b2body.getLinearVelocity().y == 0)) {
             defineDino(1);
         } else if ((!playerDucking && (previousState == State.DUCKING || previousState == State.DUCKRUNNING))) {
             defineDino(2);
@@ -169,9 +172,9 @@ public class Dino extends Sprite {
         //Sets different states
         if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
             return State.JUMPING;
-        }else if (b2body.getLinearVelocity().y<0 && (previousState == State.DUCKING || previousState == State.DUCKRUNNING || previousState == State.DUCKFALLING))
+        } else if (b2body.getLinearVelocity().y < 0 && (previousState == State.DUCKING || previousState == State.DUCKRUNNING || previousState == State.DUCKFALLING))
             return State.DUCKFALLING;
-        else if (b2body.getLinearVelocity().y < 0  )
+        else if (b2body.getLinearVelocity().y < 0)
             return State.FALLING;
         else if (b2body.getLinearVelocity().x != 0)
             //will need to adapt for multiple players
@@ -185,7 +188,6 @@ public class Dino extends Sprite {
         else
             return State.STANDING;
     }//end getState
-
 
     public void defineDino(int instruction) {
         //0 = Initialize, 1 = Ducking, 3 = Not Ducking
@@ -202,10 +204,10 @@ public class Dino extends Sprite {
             //shape.setAsBox(3 / DinoDuel.PPM, 8 /
             //sets as a polygon
             Vector2[] coordinates = new Vector2[4];
-            coordinates[0] = new Vector2(-3/DinoDuel.PPM, -8/DinoDuel.PPM);
-            coordinates[1] = new Vector2(3/DinoDuel.PPM, -8/DinoDuel.PPM);
-            coordinates[2] = new Vector2(-5/DinoDuel.PPM, 8/DinoDuel.PPM);
-            coordinates[3] = new Vector2(5/DinoDuel.PPM, 8/DinoDuel.PPM);
+            coordinates[0] = new Vector2(-3 / DinoDuel.PPM, -8 / DinoDuel.PPM);
+            coordinates[1] = new Vector2(3 / DinoDuel.PPM, -8 / DinoDuel.PPM);
+            coordinates[2] = new Vector2(-5 / DinoDuel.PPM, 8 / DinoDuel.PPM);
+            coordinates[3] = new Vector2(5 / DinoDuel.PPM, 8 / DinoDuel.PPM);
             shape.set(coordinates);
 
             fdef.shape = shape;
@@ -213,32 +215,25 @@ public class Dino extends Sprite {
             fdef.filter.maskBits = DinoDuel.MASK_DINO;
             b2body.createFixture(fdef);
 
-
             //head sensor
             EdgeShape head = new EdgeShape();
-            head.set(new Vector2(-3/DinoDuel.PPM, 8/DinoDuel.PPM ), new Vector2(3/DinoDuel.PPM, 8/DinoDuel.PPM ));
+            head.set(new Vector2(-3 / DinoDuel.PPM, 8 / DinoDuel.PPM), new Vector2(3 / DinoDuel.PPM, 8 / DinoDuel.PPM));
             fdef.shape = head;
             fdef.isSensor = true;
             b2body.createFixture(fdef).setUserData("head");
 
-
-
             //side sensors
             EdgeShape right = new EdgeShape();
-            right.set(new Vector2(3/DinoDuel.PPM, -8/DinoDuel.PPM), new Vector2(5/DinoDuel.PPM, 8/DinoDuel.PPM));
+            right.set(new Vector2(3 / DinoDuel.PPM, -8 / DinoDuel.PPM), new Vector2(5 / DinoDuel.PPM, 8 / DinoDuel.PPM));
             fdef.shape = right;
             fdef.isSensor = true;
             b2body.createFixture(fdef).setUserData("side");
 
             EdgeShape left = new EdgeShape();
-            left.set(new Vector2(-3/DinoDuel.PPM, -8/DinoDuel.PPM), new Vector2(-5/DinoDuel.PPM, 8/DinoDuel.PPM));
+            left.set(new Vector2(-3 / DinoDuel.PPM, -8 / DinoDuel.PPM), new Vector2(-5 / DinoDuel.PPM, 8 / DinoDuel.PPM));
             fdef.shape = left;
             fdef.isSensor = true;
             b2body.createFixture(fdef).setUserData("side");
-
-
-
-
 
         } else {
             Vector2 currentPosition = b2body.getPosition();
@@ -251,7 +246,7 @@ public class Dino extends Sprite {
 
                 FixtureDef fdef = new FixtureDef();
                 PolygonShape shape = new PolygonShape();
-                shape.setAsBox(8 / DinoDuel.PPM, (float)6.65 / DinoDuel.PPM);
+                shape.setAsBox(8 / DinoDuel.PPM, (float) 6.65 / DinoDuel.PPM);
 
                 fdef.shape = shape;
                 fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
@@ -259,21 +254,18 @@ public class Dino extends Sprite {
                 b2body.createFixture(fdef);
                 b2body.setLinearVelocity(currentVelocity);
 
-
-
                 //side sensors
                 EdgeShape right = new EdgeShape();
-                right.set(new Vector2(8/DinoDuel.PPM, -(float)6.65/DinoDuel.PPM), new Vector2(8/DinoDuel.PPM, (float)6.65/DinoDuel.PPM));
+                right.set(new Vector2(8 / DinoDuel.PPM, -(float) 6.65 / DinoDuel.PPM), new Vector2(8 / DinoDuel.PPM, (float) 6.65 / DinoDuel.PPM));
                 fdef.shape = right;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("side");
 
                 EdgeShape left = new EdgeShape();
-                left.set(new Vector2(-8/DinoDuel.PPM, -(float)6.65/DinoDuel.PPM), new Vector2(-8/DinoDuel.PPM, (float)6.65/DinoDuel.PPM));
+                left.set(new Vector2(-8 / DinoDuel.PPM, -(float) 6.65 / DinoDuel.PPM), new Vector2(-8 / DinoDuel.PPM, (float) 6.65 / DinoDuel.PPM));
                 fdef.shape = left;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("side");
-
 
             } else {//Unduck
                 bdef.type = BodyDef.BodyType.DynamicBody;
@@ -284,10 +276,10 @@ public class Dino extends Sprite {
                 //shape.setAsBox(3 / DinoDuel.PPM, 8 / DinoDuel.PPM);
                 //sets as polygon
                 Vector2[] coordinates = new Vector2[4];
-                coordinates[0] = new Vector2(-3/DinoDuel.PPM, -8/DinoDuel.PPM);
-                coordinates[1] = new Vector2(3/DinoDuel.PPM, -8/DinoDuel.PPM);
-                coordinates[2] = new Vector2(-5/DinoDuel.PPM, 8/DinoDuel.PPM);
-                coordinates[3] = new Vector2(5/DinoDuel.PPM, 8/DinoDuel.PPM);
+                coordinates[0] = new Vector2(-3 / DinoDuel.PPM, -8 / DinoDuel.PPM);
+                coordinates[1] = new Vector2(3 / DinoDuel.PPM, -8 / DinoDuel.PPM);
+                coordinates[2] = new Vector2(-5 / DinoDuel.PPM, 8 / DinoDuel.PPM);
+                coordinates[3] = new Vector2(5 / DinoDuel.PPM, 8 / DinoDuel.PPM);
                 shape.set(coordinates);
 
                 fdef.shape = shape;
@@ -298,23 +290,20 @@ public class Dino extends Sprite {
 
                 //head sensor
                 EdgeShape head = new EdgeShape();
-                head.set(new Vector2(-3/DinoDuel.PPM, 8/DinoDuel.PPM ), new Vector2(3/DinoDuel.PPM, 8/DinoDuel.PPM ));
+                head.set(new Vector2(-3 / DinoDuel.PPM, 8 / DinoDuel.PPM), new Vector2(3 / DinoDuel.PPM, 8 / DinoDuel.PPM));
                 fdef.shape = head;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
 
-
-
-
                 //side sensors
                 EdgeShape right = new EdgeShape();
-                right.set(new Vector2(3/DinoDuel.PPM, -8/DinoDuel.PPM), new Vector2(5/DinoDuel.PPM, 8/DinoDuel.PPM));
+                right.set(new Vector2(3 / DinoDuel.PPM, -8 / DinoDuel.PPM), new Vector2(5 / DinoDuel.PPM, 8 / DinoDuel.PPM));
                 fdef.shape = right;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("side");
 
                 EdgeShape left = new EdgeShape();
-                left.set(new Vector2(-3/DinoDuel.PPM, -8/DinoDuel.PPM), new Vector2(-5/DinoDuel.PPM, 8/DinoDuel.PPM));
+                left.set(new Vector2(-3 / DinoDuel.PPM, -8 / DinoDuel.PPM), new Vector2(-5 / DinoDuel.PPM, 8 / DinoDuel.PPM));
                 fdef.shape = left;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("side");
@@ -323,15 +312,10 @@ public class Dino extends Sprite {
 
             }
         }
-
-
     }//end defineDino
 
-
-
     public void pickupGun(ArrayList<Gun> guns) {
-        for (Gun gun: guns
-             ) {
+        for (Gun gun : guns) {
 
             if (!hasWeapon) {
                 /*Gdx.app.log("Run", "Run");
@@ -343,13 +327,13 @@ public class Dino extends Sprite {
                 Gdx.app.log("gun y",  "" + (gun.wBody.getPosition().y));
                 Gdx.app.log("gun width",  "" + (gun.xSize/2/DinoDuel.PPM));
                 Gdx.app.log("gun height",  "" + (gun.ySize/2/DinoDuel.PPM));*/
-                if ((this.b2body.getPosition().x - 5/DinoDuel.PPM <= gun.wBody.getPosition().x + gun.xSize / 2/DinoDuel.PPM && this.b2body.getPosition().x - 5/DinoDuel.PPM >= gun.wBody.getPosition().x - gun.xSize / 2/DinoDuel.PPM) ||
-                        (this.b2body.getPosition().x + 5/DinoDuel.PPM <= gun.wBody.getPosition().x + gun.xSize / 2/DinoDuel.PPM && this.b2body.getPosition().x + 5/DinoDuel.PPM >= gun.wBody.getPosition().x - gun.xSize / 2/DinoDuel.PPM) ||
-                        (this.b2body.getPosition().x  <= gun.wBody.getPosition().x + gun.xSize / 2/DinoDuel.PPM && this.b2body.getPosition().x  >= gun.wBody.getPosition().x - gun.xSize / 2/DinoDuel.PPM)) {
+                if ((this.b2body.getPosition().x - 5 / DinoDuel.PPM <= gun.wBody.getPosition().x + gun.xSize / 2 / DinoDuel.PPM && this.b2body.getPosition().x - 5 / DinoDuel.PPM >= gun.wBody.getPosition().x - gun.xSize / 2 / DinoDuel.PPM) ||
+                        (this.b2body.getPosition().x + 5 / DinoDuel.PPM <= gun.wBody.getPosition().x + gun.xSize / 2 / DinoDuel.PPM && this.b2body.getPosition().x + 5 / DinoDuel.PPM >= gun.wBody.getPosition().x - gun.xSize / 2 / DinoDuel.PPM) ||
+                        (this.b2body.getPosition().x <= gun.wBody.getPosition().x + gun.xSize / 2 / DinoDuel.PPM && this.b2body.getPosition().x >= gun.wBody.getPosition().x - gun.xSize / 2 / DinoDuel.PPM)) {
 
 
-                    if ((this.b2body.getPosition().y - 8/DinoDuel.PPM <= gun.wBody.getPosition().y + gun.ySize / 2/DinoDuel.PPM - 1/DinoDuel.PPM && this.b2body.getPosition().y - 8/DinoDuel.PPM  >= gun.wBody.getPosition().y - gun.ySize / 2/DinoDuel.PPM- 1/DinoDuel.PPM) ||
-                            (this.b2body.getPosition().y + 8/DinoDuel.PPM <= gun.wBody.getPosition().y + gun.ySize / 2/DinoDuel.PPM- 1/DinoDuel.PPM && this.b2body.getPosition().y + 8/DinoDuel.PPM >= gun.wBody.getPosition().y - gun.ySize / 2/DinoDuel.PPM- 1/DinoDuel.PPM)) {
+                    if ((this.b2body.getPosition().y - 8 / DinoDuel.PPM <= gun.wBody.getPosition().y + gun.ySize / 2 / DinoDuel.PPM - 1 / DinoDuel.PPM && this.b2body.getPosition().y - 8 / DinoDuel.PPM >= gun.wBody.getPosition().y - gun.ySize / 2 / DinoDuel.PPM - 1 / DinoDuel.PPM) ||
+                            (this.b2body.getPosition().y + 8 / DinoDuel.PPM <= gun.wBody.getPosition().y + gun.ySize / 2 / DinoDuel.PPM - 1 / DinoDuel.PPM && this.b2body.getPosition().y + 8 / DinoDuel.PPM >= gun.wBody.getPosition().y - gun.ySize / 2 / DinoDuel.PPM - 1 / DinoDuel.PPM)) {
                         //Gdx.app.log("Dino", gun.getName());
                         hasWeapon = true;
                         gun.setUser(this);
@@ -360,17 +344,16 @@ public class Dino extends Sprite {
                 }
             }
         }
-    }
-
+    }//end pickupGun
 
     public void dropGun() {
         this.hasWeapon = false;
-
         weapon.dropped();
         weapon = null;
-    }
+    }//end dropGun
 
     public boolean isRunningRight() {
         return runningRight;
-    }
+    }//end isRunningRight
+
 }//end Dino

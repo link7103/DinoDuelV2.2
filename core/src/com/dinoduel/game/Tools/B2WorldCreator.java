@@ -1,6 +1,5 @@
 package com.dinoduel.game.Tools;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -14,8 +13,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.GunBox;
-
-import java.util.ArrayList;
 
 public class B2WorldCreator {
 
@@ -74,4 +71,4 @@ public class B2WorldCreator {
         }
 
     }
-}
+}//end class

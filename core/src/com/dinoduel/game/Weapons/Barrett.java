@@ -13,25 +13,23 @@ public class Barrett extends Gun {
         ySize = 15;
         heldXOffset = (float)0.1;
         heldYOffset = (float)0.01;
-        //fix sizing
-        img = new TextureRegion(getTexture(), 80, 155, xSize, ySize);
 
+        img = new TextureRegion(getTexture(), 80, 155, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");
-
-
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
         setPosition(wBody.getPosition().x/DinoDuel.PPM-getWidth()/2, wBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
-    }
+    }//end constructor
 
     @Override
     public void useWeapon() {
 
-    }
+    }//end useWapon
 
     public String getName() {
         return "Barrett";
-    }
-}
+    }//end getName
+
+}//end class

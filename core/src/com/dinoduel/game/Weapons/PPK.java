@@ -10,30 +10,30 @@ import com.dinoduel.game.Screens.PlayScreen;
 
 public class PPK extends Gun {
     public PPK(float x, float y, World world, PlayScreen screen) {
-
         super(x, y, world, screen);
+
         xSize = 16;
         ySize = 12;
         heldXOffset = (float)0.025;
         heldYOffset = (float)-0.018;
-        img = new TextureRegion(getTexture(), 18, 37, xSize, ySize);
 
+        img = new TextureRegion(getTexture(), 18, 37, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");
 
-
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
         setPosition(wBody.getPosition().x/DinoDuel.PPM-getWidth()/2, wBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
-    }
+    }//end constructor
 
     @Override
     public void useWeapon() {
 
-    }
+    }//end useWeapon
 
     public String getName() {
         return "PPK";
-    }
-}
+    }//end getName
+
+}//end class
