@@ -13,7 +13,8 @@ public class Mossberg extends Gun {
         super(x, y, world, screen);
         xSize = 37;
         ySize = 12;
-
+        heldXOffset = (float)0.05;
+        heldYOffset = (float)-0.02;
         img = new TextureRegion(getTexture(), 151, 157, xSize, ySize);
 
 

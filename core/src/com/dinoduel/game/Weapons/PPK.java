@@ -14,6 +14,8 @@ public class PPK extends Gun {
         super(x, y, world, screen);
         xSize = 16;
         ySize = 12;
+        heldXOffset = (float)0.025;
+        heldYOffset = (float)-0.018;
         img = new TextureRegion(getTexture(), 18, 37, xSize, ySize);
 
 

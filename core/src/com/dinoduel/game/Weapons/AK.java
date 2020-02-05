@@ -11,6 +11,8 @@ public class AK extends Gun {
         super(x, y, world, screen);
         xSize = 52;
         ySize = 13;
+        heldXOffset = (float)0.1;
+        heldYOffset = (float)0.01;
         //fix sizing
         img = new TextureRegion(getTexture(), 106, 100, xSize, ySize);
 

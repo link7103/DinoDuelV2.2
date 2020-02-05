@@ -107,7 +107,7 @@ public class PlayScreen implements Screen {
         player2 = new Dino(world, this, "tardSprites", 48);
 
         //Barrett test Fix (needed for the rest of em)w
-        gun = new Mossberg(40, 32, world, this);
+        gun = new PPK(40, 32, world, this);
         guns.add(gun);
 
         //contact listener stuff
