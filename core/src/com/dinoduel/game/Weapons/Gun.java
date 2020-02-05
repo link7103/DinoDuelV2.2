@@ -29,7 +29,7 @@ public abstract class Gun extends Sprite implements Weapon  {
     protected int damage;
 
     protected float x;
-    public float y;
+    protected float y;
     //When Held:
     public float heldXOffset;
     public float heldYOffset;
@@ -68,9 +68,7 @@ public abstract class Gun extends Sprite implements Weapon  {
         fdef.filter.categoryBits = DinoDuel.CATEGORY_WEAPON;
         fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
         fixture = wBody.createFixture(fdef);
-
-
-    }
+    }//end defineWeapon
 
     public void update() {
         if (user != null) {
@@ -83,9 +81,7 @@ public abstract class Gun extends Sprite implements Weapon  {
         } else {
             setPosition(wBody.getPosition().x-getWidth()/2, wBody.getPosition().y-getHeight()/2);
         }
-
-
-    }
+    }//end update
 
     public TextureRegion getFrame() {
         TextureRegion region = img;
@@ -97,19 +93,21 @@ public abstract class Gun extends Sprite implements Weapon  {
 
         }
         return region;
-    }
+    }//end getFrame
 
     public void setUser(Dino dino) {
         user = dino;
         wBody.setAwake(false);
         world.destroyBody(wBody);
         wBody = null;
-    }
+    }//end setUser
+
     public abstract String getName();
 
     public Dino getUser() {
         return this.user;
     }
+
     public void clearUser() {
         this.user = null;
     }
@@ -137,9 +135,6 @@ public abstract class Gun extends Sprite implements Weapon  {
         this.clearUser();
 
         this.update();
-
     }
-
-
-}
+}//end class
 
