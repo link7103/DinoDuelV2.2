@@ -75,9 +75,9 @@ public abstract class Gun extends Sprite implements Weapon  {
     public void update() {
         if (user != null) {
             if(user.isRunningRight()) {
-                setPosition((float)(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset), user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
+                setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
             }else{
-                setPosition((float)(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset), user.b2body.getPosition().y - getHeight() / 2 + heldYOffset );
+                setPosition(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset );
             }
             setRegion(getFrame());
         } else {
