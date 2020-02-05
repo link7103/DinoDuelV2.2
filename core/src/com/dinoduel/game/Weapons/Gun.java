@@ -17,7 +17,7 @@ import com.dinoduel.game.Sprites.Dino;
 
 import java.util.ArrayList;
 
-public abstract class Gun extends Sprite implements Weapon  {
+public abstract class Gun extends Sprite implements Weapon {
     public World world;
     public Body wBody;
     protected TextureRegion img;
@@ -43,14 +43,12 @@ public abstract class Gun extends Sprite implements Weapon  {
     public boolean drawn = false;
     public boolean update = false;
 
-    public Gun (float x, float y, World world, PlayScreen screen) {
+    public Gun(float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("guns"));
         this.x = x;
         this.y = y;
         this.world = world;
     }
-
-
 
 
     public void defineWeapon() {
@@ -61,7 +59,7 @@ public abstract class Gun extends Sprite implements Weapon  {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(xSize/2 / DinoDuel.PPM, ySize/2 / DinoDuel.PPM);
+        shape.setAsBox(xSize / 4 / DinoDuel.PPM, ySize / 4 / DinoDuel.PPM);
 
         fdef.shape = shape;
 
@@ -72,14 +70,14 @@ public abstract class Gun extends Sprite implements Weapon  {
 
     public void update() {
         if (user != null) {
-            if(user.isRunningRight()) {
+            if (user.isRunningRight()) {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
-            }else{
-                setPosition(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset );
+            } else {
+                setPosition(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
             }
             setRegion(getFrame());
         } else {
-            setPosition(wBody.getPosition().x-getWidth()/2, wBody.getPosition().y-getHeight()/2);
+            setPosition(wBody.getPosition().x - getWidth() / 2, wBody.getPosition().y - getHeight() / 2);
         }
     }//end update
 
@@ -118,22 +116,22 @@ public abstract class Gun extends Sprite implements Weapon  {
 
         //recreates fixture
         BodyDef bdef = new BodyDef();
-        bdef.position.set(user.b2body.getPosition().x-getWidth()/2, user.b2body.getPosition().y+getHeight()/2-user.getHeight()/2);
+        bdef.position.set(user.b2body.getPosition().x - getWidth() / 2, user.b2body.getPosition().y + getHeight() / 2 - user.getHeight() / 2);
         bdef.type = BodyDef.BodyType.DynamicBody;
         wBody = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(xSize/2 / DinoDuel.PPM, ySize/2 / DinoDuel.PPM);
+        shape.setAsBox(xSize / 4 / DinoDuel.PPM, ySize / 4 / DinoDuel.PPM);
 
         fdef.shape = shape;
 
         fdef.filter.categoryBits = DinoDuel.CATEGORY_WEAPON;
         fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
         fixture = wBody.createFixture(fdef);
+
         wBody.setAwake(true);
         this.clearUser();
-
         this.update();
     }
 }//end class
