@@ -32,6 +32,8 @@ public abstract class Gun extends Sprite implements Weapon  {
     public float y;
     //When Held:
     public float heldXOffset;
+    public float heldYOffset;
+
     //Size
     public int xSize;
     public int ySize;
@@ -73,9 +75,9 @@ public abstract class Gun extends Sprite implements Weapon  {
     public void update() {
         if (user != null) {
             if(user.isRunningRight()) {
-                setPosition((float)(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset), user.b2body.getPosition().y - getHeight() / 2 - 3 / DinoDuel.PPM);
+                setPosition((float)(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset), user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
             }else{
-                setPosition((float)(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset), user.b2body.getPosition().y - getHeight() / 2 - 3 / DinoDuel.PPM);
+                setPosition((float)(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset), user.b2body.getPosition().y - getHeight() / 2 + heldYOffset );
             }
             setRegion(getFrame());
         } else {
