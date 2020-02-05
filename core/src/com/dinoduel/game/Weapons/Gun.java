@@ -116,7 +116,7 @@ public abstract class Gun extends Sprite implements Weapon {
 
         //recreates fixture
         BodyDef bdef = new BodyDef();
-        bdef.position.set(user.b2body.getPosition().x - getWidth() / 2, user.b2body.getPosition().y + getHeight() / 2 - user.getHeight() / 2);
+        bdef.position.set(user.b2body.getPosition().x , user.b2body.getPosition().y - user.getHeight() / 2);
         bdef.type = BodyDef.BodyType.DynamicBody;
         wBody = world.createBody(bdef);
 
