@@ -11,10 +11,10 @@ public class Mossberg extends Gun {
     public Mossberg(float x, float y, World world, PlayScreen screen) {
 
         super(x, y, world, screen);
-        xSize = 37/2;
-        ySize = 12/2;
+        xSize = 37;
+        ySize = 12;
 
-        img = new TextureRegion(getTexture(), 151/2, 157/2, xSize, ySize);
+        img = new TextureRegion(getTexture(), 151, 157, xSize, ySize);
 
 
         defineWeapon();

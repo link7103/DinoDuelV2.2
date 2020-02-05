@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" nextobjectid="8">
+ <tileset firstgid="1" name="BasicTiles" tilewidth="16" tileheight="16" tilecount="136" columns="17">
+  <image source="BasicTiles.png" trans="ff00ff" width="272" height="128"/>
+ </tileset>
+ <tileset firstgid="137" name="crates" tilewidth="16" tileheight="16" tilecount="8" columns="8">
+  <image source="crates.png" trans="ff00ff" width="128" height="16"/>
+ </tileset>
+ <layer name="background" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztw0ENAAAMA6GTXfmzsQckrJqqqvr6ATN5X6A=
+  </data>
+ </layer>
+ <layer name="bushes" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+  </data>
+ </layer>
+ <layer name="timergunbox" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+  </data>
+ </layer>
+ <layer name="graphics" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJyTZWBgkB0GWI5h6AMZhlF/DCYw6o/BBUb9MbjAqD8GFxjO/ujEwR7MYDjHx1AEIH9wADHnEMdcQAwAitsLcQ==
+  </data>
+ </layer>
+ <layer name="plantsnstuff" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+  </data>
+ </layer>
+ <objectgroup name="ground">
+  <object id="4" x="0" y="224" width="800" height="16"/>
+  <object id="5" x="0" y="0" width="800" height="16"/>
+  <object id="6" x="0" y="16" width="16" height="208"/>
+  <object id="7" x="784" y="16" width="16" height="208"/>
+ </objectgroup>
+ <objectgroup name="guns"/>
+ <objectgroup name="randomgunbox">
+  <object id="1" x="112" y="176" width="16" height="16"/>
+  <object id="2" x="64" y="176" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="bluegunbox"/>
+ <objectgroup name="greengunbox"/>
+ <objectgroup name="pinkgunbox"/>
+ <objectgroup name="purplegunbox"/>
+ <objectgroup name="redgunbox"/>
+ <objectgroup name="yellowgunbox"/>
+</map>

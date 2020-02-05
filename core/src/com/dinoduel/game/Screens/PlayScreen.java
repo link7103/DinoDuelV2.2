@@ -262,6 +262,7 @@ public class PlayScreen implements Screen {
         player1.draw(game.batch);
         for (Gun drawGun : guns) {
             if (drawGun.getUser() == player1) {
+                drawGun.setSize(gun.xSize/2/DinoDuel.PPM, gun.ySize/2/DinoDuel.PPM);
                 drawGun.draw(game.batch);
                 drawGun.drawn = true;
             }
@@ -269,10 +270,13 @@ public class PlayScreen implements Screen {
         player2.draw(game.batch);
 
         for (Gun drawGun : guns) {
-            if (!drawGun.drawn)
+            if (!drawGun.drawn) {
+                drawGun.setSize(gun.xSize/2/DinoDuel.PPM, gun.ySize/2/DinoDuel.PPM);
                 drawGun.draw(game.batch);
-            else
+            }
+            else {
                 drawGun.drawn = false;
+            }
         }
 
         game.batch.end();
