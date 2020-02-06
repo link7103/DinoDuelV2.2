@@ -12,12 +12,12 @@ public class PPK extends Gun {
     public PPK(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
 
-        xSize = 16;
-        ySize = 12;
+        xSize = 12;
+        ySize = 9;
         heldXOffset = (float)0.025;
         heldYOffset = (float)-0.018;
 
-        img = new TextureRegion(getTexture(), 18, 37, xSize, ySize);
+        img = new TextureRegion(getTexture(), 42, 31, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");

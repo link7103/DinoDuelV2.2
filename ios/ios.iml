@@ -44,5 +44,7 @@
     <orderEntry type="library" exported="" name="Gradle: gdx-bullet-1.9.10" level="project" />
     <orderEntry type="library" exported="" name="Gradle: gdx-freetype-1.9.10" level="project" />
     <orderEntry type="library" exported="" name="Gradle: gdx-1.9.10" level="project" />
+    <orderEntry type="module" module-name="core" exported="" />
+    <orderEntry type="module" module-name="core" exported="" />
   </component>
 </module>

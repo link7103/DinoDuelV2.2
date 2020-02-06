@@ -9,12 +9,12 @@ public class Barrett extends Gun {
     public Barrett(float x, float y, World world, PlayScreen screen) {
 
         super(x, y, world, screen);
-        xSize = 55;
-        ySize = 15;
+        xSize = 46;
+        ySize = 14;
         heldXOffset = (float)0.1;
         heldYOffset = (float)0.01;
 
-        img = new TextureRegion(getTexture(), 80, 155, xSize, ySize);
+        img = new TextureRegion(getTexture(), 64, 125, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");

@@ -44,7 +44,7 @@ public abstract class Gun extends Sprite implements Weapon {
     public boolean update = false;
 
     public Gun(float x, float y, World world, PlayScreen screen) {
-        super(screen.getweaponAtlas().findRegion("guns"));
+        super(screen.getweaponAtlas().findRegion("gunsv2"));
         this.x = x;
         this.y = y;
         this.world = world;
@@ -59,7 +59,8 @@ public abstract class Gun extends Sprite implements Weapon {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(xSize / 4 / DinoDuel.PPM, ySize / 4 / DinoDuel.PPM);
+        //*
+        shape.setAsBox(xSize/3  / DinoDuel.PPM, ySize/3 / DinoDuel.PPM);
 
         fdef.shape = shape;
 
@@ -117,7 +118,7 @@ public abstract class Gun extends Sprite implements Weapon {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(xSize / 4 / DinoDuel.PPM, ySize / 4 / DinoDuel.PPM);
+        shape.setAsBox(xSize / 3 / DinoDuel.PPM, ySize / 3 / DinoDuel.PPM);
 
         fdef.shape = shape;
 

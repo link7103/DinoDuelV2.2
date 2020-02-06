@@ -262,7 +262,7 @@ public class PlayScreen implements Screen {
         player1.draw(game.batch);
         for (Gun drawGun : guns) {
             if (drawGun.getUser() == player1) {
-                drawGun.setSize(drawGun.xSize / 2 / DinoDuel.PPM, drawGun.ySize / 2 / DinoDuel.PPM);
+                drawGun.setSize(drawGun.xSize *2/3  / DinoDuel.PPM, drawGun.ySize *2/3  / DinoDuel.PPM);
                 drawGun.draw(game.batch);
                 drawGun.drawn = true;
             }
@@ -271,7 +271,7 @@ public class PlayScreen implements Screen {
 
         for (Gun drawGun : guns) {
             if (!drawGun.drawn) {
-                drawGun.setSize(drawGun.xSize / 2 / DinoDuel.PPM, drawGun.ySize / 2 / DinoDuel.PPM);
+               drawGun.setSize(drawGun.xSize *2/3 / DinoDuel.PPM, drawGun.ySize *2/3  / DinoDuel.PPM);
                 drawGun.draw(game.batch);
             } else {
                 drawGun.drawn = false;
