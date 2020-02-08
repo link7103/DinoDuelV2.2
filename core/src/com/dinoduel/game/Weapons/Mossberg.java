@@ -10,12 +10,12 @@ public class Mossberg extends Gun {
     public Mossberg(float x, float y, World world, PlayScreen screen) {
 
         super(x, y, world, screen);
-        xSize = 31;
-        ySize = 11;
+        xSize = 161;
+        ySize = 54;
         heldXOffset = (float)0.05;
         heldYOffset = (float)-0.02;
 
-        img = new TextureRegion(getTexture(), 122, 127, xSize, ySize);
+        img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");

@@ -8,12 +8,12 @@ import com.dinoduel.game.Screens.PlayScreen;
 public class AK extends Gun {
     public AK(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
-        xSize = 43;
-        ySize = 12;
+        xSize = 192;
+        ySize = 66;
         heldXOffset = (float)0.1;
         heldYOffset = (float)0.01;
 
-        img = new TextureRegion(getTexture(), 85, 80, xSize, ySize);
+        img = new TextureRegion(getTexture(), 198, 54, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");
