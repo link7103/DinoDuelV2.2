@@ -261,7 +261,7 @@ public class PlayScreen implements Screen {
         update(deltaTime);
 
         //clears the game screen with black
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(92/255.0f, 152/255.0f, 142/255.0f, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //renders the game map
@@ -305,7 +305,7 @@ public class PlayScreen implements Screen {
 //attach the gamecam to the the middle x and y coordinate
         gameCam.position.x = (player1.b2body.getPosition().x + player2.b2body.getPosition().x) / 2;
 
-        //gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
+        gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
         float xRatio = DinoDuel.V_WIDTH / DinoDuel.PPM / abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
         float yRatio = DinoDuel.V_HEIGHT / DinoDuel.PPM / abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
 
@@ -367,10 +367,7 @@ public class PlayScreen implements Screen {
         } else if (cameraTop >= mapTop) {
             gameCam.position.y = mapTop - cameraHalfHeight;
         }
-
-
     }//end setCameraPosition
-
 
     @Override
     public void resize(int width, int height) {
