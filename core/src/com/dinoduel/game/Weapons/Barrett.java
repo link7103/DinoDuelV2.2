@@ -11,7 +11,7 @@ public class Barrett extends Gun {
         super(x, y, world, screen);
         xSize = 216;
         ySize = 72;
-        heldXOffset = (float)0.1;
+        heldXOffset = (float)0.07;
         heldYOffset = (float)0.01;
 
         img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);

@@ -10,8 +10,8 @@ public class AK extends Gun {
         super(x, y, world, screen);
         xSize = 192;
         ySize = 66;
-        heldXOffset = (float)0.1;
-        heldYOffset = (float)0.01;
+        heldXOffset = (float)0.05;
+        heldYOffset = (float)-0.03;
 
         img = new TextureRegion(getTexture(), 198, 54, xSize, ySize);
 

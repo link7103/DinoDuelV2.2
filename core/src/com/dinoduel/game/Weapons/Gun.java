@@ -21,6 +21,8 @@ public abstract class Gun extends Sprite implements Weapon {
     public World world;
     public Body wBody;
     protected TextureRegion img;
+
+    public boolean inUse = false;
     protected int ammo;
     protected int magCap;
     ArrayList<Bullet> mag = new ArrayList<Bullet>();
@@ -98,6 +100,7 @@ public abstract class Gun extends Sprite implements Weapon {
         wBody.setAwake(false);
         world.destroyBody(wBody);
         wBody = null;
+        inUse = true;
     }//end setUser
 
     public abstract String getName();
@@ -111,6 +114,7 @@ public abstract class Gun extends Sprite implements Weapon {
     }//end clearUser
 
     public void dropped() {
+        inUse = false;
         //recreates fixture
         BodyDef bdef = new BodyDef();
         bdef.position.set(user.b2body.getPosition().x, user.b2body.getPosition().y - user.getHeight() / 2);

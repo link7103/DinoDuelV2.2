@@ -188,7 +188,7 @@ public class Dino extends Sprite {
             return State.STANDING;
     }//end getState
 
-    public void defineDino(int instruction) { //Side Sensors may need to be tweaked
+    public void defineDino(int instruction) { //Side Sensors may need to be tweaked - (Head area?)
         //0 = Initialize, 1 = Ducking, 3 = Not Ducking
         BodyDef bdef = new BodyDef();
 
@@ -296,11 +296,11 @@ public class Dino extends Sprite {
         }
     }//end defineDino
 
-    public void pickupGun(ArrayList<Gun> allGuns) {
+    public void pickupWeapon(ArrayList<Gun> allGuns) {
         for (Gun gun : allGuns) {
             if (!hasWeapon) {
                 //Checks to see if the x and y coordinate of the Dino is inside of the gun (+ of - a couple of pixels to be safe)
-                if ((gun.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (gun.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (gun.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) {
+                if (((gun.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (gun.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (gun.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) && !gun.inUse) {
                     hasWeapon = true;
                     gun.setUser(this);
                     weapon = gun;
@@ -310,10 +310,11 @@ public class Dino extends Sprite {
         }
     }//end pickupGun
 
-    public void dropGun() {
+    public void dropWeapon() {
         hasWeapon = false;
         weapon.dropped();
         weapon = null;
+
     }//end dropGun
 
     public boolean isRunningRight() {

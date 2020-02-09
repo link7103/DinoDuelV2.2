@@ -217,6 +217,15 @@ public class PlayScreen implements Screen {
         } else {
             player1.playerDucking = false;
         }
+        //calls the Pickup/Drop method
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT)) {
+            if(player1.hasWeapon) {
+                player1.dropWeapon();
+            } else{
+                player1.pickupWeapon(guns);
+            }
+        }
+
         //Player2
         if (Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump[1]) {
             if (player2.currentState != Dino.State.JUMPING)
@@ -234,24 +243,13 @@ public class PlayScreen implements Screen {
         } else {
             player2.playerDucking = false;
         }
-
-        //calls the pickup method for player1
-        if (Gdx.input.isKeyPressed(Input.Keys.SHIFT_RIGHT)) {
-
-            player1.pickupGun(guns);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-
-            if (player1.hasWeapon)
-                player1.dropGun();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.O)) {
-            gameCam.zoom += 0.02;
-            //If the A Key is pressed, add 0.02 to the Camera's Zoom
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.P)) {
-            gameCam.zoom -= 0.02;
-            //If the Q Key is pressed, subtract 0.02 from the Camera's Zoom
+        //calls the Pickup/Drop method
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
+            if(player2.hasWeapon) {
+                player2.dropWeapon();
+            } else{
+                player2.pickupWeapon(guns);
+            }
         }
     }//end handleInput
 
