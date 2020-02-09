@@ -188,7 +188,7 @@ public class Dino extends Sprite {
             return State.STANDING;
     }//end getState
 
-    public void defineDino(int instruction) {
+    public void defineDino(int instruction) { //Side Sensors may need to be tweaked
         //0 = Initialize, 1 = Ducking, 3 = Not Ducking
         BodyDef bdef = new BodyDef();
 
@@ -220,6 +220,20 @@ public class Dino extends Sprite {
             fdef.isSensor = true;
             b2body.createFixture(fdef).setUserData("head");
 
+            //Side Sensors
+            EdgeShape right = new EdgeShape();
+            right.set(new Vector2(3 / DinoDuel.PPM, -8 / DinoDuel.PPM), new Vector2(5 / DinoDuel.PPM, 8 / DinoDuel.PPM));
+            fdef.shape = right;
+            fdef.isSensor = true;
+            b2body.createFixture(fdef).setUserData("side");
+
+            EdgeShape left = new EdgeShape();
+            left.set(new Vector2(-3 / DinoDuel.PPM, -8 / DinoDuel.PPM), new Vector2(-5 / DinoDuel.PPM, 8 / DinoDuel.PPM));
+            fdef.shape = left;
+            fdef.isSensor = true;
+            b2body.createFixture(fdef).setUserData("side");
+
+
         } else {
             Vector2 currentPosition = b2body.getPosition();
             Vector2 currentVelocity = b2body.getLinearVelocity();
@@ -238,6 +252,19 @@ public class Dino extends Sprite {
                 fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
                 fdef.filter.maskBits = DinoDuel.MASK_DINO;
                 b2body.createFixture(fdef);
+
+                //side sensors
+                EdgeShape right = new EdgeShape();
+                right.set(new Vector2(8 / DinoDuel.PPM, -6.65f / DinoDuel.PPM), new Vector2(8 / DinoDuel.PPM,  6.65f / DinoDuel.PPM));
+                fdef.shape = right;
+                fdef.isSensor = true;
+                b2body.createFixture(fdef).setUserData("side");
+
+                EdgeShape left = new EdgeShape();
+                left.set(new Vector2(-8 / DinoDuel.PPM, -6.65f / DinoDuel.PPM), new Vector2(-8 / DinoDuel.PPM,  6.65f / DinoDuel.PPM));
+                fdef.shape = left;
+                fdef.isSensor = true;
+                b2body.createFixture(fdef).setUserData("side");
 
             } else {//Unduck
                 bdef.type = BodyDef.BodyType.DynamicBody;
@@ -272,6 +299,7 @@ public class Dino extends Sprite {
     public void pickupGun(ArrayList<Gun> allGuns) {
         for (Gun gun : allGuns) {
             if (!hasWeapon) {
+                //Checks to see if the x and y coordinate of the Dino is inside of the gun (+ of - a couple of pixels to be safe)
                 if ((gun.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (gun.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (gun.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) {
                     hasWeapon = true;
                     gun.setUser(this);
@@ -283,7 +311,7 @@ public class Dino extends Sprite {
     }//end pickupGun
 
     public void dropGun() {
-        this.hasWeapon = false;
+        hasWeapon = false;
         weapon.dropped();
         weapon = null;
     }//end dropGun

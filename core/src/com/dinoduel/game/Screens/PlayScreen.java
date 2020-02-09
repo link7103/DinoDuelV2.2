@@ -261,7 +261,7 @@ public class PlayScreen implements Screen {
         update(deltaTime);
 
         //clears the game screen with black
-        Gdx.gl.glClearColor(92/255.0f, 152/255.0f, 142/255.0f, 0);
+        Gdx.gl.glClearColor(92 / 255.0f, 152 / 255.0f, 142 / 255.0f, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //renders the game map
@@ -311,20 +311,20 @@ public class PlayScreen implements Screen {
 
         if (xRatio < yRatio) {
             float tempX = abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
-            if(DinoDuel.V_WIDTH/DinoDuel.PPM >tempX){
-                gameCam.viewportWidth = DinoDuel.V_WIDTH/DinoDuel.PPM+ 0.5f;
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT/DinoDuel.PPM+ 0.5f;
+            if (DinoDuel.V_WIDTH / DinoDuel.PPM > tempX) {
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM + 0.5f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM + 0.5f;
 
-            }else {
+            } else {
                 gameCam.viewportWidth = tempX + 0.5f;
                 gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM / xRatio + 0.5f;
             }
         } else {
             float tempY = abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
-            if(DinoDuel.V_HEIGHT/DinoDuel.PPM > tempY){
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT/DinoDuel.PPM+ 0.5f;
-                gameCam.viewportWidth = DinoDuel.V_WIDTH/DinoDuel.PPM + 0.5f;
-            }else {
+            if (DinoDuel.V_HEIGHT / DinoDuel.PPM > tempY) {
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM + 0.5f;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM + 0.5f;
+            } else {
                 gameCam.viewportHeight = tempY + 0.5f;
                 gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM / yRatio + 0.5f;
             }

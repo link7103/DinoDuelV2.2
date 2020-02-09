@@ -20,10 +20,9 @@ public class WorldContactListener implements ContactListener {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
-
         //Detects hitting a gun box
         //sides are buggy
-        if ((fixA.getUserData() == "head" || fixB.getUserData() == "head") ) {
+        if ((fixA.getUserData() == "head" || fixB.getUserData() == "head")) {
             Fixture head = fixA.getUserData() == "head" ? fixA : fixB;
             Fixture object = head == fixA ? fixB : fixA;
             //Gdx.app.log("head", "collision");
@@ -35,18 +34,14 @@ public class WorldContactListener implements ContactListener {
         }
 
         //Bullet collision detection
-        if ((fixA.getUserData() == "side" || fixB.getUserData() == "side") ) {
+        if ((fixA.getUserData() == "side" || fixB.getUserData() == "side")) {
             Fixture side = fixA.getUserData() == "side" ? fixA : fixB;
             Fixture object = side == fixA ? fixB : fixA;
 
-            if(object.getUserData() != null && object.getUserData() instanceof Bullet ) {
+            if (object.getUserData() != null && object.getUserData() instanceof Bullet) {
 
             }
         }
-
-
-
-
     }
 
     @Override
