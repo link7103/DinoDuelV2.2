@@ -14,8 +14,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
@@ -41,7 +44,7 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
-    private Rectangle viewport;
+    //Creates the hud
 
     //Map
     private TiledMap map;
@@ -72,6 +75,7 @@ public class PlayScreen implements Screen {
     // TODO: 2020-02-03 change this to better suit number of players
     public boolean[] canJump = {true, true};
 
+
     //weapon list
     public ArrayList<Gun> guns = new ArrayList<>();
 
@@ -81,7 +85,6 @@ public class PlayScreen implements Screen {
         screen = this;
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
         weaponAtlas = new TextureAtlas("Weapons/weapons.txt");
-
 
         this.game = game;
         //Camera that follows the players
@@ -191,6 +194,7 @@ public class PlayScreen implements Screen {
         }
 
         setCameraPosition();
+        gameCam.update();
         //tell it to only render what the camera can see
         renderer.setView(gameCam);
     }//end update
@@ -240,6 +244,14 @@ public class PlayScreen implements Screen {
 
             if (player1.hasWeapon)
                 player1.dropGun();
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.O)) {
+            gameCam.zoom += 0.02;
+            //If the A Key is pressed, add 0.02 to the Camera's Zoom
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.P)) {
+            gameCam.zoom -= 0.02;
+            //If the Q Key is pressed, subtract 0.02 from the Camera's Zoom
         }
     }//end handleInput
 
@@ -292,102 +304,73 @@ public class PlayScreen implements Screen {
     public void setCameraPosition() {
 //attach the gamecam to the the middle x and y coordinate
         gameCam.position.x = (player1.b2body.getPosition().x + player2.b2body.getPosition().x) / 2;
-       // gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
-/*
-        //sets the width to the default
-        //gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM;
-        //if the dinos are offscreen then it extends //fix with absolute bars
-           float width =  abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
-           float height =  abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
 
-        float aspectRatio = width/height;
-        float scale = 1f;
-        Vector2 crop = new Vector2(0f, 0f);
-        if(aspectRatio > DinoDuel.ASPECT_RATIO)
-        {
-            scale = (float)height/(float)DinoDuel.V_HEIGHT;
-            crop.x = (width - DinoDuel.V_WIDTH*scale)/2f;
+        //gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
+        float xRatio = DinoDuel.V_WIDTH / DinoDuel.PPM / abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
+        float yRatio = DinoDuel.V_HEIGHT / DinoDuel.PPM / abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
+
+        if (xRatio < yRatio) {
+            float tempX = abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
+            if(DinoDuel.V_WIDTH/DinoDuel.PPM >tempX){
+                gameCam.viewportWidth = DinoDuel.V_WIDTH/DinoDuel.PPM+ 0.5f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT/DinoDuel.PPM+ 0.5f;
+
+            }else {
+                gameCam.viewportWidth = tempX + 0.5f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM / xRatio + 0.5f;
+            }
+        } else {
+            float tempY = abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
+            if(DinoDuel.V_HEIGHT/DinoDuel.PPM > tempY){
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT/DinoDuel.PPM+ 0.5f;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH/DinoDuel.PPM + 0.5f;
+            }else {
+                gameCam.viewportHeight = tempY + 0.5f;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM / yRatio + 0.5f;
+            }
         }
-        else if(aspectRatio < DinoDuel.ASPECT_RATIO)
-        {
-            scale = (float)width/(float)DinoDuel.V_WIDTH;
-            crop.y = (height - DinoDuel.V_HEIGHT*scale)/2f;
-        }
-        else
-        {
-            scale = (float)width/(float)DinoDuel.V_WIDTH;
-        }
 
-        float w = (float)DinoDuel.V_WIDTH*scale;
-        float h = (float)DinoDuel.V_HEIGHT*scale;
+// These values will need to be scaled according to the world coordinates. (for each map/level)
+        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get(0);
+        float x = layer.getTileWidth() * layer.getWidth() / DinoDuel.PPM;
+        float y = layer.getTileHeight() * layer.getHeight() / DinoDuel.PPM;
+        // The left boundary of the map (x)
+        int mapLeft = 0;
+        // The right boundary of the map (x + width)
+        float mapRight = 0 + x;
+        // The bottom boundary of the map (y)
+        int mapBottom = 0;
+        // The top boundary of the map (y + height)
+        float mapTop = 0 + y;
+        // The camera dimensions, halved
+        float cameraHalfWidth = gameCam.viewportWidth * .5f;
+        float cameraHalfHeight = gameCam.viewportHeight * .5f;
 
-        viewport = new Rectangle(crop.x, crop.y, w, h);
-
-        if (w > DinoDuel.V_WIDTH/DinoDuel.PPM) {
-            gameCam.viewportWidth = w;
-            System.out.println("hey");
-        }else{
-            gameCam.viewportWidth = DinoDuel.V_WIDTH/DinoDuel.PPM;
-
-        }
-*/
-
-//gameCam.viewportHeight = height;
-
-
-
-    // These values will need to be scaled according to the world coordinates. (for each map/level)
-        TiledMapTileLayer layer = (TiledMapTileLayer)map.getLayers().get(0);
-        float x =  layer.getTileWidth() * layer.getWidth()/ DinoDuel.PPM;
-    float y =  layer.getTileHeight() * layer.getHeight()/ DinoDuel.PPM;
-    // The left boundary of the map (x)
-    int mapLeft = 0;
-    // The right boundary of the map (x + width)
-    float mapRight = 0 + x;
-    // The bottom boundary of the map (y)
-    int mapBottom = 0;
-    // The top boundary of the map (y + height)
-    float mapTop = 0 + y;
-    // The camera dimensions, halved
-    float cameraHalfWidth = gameCam.viewportWidth * .5f;
-    float cameraHalfHeight = gameCam.viewportHeight * .5f;
-
-    // Move camera after player as normal
-    float cameraLeft = gameCam.position.x - cameraHalfWidth;
-    float cameraRight = gameCam.position.x + cameraHalfWidth;
-    float cameraBottom = gameCam.position.y - cameraHalfHeight;
-    float cameraTop = gameCam.position.y + cameraHalfHeight;
+        // Move camera after player as normal
+        float cameraLeft = gameCam.position.x - cameraHalfWidth;
+        float cameraRight = gameCam.position.x + cameraHalfWidth;
+        float cameraBottom = gameCam.position.y - cameraHalfHeight;
+        float cameraTop = gameCam.position.y + cameraHalfHeight;
 // Horizontal axis
-        if(x<gameCam.viewportWidth)
-
-    {
-        gameCam.position.x = mapRight / 2;
-    } else if(cameraLeft <=mapLeft)
-
-    {
-        gameCam.position.x = mapLeft + cameraHalfWidth;
-    } else if(cameraRight >=mapRight)
-
-    {
-        gameCam.position.x = mapRight - cameraHalfWidth;
-    }
+        if (x < gameCam.viewportWidth) {
+            gameCam.position.x = mapRight / 2;
+        } else if (cameraLeft <= mapLeft) {
+            gameCam.position.x = mapLeft + cameraHalfWidth;
+        } else if (cameraRight >= mapRight) {
+            gameCam.position.x = mapRight - cameraHalfWidth;
+        }
 // Vertical axis
-        if(y<gameCam.viewportHeight)
+        if (y < gameCam.viewportHeight) {
+            gameCam.position.y = mapTop / 2;
+        } else if (cameraBottom <= mapBottom) {
+            gameCam.position.y = mapBottom + cameraHalfHeight;
+        } else if (cameraTop >= mapTop) {
+            gameCam.position.y = mapTop - cameraHalfHeight;
+        }
 
-    {
-        gameCam.position.y = mapTop / 2;
-    } else if(cameraBottom <=mapBottom)
 
-    {
-        gameCam.position.y = mapBottom + cameraHalfHeight;
-    } else if(cameraTop >=mapTop)
+    }//end setCameraPosition
 
-    {
-        gameCam.position.y = mapTop - cameraHalfHeight;
-    }
-
-        gameCam.update();
-}//end setCameraPosition
 
     @Override
     public void resize(int width, int height) {
@@ -418,4 +401,6 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         hud.dispose();
     }//end dispose
+
+
 }//end class
