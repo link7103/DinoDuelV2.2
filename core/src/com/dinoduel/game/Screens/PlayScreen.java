@@ -67,7 +67,7 @@ public class PlayScreen implements Screen {
     private boolean spawnWeapon;
     private float spawnX;
     private float spawnY;
-    int spawnType = -1;
+    private int spawnType = -1;
 
     public static PlayScreen screen;
 
@@ -77,7 +77,7 @@ public class PlayScreen implements Screen {
 
 
     //weapon list
-    public ArrayList<Gun> guns = new ArrayList<>();
+    public ArrayList<Gun> allWeapons = new ArrayList<>();
 
     private Gun gun;
 
@@ -96,9 +96,9 @@ public class PlayScreen implements Screen {
         //Renders the map
         assetManager = new AssetManager();
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
-        assetManager.load("DinoDuel Basic Tilesets/map2.tmx", TiledMap.class);
+        assetManager.load("DinoDuel Basic Tilesets/map1.tmx", TiledMap.class);
         assetManager.finishLoading();
-        map = assetManager.get("DinoDuel Basic Tilesets/map2.tmx", TiledMap.class);
+        map = assetManager.get("DinoDuel Basic Tilesets/map1.tmx", TiledMap.class);
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
@@ -115,7 +115,7 @@ public class PlayScreen implements Screen {
 
         //Barrett test Fix (needed for the rest of em)w
         gun = new PPK(40, 32, world, this);
-        guns.add(gun);
+        allWeapons.add(gun);
 
         //contact listener stuff
         world.setContactListener(new WorldContactListener());
@@ -152,7 +152,6 @@ public class PlayScreen implements Screen {
             Gun spawn;
             //int rand = (int) (Math.random() * 4);
             //Gdx.app.log("num", String.valueOf(rand));
-
             switch (spawnType) {
                 default:
                     //PPK
@@ -173,11 +172,11 @@ public class PlayScreen implements Screen {
             }
             spawnWeapon = false;
             spawnType = -1;
-            guns.add(spawn);
+            allWeapons.add(spawn);
         }
         //updates player sprite position
         player1.update(dt);
-        for (Gun updateGun : guns) {
+        for (Gun updateGun : allWeapons) {
             if (updateGun.getUser() == player1) {
                 updateGun.update();
                 updateGun.update = true;
@@ -186,7 +185,7 @@ public class PlayScreen implements Screen {
 
         player2.update(dt);
 
-        for (Gun updateGun : guns) {
+        for (Gun updateGun : allWeapons) {
             if (!gun.drawn)
                 updateGun.update();
             else
@@ -222,7 +221,7 @@ public class PlayScreen implements Screen {
             if(player1.hasWeapon) {
                 player1.dropWeapon();
             } else{
-                player1.pickupWeapon(guns);
+                player1.pickupWeapon(allWeapons);
             }
         }
 
@@ -248,7 +247,7 @@ public class PlayScreen implements Screen {
             if(player2.hasWeapon) {
                 player2.dropWeapon();
             } else{
-                player2.pickupWeapon(guns);
+                player2.pickupWeapon(allWeapons);
             }
         }
     }//end handleInput
@@ -259,7 +258,9 @@ public class PlayScreen implements Screen {
         update(deltaTime);
 
         //clears the game screen with black
-        Gdx.gl.glClearColor(92 / 255.0f, 152 / 255.0f, 142 / 255.0f, 0);
+        //Gdx.gl.glClearColor(92 / 255.0f, 152 / 255.0f, 142 / 255.0f, 0);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //renders the game map
@@ -274,7 +275,7 @@ public class PlayScreen implements Screen {
 
 
         player1.draw(game.batch);
-        for (Gun drawGun : guns) {
+        for (Gun drawGun : allWeapons) {
             if (drawGun.getUser() == player1) {
                 drawGun.setSize(drawGun.xSize / 10 / DinoDuel.PPM, drawGun.ySize / 10 / DinoDuel.PPM);
                 drawGun.draw(game.batch);
@@ -283,7 +284,7 @@ public class PlayScreen implements Screen {
         }
         player2.draw(game.batch);
 
-        for (Gun drawGun : guns) {
+        for (Gun drawGun : allWeapons) {
             if (!drawGun.drawn) {
                 drawGun.setSize(drawGun.xSize / 10 / DinoDuel.PPM, drawGun.ySize / 10 / DinoDuel.PPM);
                 drawGun.draw(game.batch);
