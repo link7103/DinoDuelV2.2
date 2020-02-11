@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.GunBox;
+import com.dinoduel.game.Sprites.SemiSolid;
 
 public class B2WorldCreator {
 
@@ -66,9 +67,14 @@ public class B2WorldCreator {
         for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-
             new GunBox(world, map, rect, screen);
         }
-
+       //here
+        //SemiSolids 15
+        for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)
+        ) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            new SemiSolid(world, map, rect, screen);
+        }
     }
 }//end class

@@ -311,21 +311,21 @@ public class PlayScreen implements Screen {
         if (xRatio < yRatio) {
             float tempX = abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
             if (DinoDuel.V_WIDTH / DinoDuel.PPM > tempX) {
-                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM + 0.5f;
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM + 0.5f;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM + 1f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM + 1f;
 
             } else {
-                gameCam.viewportWidth = tempX + 0.5f;
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM / xRatio + 0.5f;
+                gameCam.viewportWidth = tempX + 1f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM / xRatio + 1f;
             }
         } else {
             float tempY = abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
             if (DinoDuel.V_HEIGHT / DinoDuel.PPM > tempY) {
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM + 0.5f;
-                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM + 0.5f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM + 1f;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM + 1f;
             } else {
-                gameCam.viewportHeight = tempY + 0.5f;
-                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM / yRatio + 0.5f;
+                gameCam.viewportHeight = tempY + 1f;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM / yRatio + 1;
             }
         }
 
