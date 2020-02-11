@@ -31,6 +31,7 @@ public abstract class Gun extends Sprite implements Weapon {
     protected Vector2 speed;
     protected int duration;
     protected int damage;
+    protected PlayScreen screen;
 
     protected float x;
     protected float y;
@@ -53,6 +54,7 @@ public abstract class Gun extends Sprite implements Weapon {
         this.x = x;
         this.y = y;
         this.world = world;
+        this.screen = screen;
     }
 
 
@@ -104,6 +106,10 @@ public abstract class Gun extends Sprite implements Weapon {
         world.destroyBody(wBody);
         wBody = null;
         inUse = true;
+        for (Bullet bullet: mag
+             ) {
+            bullet.setUser(user);
+        }
     }//end setUser
 
     public abstract String getName();
@@ -131,7 +137,10 @@ public abstract class Gun extends Sprite implements Weapon {
 
         } else {
             //reload
-            System.out.println("needs to be reloaded");
+            System.out.println(this.getName() + "needs to be reloaded");
+            for (int i = 0; i < magCap; i++) {
+                mag.add(new Bullet(speed, duration, damage, x, y, user, screen));
+            }
         }
     }
 

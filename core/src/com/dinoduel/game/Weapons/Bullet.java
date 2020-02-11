@@ -75,5 +75,9 @@ public class Bullet extends Sprite {
         bBody.createFixture(fdef);
     }
 
+    public void setUser(Dino dino) {
+        this.user = dino;
+    }
+
 
 }
