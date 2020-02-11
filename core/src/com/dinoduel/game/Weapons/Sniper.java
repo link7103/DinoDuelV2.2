@@ -5,17 +5,23 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 
-public class Mossberg extends Gun {
-
-    public Mossberg(float x, float y, World world, PlayScreen screen) {
+public class Sniper extends Gun {
+    public Sniper(float x, float y, World world, PlayScreen screen) {
 
         super(x, y, world, screen);
-        xSize = 161;
-        ySize = 54;
-        heldXOffset = (float)0.05;
-        heldYOffset = (float)-0.02;
+        xSize = 216;
+        ySize = 72;
+        heldXOffset = (float)0.07;
+        heldYOffset = (float)0.01;
+        ammo = 5;
+        magCap = 1;
+        firerate = 1;
 
-        img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
+        for (int i = 0; i < magCap; i++) {
+            mag.add(new Bullet(speed, duration, damage, x, y, null, screen));
+        }
+
+        img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");
@@ -25,13 +31,10 @@ public class Mossberg extends Gun {
     }//end constructor
 
     @Override
-    public void useWeapon() {
 
-    }//end useWeapon
 
     public String getName() {
-        return "Mossberg";
+        return "Sniper";
     }//end getName
 
 }//end class
-

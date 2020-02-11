@@ -17,15 +17,16 @@ public class Bullet extends Sprite {
     public Vector2 speed;
     private int duration;
     public int damage;
-    private int x;
-    private int y;
+    private float x;
+    private float y;
     public Body bBody;
     public World world;
     private TextureRegion img;
     private Dino user;
+    public boolean draw = false;
 
-    public Bullet (Vector2 s, int dr, int dm, int x, int y, Dino u, PlayScreen screen) {
-        super(screen.getweaponAtlas().findRegion("guns"));
+    public Bullet (Vector2 s, int dr, int dm, float x, float y, Dino u, PlayScreen screen) {
+        super(screen.getweaponAtlas().findRegion("weapons"));
         this.speed = s;
         this.duration = dr;
         this.damage = dm;
@@ -34,10 +35,12 @@ public class Bullet extends Sprite {
         this.user = u;
 
         img = new TextureRegion(getTexture(), 27, 29, 4, 3);
+        //defineBullet();
 
         setBounds(0, 0, 4 / DinoDuel.PPM, 3 / DinoDuel.PPM);
         setRegion(img);
-        setPosition(bBody.getPosition().x/DinoDuel.PPM-getWidth()/2, bBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
+        setPosition(x, y);
+        //setPosition(bBody.getPosition().x/DinoDuel.PPM-getWidth()/2, bBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
     }
 
     public void hit() {

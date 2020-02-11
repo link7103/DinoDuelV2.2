@@ -1,22 +1,13 @@
 package com.dinoduel.game.Sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
-import com.dinoduel.game.Weapons.AK;
-import com.dinoduel.game.Weapons.Barrett;
-import com.dinoduel.game.Weapons.Mossberg;
-import com.dinoduel.game.Weapons.PPK;
-import com.dinoduel.game.Weapons.Weapon;
 
 public class GunBox extends InteractiveTileObject {
 

@@ -11,14 +11,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.math.collision.BoundingBox;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
@@ -28,11 +23,11 @@ import com.dinoduel.game.Sprites.InteractiveTileObject;
 import com.dinoduel.game.Tools.B2WorldCreator;
 import com.dinoduel.game.Tools.WorldContactListener;
 import com.dinoduel.game.Weapons.AK;
-import com.dinoduel.game.Weapons.Barrett;
+import com.dinoduel.game.Weapons.Bullet;
+import com.dinoduel.game.Weapons.Sniper;
 import com.dinoduel.game.Weapons.Gun;
-import com.dinoduel.game.Weapons.Mossberg;
-import com.dinoduel.game.Weapons.PPK;
-import com.dinoduel.game.Weapons.Weapon;
+import com.dinoduel.game.Weapons.Shotgun;
+import com.dinoduel.game.Weapons.Pistol;
 
 import java.util.ArrayList;
 
@@ -78,7 +73,8 @@ public class PlayScreen implements Screen {
 
     //weapon list
     public ArrayList<Gun> allWeapons = new ArrayList<>();
-
+    //Bullet list
+    public ArrayList<Bullet> allBullets = new ArrayList<>();
     private Gun gun;
 
     public PlayScreen(DinoDuel game) {
@@ -113,8 +109,8 @@ public class PlayScreen implements Screen {
         player1 = new Dino(world, this, "douxSprites", 0);
         player2 = new Dino(world, this, "tardSprites", 48);
 
-        //Barrett test Fix (needed for the rest of em)w
-        gun = new PPK(40, 32, world, this);
+        //Sniper test Fix (needed for the rest of em)w
+        gun = new Pistol(40, 32, world, this);
         allWeapons.add(gun);
 
         //contact listener stuff
@@ -154,16 +150,16 @@ public class PlayScreen implements Screen {
             //Gdx.app.log("num", String.valueOf(rand));
             switch (spawnType) {
                 default:
-                    //PPK
-                    spawn = new PPK(spawnX, spawnY, world, this);
+                    //Pistol
+                    spawn = new Pistol(spawnX, spawnY, world, this);
                     break;
                 case 1:
-                    //Mossberg
-                    spawn = new Mossberg(spawnX, spawnY, world, this);
+                    //Shotgun
+                    spawn = new Shotgun(spawnX, spawnY, world, this);
                     break;
                 case 2:
-                    //Barrett
-                    spawn = new Barrett(spawnX, spawnY, world, this);
+                    //Sniper
+                    spawn = new Sniper(spawnX, spawnY, world, this);
                     break;
                 case 3:
                     //AK
@@ -225,6 +221,17 @@ public class PlayScreen implements Screen {
             }
         }
 
+        //calls shoot method
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SLASH)) {
+            if(player1.hasWeapon) {
+                player1.useWeapon();
+            } else {
+                //kick implentation
+            }
+
+
+        }
+
         //Player2
         if (Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump[1]) {
             if (player2.currentState != Dino.State.JUMPING)
@@ -249,6 +256,16 @@ public class PlayScreen implements Screen {
             } else{
                 player2.pickupWeapon(allWeapons);
             }
+        }
+        //calls shoot method
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            if(player2.hasWeapon) {
+                player2.useWeapon();
+            } else {
+                //kick implentation
+            }
+
+
         }
     }//end handleInput
 
@@ -282,6 +299,18 @@ public class PlayScreen implements Screen {
                 drawGun.drawn = true;
             }
         }
+
+
+
+        for (Bullet drawBullet : allBullets) {
+            if (drawBullet.draw) {
+                    drawBullet.draw(game.batch);
+            }
+        }
+
+
+
+
         player2.draw(game.batch);
 
         for (Gun drawGun : allWeapons) {

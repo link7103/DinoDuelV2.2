@@ -5,16 +5,24 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 
-public class Barrett extends Gun {
-    public Barrett(float x, float y, World world, PlayScreen screen) {
+public class Shotgun extends Gun {
+
+    public Shotgun(float x, float y, World world, PlayScreen screen) {
 
         super(x, y, world, screen);
-        xSize = 216;
-        ySize = 72;
-        heldXOffset = (float)0.07;
-        heldYOffset = (float)0.01;
+        xSize = 161;
+        ySize = 54;
+        heldXOffset = (float)0.05;
+        heldYOffset = (float)-0.02;
+        ammo = 8;
+        magCap = 2;
+        firerate = 3;
+        for (int i = 0; i < magCap; i++) {
+            mag.add(new Bullet(speed, duration, damage, x, y, null, screen));
+            screen.allBullets.add(mag.get(i));
+        }
 
-        img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);
+        img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");
@@ -24,12 +32,11 @@ public class Barrett extends Gun {
     }//end constructor
 
     @Override
-    public void useWeapon() {
 
-    }//end useWapon
 
     public String getName() {
-        return "Barrett";
+        return "Shotgun";
     }//end getName
 
 }//end class
+

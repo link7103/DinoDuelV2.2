@@ -25,7 +25,9 @@ public abstract class Gun extends Sprite implements Weapon {
     public boolean inUse = false;
     protected int ammo;
     protected int magCap;
-    ArrayList<Bullet> mag = new ArrayList<Bullet>();
+    protected float firerate;
+    protected int accuracy;
+    public ArrayList<Bullet> mag = new ArrayList<Bullet>();
     protected Vector2 speed;
     protected int duration;
     protected int damage;
@@ -83,6 +85,7 @@ public abstract class Gun extends Sprite implements Weapon {
         } else {
             setPosition(wBody.getPosition().x - getWidth() / 2, wBody.getPosition().y - getHeight() / 2);
         }
+
     }//end update
 
     public TextureRegion getFrame() {
@@ -112,6 +115,25 @@ public abstract class Gun extends Sprite implements Weapon {
     public void clearUser() {
         this.user = null;
     }//end clearUser
+
+    public void useWeapon() {
+        if (mag.size()>0) {
+            //fire
+            Bullet fired = mag.get(0);
+            fired.draw = true;
+            System.out.println("Drew bullet");
+
+
+            // TODO: 2020-02-11 change to speed variable
+            //fired.bBody.setLinearVelocity(20/DinoDuel.PPM, 0);
+
+            mag.remove(fired);
+
+        } else {
+            //reload
+            System.out.println("needs to be reloaded");
+        }
+    }
 
     public void dropped() {
         inUse = false;

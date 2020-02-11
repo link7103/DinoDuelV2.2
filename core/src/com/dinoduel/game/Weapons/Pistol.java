@@ -8,14 +8,22 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 
-public class PPK extends Gun {
-    public PPK(float x, float y, World world, PlayScreen screen) {
+public class Pistol extends Gun {
+    public Pistol(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
 
         xSize = 120;
         ySize = 66;
         heldXOffset = (float)0.03;
         heldYOffset = (float)-0.018;
+
+        ammo = 12;
+        magCap = 4;
+        firerate = 7;
+
+        for (int i = 0; i < magCap; i++) {
+            mag.add(new Bullet(speed, duration, damage, x, y, null, screen));
+        }
 
         img = new TextureRegion(getTexture(), 0, 120, xSize, ySize);
 
@@ -28,12 +36,10 @@ public class PPK extends Gun {
     }//end constructor
 
     @Override
-    public void useWeapon() {
 
-    }//end useWeapon
 
     public String getName() {
-        return "PPK";
+        return "Pistol";
     }//end getName
 
 }//end class

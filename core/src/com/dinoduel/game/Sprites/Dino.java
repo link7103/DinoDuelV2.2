@@ -317,6 +317,14 @@ public class Dino extends Sprite {
 
     }//end dropGun
 
+    public void useWeapon() {
+        weapon.useWeapon();
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
+    }
+
     public boolean isRunningRight() {
         return runningRight;
     }//end isRunningRight

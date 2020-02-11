@@ -13,6 +13,14 @@ public class AK extends Gun {
         heldXOffset = (float)0.05;
         heldYOffset = (float)-0.03;
 
+        ammo = 30;
+        magCap = 15;
+        firerate = 10;
+
+        for (int i = 0; i < magCap; i++) {
+            mag.add(new Bullet(speed, duration, damage, x, y, null, screen));
+        }
+
         img = new TextureRegion(getTexture(), 198, 54, xSize, ySize);
 
         defineWeapon();
@@ -23,9 +31,7 @@ public class AK extends Gun {
     }//end class
 
     @Override
-    public void useWeapon() {
 
-    }//end useWeapon
 
     public String getName() {
         return "AK";
