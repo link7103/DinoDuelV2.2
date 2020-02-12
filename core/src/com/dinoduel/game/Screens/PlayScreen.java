@@ -76,6 +76,7 @@ public class PlayScreen implements Screen {
     //Bullet list
     public ArrayList<Bullet> allBullets = new ArrayList<>();
     private Gun gun;
+    private Bullet bulletTest;
 
     public PlayScreen(DinoDuel game) {
         screen = this;
@@ -110,8 +111,9 @@ public class PlayScreen implements Screen {
         player2 = new Dino(world, this, "tardSprites", 48);
 
         //Sniper test Fix (needed for the rest of em)w
-        gun = new Pistol(40, 32, world, this);
-        allWeapons.add(gun);
+        //gun = new Pistol(40, 32, world, this);
+         bulletTest = new Bullet(new Vector2(0,0), 0, 0, 40, 32, null, screen, world);
+        //allWeapons.add(gun);
 
         //contact listener stuff
         world.setContactListener(new WorldContactListener());
@@ -182,10 +184,15 @@ public class PlayScreen implements Screen {
         player2.update(dt);
 
         for (Gun updateGun : allWeapons) {
-            if (!gun.drawn)
+            if (!updateGun.drawn)
                 updateGun.update();
             else
                 updateGun.update = false;
+        }
+
+        for (Bullet updateBullet : allBullets) {
+            if (updateBullet.draw)
+                updateBullet.update();
         }
 
         setCameraPosition();
@@ -302,11 +309,7 @@ public class PlayScreen implements Screen {
 
 
 
-        for (Bullet drawBullet : allBullets) {
-            if (drawBullet.draw) {
-                    drawBullet.draw(game.batch);
-            }
-        }
+
 
 
 
@@ -322,6 +325,15 @@ public class PlayScreen implements Screen {
             }
         }
 
+
+        for (Bullet drawBullet : allBullets) {
+            if (drawBullet.draw) {
+                drawBullet.draw(game.batch);
+                System.out.println("Should have worked");
+            }
+        }
+
+        bulletTest.draw(game.batch);
         game.batch.end();
 
         //sets the batch to draw what the camera sees

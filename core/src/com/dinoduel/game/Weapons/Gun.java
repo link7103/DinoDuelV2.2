@@ -129,7 +129,6 @@ public abstract class Gun extends Sprite implements Weapon {
             fired.draw = true;
             System.out.println("Drew bullet");
 
-
             // TODO: 2020-02-11 change to speed variable
             //fired.bBody.setLinearVelocity(20/DinoDuel.PPM, 0);
 
@@ -137,9 +136,10 @@ public abstract class Gun extends Sprite implements Weapon {
 
         } else {
             //reload
-            System.out.println(this.getName() + "needs to be reloaded");
+            System.out.println(this.getName() + " needs to be reloaded");
             for (int i = 0; i < magCap; i++) {
-                mag.add(new Bullet(speed, duration, damage, x, y, user, screen));
+                mag.add(new Bullet(speed, duration, damage, x, y, user, screen, world));
+                screen.allBullets.add(mag.get(i));
             }
         }
     }

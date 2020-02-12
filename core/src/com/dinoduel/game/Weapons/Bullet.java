@@ -25,7 +25,7 @@ public class Bullet extends Sprite {
     private Dino user;
     public boolean draw = false;
 
-    public Bullet (Vector2 s, int dr, int dm, float x, float y, Dino u, PlayScreen screen) {
+    public Bullet (Vector2 s, int dr, int dm, float x, float y, Dino u, PlayScreen screen, World world) {
         super(screen.getweaponAtlas().findRegion("weapons"));
         this.speed = s;
         this.duration = dr;
@@ -33,14 +33,16 @@ public class Bullet extends Sprite {
         this.x = x;
         this.y= y;
         this.user = u;
+        this.world = world;
 
-        img = new TextureRegion(getTexture(), 27, 29, 4, 3);
-        //defineBullet();
+        img = new TextureRegion(getTexture(), 358, 138, 12, 6);
+        defineBullet();
 
-        setBounds(0, 0, 4 / DinoDuel.PPM, 3 / DinoDuel.PPM);
+        setBounds(x, y, 12/DinoDuel.PPM , 6/DinoDuel.PPM );
         setRegion(img);
-        setPosition(x, y);
-        //setPosition(bBody.getPosition().x/DinoDuel.PPM-getWidth()/2, bBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
+        //setPosition(x, y);
+        setPosition(bBody.getPosition().x/DinoDuel.PPM-getWidth()/2, bBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
+        setSize(12/10/DinoDuel.PPM, 6/10/DinoDuel.PPM);
     }
 
     public void hit() {
@@ -56,27 +58,33 @@ public class Bullet extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(4/2 / DinoDuel.PPM, 3/2 / DinoDuel.PPM);
+        shape.setAsBox(12/2 / DinoDuel.PPM, 6/2 / DinoDuel.PPM);
 
         fdef.shape = shape;
 
         //fdef.filter.categoryBits = CATEGORY_WEAPON;
         //fdef.filter.maskBits = MASK_WEAPON;
         bBody.createFixture(fdef);
-        bBody.setLinearVelocity(speed);
-        bBody.setBullet(true);
+        //bBody.setLinearVelocity(speed);
+        //bBody.setBullet(true);
 
         // TODO: 2020-02-01 make sure that it is oriented on the correct side of the bullet
         //leading edge of bullet
-        EdgeShape side = new EdgeShape();
-        side.set(new Vector2(2/DinoDuel.PPM, (float)-1.5/DinoDuel.PPM), new Vector2(2/DinoDuel.PPM, (float)1.5/DinoDuel.PPM));
-        fdef.shape = side;
-        fdef.isSensor = true;
-        bBody.createFixture(fdef);
+        //EdgeShape side = new EdgeShape();
+        //side.set(new Vector2(2/DinoDuel.PPM, (float)-1.5/DinoDuel.PPM), new Vector2(2/DinoDuel.PPM, (float)1.5/DinoDuel.PPM));
+        //fdef.shape = side;
+        //fdef.isSensor = true;
+        //bBody.createFixture(fdef);
     }
 
     public void setUser(Dino dino) {
         this.user = dino;
+    }
+
+    public void update() {
+        if(draw) {
+            this.setPosition(this.getX()+5/DinoDuel.PPM, this.getY());
+        }
     }
 
 

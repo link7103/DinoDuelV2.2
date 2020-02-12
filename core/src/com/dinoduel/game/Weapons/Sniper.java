@@ -18,7 +18,8 @@ public class Sniper extends Gun {
         firerate = 1;
 
         for (int i = 0; i < magCap; i++) {
-            mag.add(new Bullet(speed, duration, damage, x, y, null, screen));
+            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world));
+            screen.allBullets.add(mag.get(i));
         }
 
         img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);
