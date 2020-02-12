@@ -194,7 +194,7 @@ public class PlayScreen implements Screen {
             if (updateBullet.draw)
                 updateBullet.update();
         }
-
+        bulletTest.update();
         setCameraPosition();
         gameCam.update();
         //tell it to only render what the camera can see

@@ -42,7 +42,7 @@ public class Bullet extends Sprite {
         setRegion(img);
         //setPosition(x, y);
         setPosition(bBody.getPosition().x/DinoDuel.PPM-getWidth()/2, bBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
-        setSize(12/10/DinoDuel.PPM, 6/10/DinoDuel.PPM);
+        setSize(12/5/DinoDuel.PPM, 6/5/DinoDuel.PPM);
     }
 
     public void hit() {
@@ -58,7 +58,7 @@ public class Bullet extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12/2 / DinoDuel.PPM, 6/2 / DinoDuel.PPM);
+        shape.setAsBox(12/10 / DinoDuel.PPM, 6/10 / DinoDuel.PPM);
 
         fdef.shape = shape;
 
@@ -82,9 +82,10 @@ public class Bullet extends Sprite {
     }
 
     public void update() {
-        if(draw) {
-            this.setPosition(this.getX()+5/DinoDuel.PPM, this.getY());
-        }
+        setPosition(bBody.getPosition().x - getWidth() / 2, bBody.getPosition().y - getHeight() / 2);
+        //if(draw) {
+            //this.setPosition(this.getX()+5/DinoDuel.PPM, this.getY());
+        //}
     }
 
 
