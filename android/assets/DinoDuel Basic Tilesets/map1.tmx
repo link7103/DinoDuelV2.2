@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" nextobjectid="37">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" nextobjectid="38">
  <tileset firstgid="1" name="BasicTiles" tilewidth="16" tileheight="16" tilecount="136" columns="17">
   <image source="BasicTiles.png" trans="ff00ff" width="272" height="128"/>
  </tileset>
@@ -13,7 +13,7 @@
  </layer>
  <layer name="bushes" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJzdktENwjAMRO+bHyZA6gqUPQAxQYEFIGUARmM0cqotnH4V6tAoT7KcfMQ56w6oh0uss3TW1ZwfcvdC/7mbP1j7WAF4zpmte3BWj0G79iDdi4BUv9cO5ISPXvUjJ9b723B/eczVHFk/cnGM1SH1w2uPf/lA6PsB6R4emSI98vtgYa4kT92UHdpR7bKqm07Adx60TrkrmcYhk1uU4fHqhzfUrjkthc3SApyocY9mKRHCesbbWvwgb5ywJUo=
+   eJzdkstOwkAUhs/ajRtENyTdILAEEwRewFsChBUIiwIrURKduvIWH81H4z/pjJ1OmrROJ7bpl3yZNjPtnJP/EFWHDVzLld1qz6/yPSs1eALr8BSeGfvqnhftDnYMBdG3bQ9EUR/8r4DC2tUq5JqVJjyHLdiGHWNfULx+Vz0wM4rqVXnY0oeXcACHcJRwRs/+OXz/yXHlL2qO9DxsuYLX8Abewjtjfwp9iufhqg8XOSjmcAHv4RKujH3OfULxPlzMFBNQ/hwUD3AHH+ET3Cec4bmS8+Rn6aFneOGgzjTe4Dv8gJ/wK+GMoL9l0HM0d2XGczCTXfqfjNM4sviGa1dzWhYaRRfgiCr24RVVhOQ4x7dVyYM5ALNdL0U=
   </data>
  </layer>
  <layer name="timergunbox" width="50" height="15">
@@ -23,12 +23,12 @@
  </layer>
  <layer name="graphics" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJztVlsKg0AMzKfbG7itnsifHqAHKrWPI7tLGxhCEq2PthYHBhcWZjIZQSsiqv6ANa0fB9py/BK+leMoOAQXOLfibokc19fzPrOuh+29+iyaxJgYgIixOR7OHfrtR2hrONFzVvxeoPYSfWTNEvzmyIM5pHag6TmiMqPcWznRI0PrAzNpOc7GGWfnPbCW7Fj7b+jr5Ob4sJfsg/luH9HQQw2tfz4HhVo+9LFm7+tjSAZv31Yf1hzS39qVx+xZGHtaE3eJHTWNHpE=
+   eJztVlsKwkAMzKfrDbpaL+AV9AZewQOJzyO7iw0MIUm1DzDiwNCFLTOZzEfbElH7A9xQfKzpn+ObECnHGc4XcTdHjmv3vDvv7Aq3HfcTeEbqw0OUHIfCXJiAiKE5Hs4d+q0GaGs40mtW/F6g9hx9VM0G/KbIgzmkdqLxObIyo9xbM9KjQusDM2k5TsYZZ+c9sJbsWPtv6Ovk5viwl+yD+Wkf2dBDDa1/PieFWj70sWbv6+OdDN6+rT6sOaS/tSuP1XNh7CkSl4VP3c4eHA==
   </data>
  </layer>
  <layer name="plantsnstuff" width="50" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt0kcOwjAQheEcgnYB2gVoG5bUA1B3KBJty4J2dv4IRUKWM0jjEHvBk75N4jhjz0TRP7aUUEYFVdT8lqNOHQ000ULbbznqdNBFD30M/JajzghjTDDFTFg7L6QiXRZYYoU1NsLabSEV6bLHAUeccBbWhnyOK26444GnsNblHEOHbzXZCe9c+5Gc5eK4Rx4Jba6kO5fy7Ry/uus8ZjKtLdkrtH6Ekjh638/nfaezYuuB2e84Y1/bvGX11Hxu1mP7l3aeQ84LDygUhg==
+   eJxjYBgFxACJgXYAlYDmQDuATGCGxrcaEFdQDtzR+N541PrQ0iEUgggkdjQQx+BRG0tjt1AL5ABxLh75oeKPWiCuwyNPiT/sKdBLDkjBI0dpfID8UkahGdQAgy1d4QtzfICQP2gV1tRIkzC3gcwabPExWEAaAyR8kMMbllawxQF6fKfhMBdbesMVp+ji6O7BZhe56XkwAwCBrQ6x
   </data>
  </layer>
  <objectgroup name="ground">
@@ -83,6 +83,6 @@
   <object id="15" x="656" y="112" width="16" height="64"/>
  </objectgroup>
  <objectgroup name="semisolid">
-  <object id="16" x="464" y="64" width="64" height="16"/>
+  <object id="37" x="464" y="80" width="64" height="12.9002"/>
  </objectgroup>
 </map>
