@@ -333,4 +333,9 @@ public class Dino extends Sprite {
     public boolean isDucking() {
         return playerDucking;
     }
+
+    public float getYVel() {
+        return b2body.getLinearVelocity().y;
+    }
+
 }//end Dino

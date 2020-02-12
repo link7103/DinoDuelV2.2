@@ -54,7 +54,7 @@ public class WorldContactListener implements ContactListener {
             Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
             Fixture object = body == fixA ? fixB : fixA;
             if (object.getUserData() instanceof SemiSolid) {
-                if (((Dino) body.getUserData()).isDucking()) {
+                if (((Dino) body.getUserData()).isDucking() || ((Dino) body.getUserData()).getYVel() > 0) {
                     canCollide = false;
                 }
 
@@ -74,7 +74,7 @@ public class WorldContactListener implements ContactListener {
             Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
             Fixture object = body == fixA ? fixB : fixA;
             if (object.getUserData() instanceof SemiSolid) {
-                if (((Dino) body.getUserData()).isDucking()) {
+                if (((Dino) body.getUserData()).isDucking() || ((Dino) body.getUserData()).getYVel() > 0) {
                     canCollide = true;
                 }
             }
@@ -90,7 +90,7 @@ public class WorldContactListener implements ContactListener {
             Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
             Fixture object = body == fixA ? fixB : fixA;
             if (object.getUserData() instanceof SemiSolid) {
-                if (((Dino) body.getUserData()).isDucking()) {
+                if (((Dino) body.getUserData()).isDucking() || ((Dino) body.getUserData()).getYVel() > 0) {
                     contact.setEnabled(canCollide);
                 }
             }

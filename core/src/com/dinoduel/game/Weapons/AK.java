@@ -10,8 +10,8 @@ public class AK extends Gun {
         super(x, y, world, screen);
         xSize = 192;
         ySize = 66;
-        heldXOffset = (float)0.05;
-        heldYOffset = (float)-0.03;
+        heldXOffset = 0.05f;
+        heldYOffset = -0.03f;
 
         ammo = 30;
         magCap = 15;
