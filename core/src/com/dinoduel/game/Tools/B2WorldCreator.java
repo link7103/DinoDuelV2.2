@@ -71,10 +71,13 @@ public class B2WorldCreator {
         }
        //here
         //SemiSolids 15
+
         for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             new SemiSolid(world, map, rect, screen);
         }
+
+
     }
 }//end class

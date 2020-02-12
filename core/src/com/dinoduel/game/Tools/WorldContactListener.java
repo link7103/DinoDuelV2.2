@@ -1,6 +1,8 @@
 package com.dinoduel.game.Tools;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactFilter;
@@ -19,6 +21,9 @@ import com.dinoduel.game.Weapons.Gun;
 import com.dinoduel.game.Weapons.Weapon;
 
 public class WorldContactListener implements ContactListener {
+    private boolean canCollide = true;
+
+
     @Override
     public void beginContact(Contact contact) {
         Fixture fixA = contact.getFixtureA();
@@ -45,35 +50,38 @@ public class WorldContactListener implements ContactListener {
 
             }
         }
-//here
-        if ((fixA.getUserData() == "body" || fixB.getUserData() == "body")) {
-            Fixture body = fixA.getUserData() == "body" ? fixA : fixB;
+//Detection for SemiSolids
+        if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
+            Fixture body = fixA.getUserData() instanceof Dino? fixA : fixB;
             Fixture object = body == fixA ? fixB : fixA;
-            Gdx.app.log("body", "collision");
             if (object.getUserData() instanceof SemiSolid) {
-                if(body.getBody().getPosition().y < object.getShape().getRadius() - 1/ DinoDuel.PPM)
-                Gdx.app.log("semisolid", "Collision");
+                if (((Dino) body.getUserData()).isDucking()) {
 
-            }
+                    canCollide = false;
+                }
+
+                } else {
+                    canCollide = true;
+                }
+
         }
-    }
+    }//end begin contact
 
     @Override
     public void endContact(Contact contact) {
-
+        canCollide = true;
     }
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-
+        if (!canCollide) {
+            contact.setEnabled(false);
+        }
     }
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
     }
-
-
-
 
 }//end WorldContactListener

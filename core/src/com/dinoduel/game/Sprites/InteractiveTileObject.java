@@ -25,8 +25,6 @@ public abstract class InteractiveTileObject {
         this.world = world;
         this.map = map;
         this.bounds = bounds;
-
-
     }
 
     public abstract int onHeadHit();
@@ -35,6 +33,5 @@ public abstract class InteractiveTileObject {
     }
     public float getSpawnY() {
         return bounds.getY() + bounds.getHeight();
-
     }
 }

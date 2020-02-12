@@ -48,7 +48,7 @@ public class Dino extends Sprite {
     private float stateTimer;
     //Used for mapping the textures
     private boolean runningRight;
-    public boolean playerDucking = true;
+    public boolean playerDucking = false;
 
     //Weapons
     private Weapon weapon;
@@ -211,7 +211,7 @@ public class Dino extends Sprite {
             bodyShape.setRadius(4 / DinoDuel.PPM);
             bodyShape.setPosition(new Vector2(0, -4f / DinoDuel.PPM));
             fdef.shape = bodyShape;
-            b2body.createFixture(fdef).setUserData("body");
+            b2body.createFixture(fdef).setUserData(this);
 
             //Head Sensor
             EdgeShape head = new EdgeShape();
@@ -252,6 +252,7 @@ public class Dino extends Sprite {
                 fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
                 fdef.filter.maskBits = DinoDuel.MASK_DINO;
                 b2body.createFixture(fdef);
+                b2body.createFixture(fdef).setUserData(this);
 
                 //side sensors
                 EdgeShape right = new EdgeShape();
@@ -329,4 +330,7 @@ public class Dino extends Sprite {
         return runningRight;
     }//end isRunningRight
 
+    public boolean isDucking() {
+        return playerDucking;
+    }
 }//end Dino

@@ -42,7 +42,7 @@ public class SemiSolid extends InteractiveTileObject {
         fDef.filter.categoryBits = DinoDuel.CATEGORY_GUNBOX;
         fDef.filter.maskBits = DinoDuel.MASK_GUNBOX;
         fixture = body.createFixture(fDef);
-
     }
 
 }
+
