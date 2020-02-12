@@ -21,8 +21,7 @@ import com.dinoduel.game.Weapons.Gun;
 import com.dinoduel.game.Weapons.Weapon;
 
 public class WorldContactListener implements ContactListener {
-    private boolean canCollide = true;
-
+    private boolean canCollide;
 
     @Override
     public void beginContact(Contact contact) {
@@ -52,31 +51,52 @@ public class WorldContactListener implements ContactListener {
         }
 //Detection for SemiSolids
         if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
-            Fixture body = fixA.getUserData() instanceof Dino? fixA : fixB;
+            Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
             Fixture object = body == fixA ? fixB : fixA;
             if (object.getUserData() instanceof SemiSolid) {
                 if (((Dino) body.getUserData()).isDucking()) {
-
                     canCollide = false;
                 }
 
-                } else {
-                    canCollide = true;
-                }
+            } else {
+                canCollide = true;
+            }
 
         }
     }//end begin contact
 
     @Override
     public void endContact(Contact contact) {
-        canCollide = true;
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
+
+        if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
+            Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
+            Fixture object = body == fixA ? fixB : fixA;
+            if (object.getUserData() instanceof SemiSolid) {
+                if (((Dino) body.getUserData()).isDucking()) {
+                    canCollide = true;
+                }
+            }
+        }
     }
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
-        if (!canCollide) {
-            contact.setEnabled(false);
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
+
+        if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
+            Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
+            Fixture object = body == fixA ? fixB : fixA;
+            if (object.getUserData() instanceof SemiSolid) {
+                if (((Dino) body.getUserData()).isDucking()) {
+                    contact.setEnabled(canCollide);
+                }
+            }
         }
+
+
     }
 
     @Override
