@@ -22,7 +22,7 @@ public class Pistol extends Gun {
         firerate = 7;
 
         for (int i = 0; i < magCap; i++) {
-            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world));
+            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world, this));
             screen.allBullets.add(mag.get(i));
         }
 

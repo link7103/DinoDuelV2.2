@@ -138,7 +138,7 @@ public abstract class Gun extends Sprite implements Weapon {
             //reload
             System.out.println(this.getName() + " needs to be reloaded");
             for (int i = 0; i < magCap; i++) {
-                mag.add(new Bullet(speed, duration, damage, x, y, user, screen, world));
+                mag.add(new Bullet(speed, duration, damage, x, y, user, screen, world, this));
                 screen.allBullets.add(mag.get(i));
             }
         }

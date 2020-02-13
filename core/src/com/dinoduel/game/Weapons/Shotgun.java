@@ -18,7 +18,7 @@ public class Shotgun extends Gun {
         magCap = 2;
         firerate = 3;
         for (int i = 0; i < magCap; i++) {
-            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world));
+            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world, this));
             screen.allBullets.add(mag.get(i));
         }
 

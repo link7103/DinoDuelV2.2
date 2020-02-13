@@ -18,7 +18,7 @@ public class AK extends Gun {
         firerate = 10;
 
         for (int i = 0; i < magCap; i++) {
-            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world));
+            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world, this));
             screen.allBullets.add(mag.get(i));
         }
 

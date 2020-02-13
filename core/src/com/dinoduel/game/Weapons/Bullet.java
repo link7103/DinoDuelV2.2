@@ -24,8 +24,9 @@ public class Bullet extends Sprite {
     private TextureRegion img;
     private Dino user;
     public boolean draw = false;
+    public Gun gun;
 
-    public Bullet (Vector2 s, int dr, int dm, float x, float y, Dino u, PlayScreen screen, World world) {
+    public Bullet (Vector2 s, int dr, int dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun) {
         super(screen.getweaponAtlas().findRegion("weapons"));
         this.speed = s;
         this.duration = dr;
@@ -34,14 +35,15 @@ public class Bullet extends Sprite {
         this.y= y;
         this.user = u;
         this.world = world;
+        this.gun = gun;
 
         img = new TextureRegion(getTexture(), 358, 138, 12, 6);
-        defineBullet();
+        //defineBullet();
 
         setBounds(x, y, 12/DinoDuel.PPM , 6/DinoDuel.PPM );
         setRegion(img);
-        //setPosition(x, y);
-        setPosition(bBody.getPosition().x/DinoDuel.PPM-getWidth()/2, bBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
+        setPosition(x, y);
+        //setPosition(bBody.getPosition().x/DinoDuel.PPM-getWidth()/2, bBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
         setSize(12/5/DinoDuel.PPM, 6/5/DinoDuel.PPM);
     }
 
@@ -61,6 +63,7 @@ public class Bullet extends Sprite {
         shape.setAsBox(12/10 / DinoDuel.PPM, 6/10 / DinoDuel.PPM);
 
         fdef.shape = shape;
+        //fdef.isSensor = true;
 
         //fdef.filter.categoryBits = CATEGORY_WEAPON;
         //fdef.filter.maskBits = MASK_WEAPON;
@@ -82,10 +85,15 @@ public class Bullet extends Sprite {
     }
 
     public void update() {
-        setPosition(bBody.getPosition().x - getWidth() / 2, bBody.getPosition().y - getHeight() / 2);
-        //if(draw) {
+        if(!draw)
+            setPosition(gun.getX() + gun.getWidth(), gun.getY() + gun.getHeight()/2);
+        else {
+            setPosition(getX() + 1f / DinoDuel.PPM, getY());
+            System.out.println("X: " + this.getX() + "Y: " + this.getY());
+        }
+
             //this.setPosition(this.getX()+5/DinoDuel.PPM, this.getY());
-        //}
+
     }
 
 

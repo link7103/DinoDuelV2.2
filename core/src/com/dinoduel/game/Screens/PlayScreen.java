@@ -112,7 +112,7 @@ public class PlayScreen implements Screen {
 
         //Sniper test Fix (needed for the rest of em)w
         //gun = new Pistol(40, 32, world, this);
-         bulletTest = new Bullet(new Vector2(0,0), 0, 0, 40, 32, null, screen, world);
+        // bulletTest = new Bullet(new Vector2(0,0), 0, 0, 40, 32, null, screen, world, );
         //allWeapons.add(gun);
 
         //contact listener stuff
@@ -194,7 +194,7 @@ public class PlayScreen implements Screen {
             if (updateBullet.draw)
                 updateBullet.update();
         }
-        bulletTest.update();
+//        bulletTest.update();
         setCameraPosition();
         gameCam.update();
         //tell it to only render what the camera can see
@@ -329,11 +329,11 @@ public class PlayScreen implements Screen {
         for (Bullet drawBullet : allBullets) {
             if (drawBullet.draw) {
                 drawBullet.draw(game.batch);
-                System.out.println("Should have worked");
+                //System.out.println("Should have worked");
             }
         }
 
-        bulletTest.draw(game.batch);
+        //bulletTest.draw(game.batch);
         game.batch.end();
 
         //sets the batch to draw what the camera sees
