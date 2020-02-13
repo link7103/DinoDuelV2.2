@@ -203,7 +203,7 @@ public class Dino extends Sprite {
             fdef.filter.maskBits = DinoDuel.MASK_DINO;
 
             PolygonShape headShape = new PolygonShape();
-            headShape.setAsBox(7 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 3f / DinoDuel.PPM), 0);
+            headShape.setAsBox(7 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
             fdef.shape = headShape;
             b2body.createFixture(fdef).setUserData(this);
 
@@ -276,7 +276,7 @@ public class Dino extends Sprite {
                 fdef.filter.maskBits = DinoDuel.MASK_DINO;
 
                 PolygonShape headShape = new PolygonShape();
-                headShape.setAsBox(7 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 3f / DinoDuel.PPM), 0);
+                headShape.setAsBox(7 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
                 fdef.shape = headShape;
                 b2body.createFixture(fdef).setUserData(this);
 
