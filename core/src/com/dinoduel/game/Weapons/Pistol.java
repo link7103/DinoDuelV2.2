@@ -19,12 +19,10 @@ public class Pistol extends Gun {
 
         ammo = 12;
         magCap = 4;
+        mag = magCap;
         firerate = 7;
 
-        for (int i = 0; i < magCap; i++) {
-            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world, this));
-            screen.allBullets.add(mag.get(i));
-        }
+
 
         img = new TextureRegion(getTexture(), 0, 120, xSize, ySize);
 

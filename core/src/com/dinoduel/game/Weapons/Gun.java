@@ -27,8 +27,8 @@ public abstract class Gun extends Sprite implements Weapon {
     protected int magCap;
     protected float firerate;
     protected int accuracy;
-    public ArrayList<Bullet> mag = new ArrayList<Bullet>();
-    protected Vector2 speed;
+    public int mag ;
+    protected float speed;
     protected int duration;
     protected int damage;
     protected PlayScreen screen;
@@ -60,7 +60,7 @@ public abstract class Gun extends Sprite implements Weapon {
 
     public void defineWeapon() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(x / DinoDuel.PPM, y / DinoDuel.PPM);
+        bdef.position.set(x/DinoDuel.PPM , y/DinoDuel.PPM );
         bdef.type = BodyDef.BodyType.DynamicBody;
         wBody = world.createBody(bdef);
 
@@ -105,10 +105,7 @@ public abstract class Gun extends Sprite implements Weapon {
         world.destroyBody(wBody);
         wBody = null;
         inUse = true;
-        for (Bullet bullet: mag
-             ) {
-            bullet.setUser(user);
-        }
+
     }//end setUser
 
     public abstract String getName();
@@ -122,24 +119,22 @@ public abstract class Gun extends Sprite implements Weapon {
     }//end clearUser
 
     public void useWeapon() {
-        if (mag.size()>0) {
+        if (mag>0) {
             //fire
-            Bullet fired = mag.get(0);
+            Bullet fired = new Bullet(speed, duration, damage, getX()+getWidth(), getY()+getHeight()/2, user, screen, world, this);
             fired.draw = true;
-            System.out.println("Drew bullet");
+            screen.allBullets.add(fired);
+            //System.out.println("Drew bullet");
 
             // TODO: 2020-02-11 change to speed variable
             //fired.bBody.setLinearVelocity(20/DinoDuel.PPM, 0);
 
-            mag.remove(fired);
+            mag--;
 
         } else {
             //reload
             System.out.println(this.getName() + " needs to be reloaded");
-            for (int i = 0; i < magCap; i++) {
-                mag.add(new Bullet(speed, duration, damage, x, y, user, screen, world, this));
-                screen.allBullets.add(mag.get(i));
-            }
+            mag = magCap;
         }
     }
 

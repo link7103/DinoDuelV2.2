@@ -16,11 +16,9 @@ public class Shotgun extends Gun {
         heldYOffset = (float)-0.02;
         ammo = 8;
         magCap = 2;
+        mag = magCap;
         firerate = 3;
-        for (int i = 0; i < magCap; i++) {
-            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world, this));
-            screen.allBullets.add(mag.get(i));
-        }
+
 
         img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
 

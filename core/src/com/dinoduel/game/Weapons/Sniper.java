@@ -15,12 +15,10 @@ public class Sniper extends Gun {
         heldYOffset = (float)0.01;
         ammo = 5;
         magCap = 1;
+        mag = magCap;
         firerate = 1;
 
-        for (int i = 0; i < magCap; i++) {
-            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world, this));
-            screen.allBullets.add(mag.get(i));
-        }
+
 
         img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);
 

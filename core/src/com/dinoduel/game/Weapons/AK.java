@@ -15,12 +15,10 @@ public class AK extends Gun {
 
         ammo = 30;
         magCap = 15;
+        mag = magCap;
         firerate = 10;
 
-        for (int i = 0; i < magCap; i++) {
-            mag.add(new Bullet(speed, duration, damage, x, y, null, screen, world, this));
-            screen.allBullets.add(mag.get(i));
-        }
+
 
         img = new TextureRegion(getTexture(), 198, 54, xSize, ySize);
 
