@@ -106,7 +106,7 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
         new B2WorldCreator(world, map, this);
 
-        //Player1
+        //Players
         player1 = new Dino(world, this, "douxSprites", 0);
         player2 = new Dino(world, this, "tardSprites", 48);
 
