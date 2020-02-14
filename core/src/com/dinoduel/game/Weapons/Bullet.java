@@ -45,6 +45,10 @@ public class Bullet extends Sprite {
         img = new TextureRegion(getTexture(), 358, 138, 12, 6);
         defineBullet();
 
+        if (speed<0) {
+            img.flip(true, false);
+        }
+
         setBounds(x, y, 12/DinoDuel.PPM , 6/DinoDuel.PPM );
         setRegion(img);
         //setPosition(x, y);
@@ -85,7 +89,7 @@ public class Bullet extends Sprite {
         fdef.filter.categoryBits = DinoDuel.CATEGORY_BULLET;
         fdef.filter.maskBits = DinoDuel.MASK_BULLET;
         bBody.createFixture(fdef);
-        bBody.setLinearVelocity(new Vector2(2, 0));
+        bBody.setLinearVelocity(new Vector2(speed, 0));
         bBody.setBullet(true);
 
         // TODO: 2020-02-01 make sure that it is oriented on the correct side of the bullet

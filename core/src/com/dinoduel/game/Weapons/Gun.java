@@ -121,7 +121,23 @@ public abstract class Gun extends Sprite implements Weapon {
     public void useWeapon() {
         if (mag>0) {
             //fire
-            Bullet fired = new Bullet(speed, duration, damage, getX()+getWidth(), getY()+getHeight()/2, user, screen, world, this);
+            if (user.isRunningRight()) {
+                if (speed<0)
+                    speed *=-1;
+
+            } else {
+                if (speed>0)
+                    speed *=-1;
+
+            }
+
+            float bulletX;
+            if (speed>0) {
+                bulletX = getX()+getWidth();
+            } else {
+                bulletX = getX();
+            }
+            Bullet fired = new Bullet(speed, duration, damage, bulletX, getY()+getHeight()/2, user, screen, world, this);
             fired.draw = true;
             screen.allBullets.add(fired);
             //System.out.println("Drew bullet");
