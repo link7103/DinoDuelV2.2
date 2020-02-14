@@ -74,7 +74,7 @@ public class PlayScreen implements Screen {
     //weapon list
     public ArrayList<Gun> allWeapons = new ArrayList<>();
     //Bullet list
-    public ArrayList<Bullet> allBullets = new ArrayList<>();
+    public static ArrayList<Bullet> allBullets = new ArrayList<>();
     //private Gun gun;
    // private Bullet bulletTest;
 

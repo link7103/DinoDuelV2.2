@@ -39,16 +39,24 @@ public class WorldContactListener implements ContactListener {
                 ((InteractiveTileObject) object.getUserData()).onHeadHit();
             }
         }
-// FIXME: 2/14/2020 Remove this
-        //Bullet collision detection
-        if ((fixA.getUserData() == "side" || fixB.getUserData() == "side")) {
-            Fixture side = fixA.getUserData() == "side" ? fixA : fixB;
-            Fixture object = side == fixA ? fixB : fixA;
-
-            if (object.getUserData() != null && object.getUserData() instanceof Bullet) {
-
+        // FIXME: 2/14/2020 
+//Bullet Collision
+        if ((fixA.getUserData() instanceof Bullet || fixB.getUserData() instanceof Bullet)) {
+            Fixture body = fixA.getUserData() instanceof Bullet ? fixA : fixB;
+            Fixture object = body == fixA ? fixB : fixA;
+            System.out.println("hey");
+            if (object.getUserData() instanceof Dino) {
+//AddPlayerDeath
+                System.out.println("Player Dies");
+                PlayScreen.allBullets.remove(this);
+            }else{
+                //anything else
+                System.out.println("Bullet Removed");
+                PlayScreen.allBullets.remove(this);
             }
         }
+// FIXME: 2/14/2020 Remove this
+
 //Detection for SemiSolids
         if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
             Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
