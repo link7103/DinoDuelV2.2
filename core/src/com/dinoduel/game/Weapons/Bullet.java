@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -21,10 +22,14 @@ public class Bullet extends Sprite {
     private float y;
     public Body bBody;
     public World world;
+
+
     private TextureRegion img;
-    private Dino user;
+    protected Dino user;
     public boolean draw = false;
     public Gun gun;
+
+    protected Fixture fixture;
 
     public Bullet (Vector2 s, int dr, int dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun) {
         super(screen.getweaponAtlas().findRegion("weapons"));
@@ -38,14 +43,15 @@ public class Bullet extends Sprite {
         this.gun = gun;
 
         img = new TextureRegion(getTexture(), 358, 138, 12, 6);
-        //defineBullet();
+        defineBullet();
 
         setBounds(x, y, 12/DinoDuel.PPM , 6/DinoDuel.PPM );
         setRegion(img);
         setPosition(x, y);
         //setPosition(bBody.getPosition().x/DinoDuel.PPM-getWidth()/2, bBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
-        setSize(12/5/DinoDuel.PPM, 6/5/DinoDuel.PPM);
-    }
+        //setSize(12/5/DinoDuel.PPM, 6/5/DinoDuel.PPM);
+        fixture.setUserData(this);
+    }//end constructor
 
     public void hit() {
         //add code so that when hit, decrease by damage
@@ -53,6 +59,8 @@ public class Bullet extends Sprite {
     }
 
     public void defineBullet() {
+
+
         BodyDef bdef = new BodyDef();
         bdef.position.set(x / DinoDuel.PPM, y / DinoDuel.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -60,9 +68,17 @@ public class Bullet extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12/10 / DinoDuel.PPM, 6/10 / DinoDuel.PPM);
+        shape.setAsBox(12/10  / DinoDuel.PPM, 6/10 / DinoDuel.PPM);
 
         fdef.shape = shape;
+
+        fdef.filter.categoryBits = DinoDuel.CATEGORY_WEAPON;
+        fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
+        fixture = bBody.createFixture(fdef);
+
+
+
+
         //fdef.isSensor = true;
 
         //fdef.filter.categoryBits = CATEGORY_WEAPON;
@@ -78,7 +94,7 @@ public class Bullet extends Sprite {
         //fdef.shape = side;
         //fdef.isSensor = true;
         //bBody.createFixture(fdef);
-    }
+    }//end defineBullet
 
     public void setUser(Dino dino) {
         this.user = dino;

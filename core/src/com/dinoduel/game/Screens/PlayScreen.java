@@ -75,8 +75,8 @@ public class PlayScreen implements Screen {
     public ArrayList<Gun> allWeapons = new ArrayList<>();
     //Bullet list
     public ArrayList<Bullet> allBullets = new ArrayList<>();
-    private Gun gun;
-    private Bullet bulletTest;
+    //private Gun gun;
+   // private Bullet bulletTest;
 
     public PlayScreen(DinoDuel game) {
         screen = this;
@@ -191,8 +191,7 @@ public class PlayScreen implements Screen {
         }
 
         for (Bullet updateBullet : allBullets) {
-            if (updateBullet.draw)
-                updateBullet.update();
+            updateBullet.update();
         }
 //        bulletTest.update();
         setCameraPosition();
@@ -299,6 +298,7 @@ public class PlayScreen implements Screen {
 
 
         player1.draw(game.batch);
+     //Used to draw at the same time as p1
         for (Gun drawGun : allWeapons) {
             if (drawGun.getUser() == player1) {
                 drawGun.setSize(drawGun.xSize / 10 / DinoDuel.PPM, drawGun.ySize / 10 / DinoDuel.PPM);
@@ -306,12 +306,6 @@ public class PlayScreen implements Screen {
                 drawGun.drawn = true;
             }
         }
-
-
-
-
-
-
 
 
         player2.draw(game.batch);

@@ -66,7 +66,6 @@ public abstract class Gun extends Sprite implements Weapon {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        //*
         shape.setAsBox(xSize/20  / DinoDuel.PPM, ySize/20 / DinoDuel.PPM);
 
         fdef.shape = shape;

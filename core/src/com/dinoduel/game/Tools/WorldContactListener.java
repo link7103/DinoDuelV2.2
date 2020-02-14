@@ -39,7 +39,7 @@ public class WorldContactListener implements ContactListener {
                 ((InteractiveTileObject) object.getUserData()).onHeadHit();
             }
         }
-
+// FIXME: 2/14/2020 Remove this
         //Bullet collision detection
         if ((fixA.getUserData() == "side" || fixB.getUserData() == "side")) {
             Fixture side = fixA.getUserData() == "side" ? fixA : fixB;
