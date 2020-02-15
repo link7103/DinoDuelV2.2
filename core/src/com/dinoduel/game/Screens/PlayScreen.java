@@ -142,6 +142,17 @@ public class PlayScreen implements Screen {
     public void update(float dt) { //Updates the screen every frame
         //handle user input first
         handleInput(dt);
+
+        //destroys bullets that have collided
+        for (int i = 0; i < allBullets.size(); i++) {
+            if (allBullets.get(i).flag) {
+                allBullets.get(i).bBody.setAwake(false);
+                world.destroyBody(allBullets.get(i).bBody);
+                allBullets.get(i).bBody = null;
+                allBullets.remove(allBullets.get(i));
+                i--;
+            }
+        }
         //takes 1 step in the physics simulation ( 60 times per second)
         world.step(1 / 60f, 6, 2);
 
@@ -192,6 +203,7 @@ public class PlayScreen implements Screen {
 
         for (Bullet updateBullet : allBullets) {
             updateBullet.update();
+
         }
 //        bulletTest.update();
         setCameraPosition();

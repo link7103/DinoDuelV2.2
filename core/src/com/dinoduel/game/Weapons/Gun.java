@@ -33,6 +33,8 @@ public abstract class Gun extends Sprite implements Weapon {
     protected int damage;
     protected PlayScreen screen;
 
+    public boolean empty = false;
+
     protected float x;
     protected float y;
     //When Held:
@@ -87,6 +89,15 @@ public abstract class Gun extends Sprite implements Weapon {
             setPosition(wBody.getPosition().x - getWidth() / 2, wBody.getPosition().y - getHeight() / 2);
         }
 
+        if (empty) {
+            if (user == null) {
+                wBody.setAwake(false);
+                world.destroyBody(wBody);
+                wBody = null;
+                screen.allWeapons.remove(this);
+            }
+        }
+
     }//end update
 
     public TextureRegion getFrame() {
@@ -100,11 +111,13 @@ public abstract class Gun extends Sprite implements Weapon {
     }//end getFrame
 
     public void setUser(Dino dino) {
-        user = dino;
-        wBody.setAwake(false);
-        world.destroyBody(wBody);
-        wBody = null;
-        inUse = true;
+        if (!empty) {
+            user = dino;
+            wBody.setAwake(false);
+            world.destroyBody(wBody);
+            wBody = null;
+            inUse = true;
+        }
 
     }//end setUser
 
@@ -119,38 +132,44 @@ public abstract class Gun extends Sprite implements Weapon {
     }//end clearUser
 
     public void useWeapon() {
-        if (mag>0) {
-            //fire
-            if (user.isRunningRight()) {
-                if (speed<0)
-                    speed *=-1;
+        if (ammo>0) {
+
+            if (mag > 0) {
+                //fire
+                if (user.isRunningRight()) {
+                    if (speed < 0)
+                        speed *= -1;
+
+                } else {
+                    if (speed > 0)
+                        speed *= -1;
+
+                }
+
+                float bulletX;
+                if (speed > 0) {
+                    bulletX = getX() + getWidth();
+                } else {
+                    bulletX = getX();
+                }
+                Bullet fired = new Bullet(speed, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                fired.draw = true;
+                screen.allBullets.add(fired);
+                //System.out.println("Drew bullet");
+
+                // TODO: 2020-02-11 change to speed variable
+                //fired.bBody.setLinearVelocity(20/DinoDuel.PPM, 0);
+
+                mag--;
+                ammo--;
 
             } else {
-                if (speed>0)
-                    speed *=-1;
-
+                //reload
+                System.out.println(this.getName() + " needs to be reloaded");
+                mag = magCap;
             }
-
-            float bulletX;
-            if (speed>0) {
-                bulletX = getX()+getWidth();
-            } else {
-                bulletX = getX();
-            }
-            Bullet fired = new Bullet(speed, duration, damage, bulletX, getY()+getHeight()/2, user, screen, world, this);
-            fired.draw = true;
-            screen.allBullets.add(fired);
-            //System.out.println("Drew bullet");
-
-            // TODO: 2020-02-11 change to speed variable
-            //fired.bBody.setLinearVelocity(20/DinoDuel.PPM, 0);
-
-            mag--;
-
         } else {
-            //reload
-            System.out.println(this.getName() + " needs to be reloaded");
-            mag = magCap;
+            empty = true;
         }
     }
 
