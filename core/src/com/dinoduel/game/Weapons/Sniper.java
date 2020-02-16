@@ -18,6 +18,7 @@ public class Sniper extends Gun {
         mag = magCap;
         firerate = 1;
         speed = 2;
+        accuracy = 10;
 
 
         img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);

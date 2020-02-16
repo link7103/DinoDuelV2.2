@@ -22,6 +22,7 @@ public class Pistol extends Gun {
         mag = magCap;
         firerate = 7;
         speed = 1;
+        accuracy = 7;
 
 
 

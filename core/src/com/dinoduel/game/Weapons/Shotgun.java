@@ -19,6 +19,7 @@ public class Shotgun extends Gun {
         mag = magCap;
         firerate = 3;
         speed =1;
+        accuracy = 9;
 
 
         img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);

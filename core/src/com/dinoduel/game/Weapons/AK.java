@@ -18,6 +18,7 @@ public class AK extends Gun {
         mag = magCap;
         firerate = 10;
         speed = 2;
+        accuracy = 6;
 
 
 
