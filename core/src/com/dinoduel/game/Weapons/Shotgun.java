@@ -18,7 +18,7 @@ public class Shotgun extends Gun {
         magCap = 2;
         mag = magCap;
         firerate = 3;
-        speed =1;
+        speed = 2;
         accuracy = 9;
 
 

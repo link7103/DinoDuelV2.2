@@ -48,6 +48,7 @@ public class WorldContactListener implements ContactListener {
 
             ((Bullet) bullet.getUserData()).flag = true;
 
+
             if (object.getUserData() instanceof Dino ) {
                 ((Bullet) bullet.getUserData()).hit((Dino) object.getUserData());
             }

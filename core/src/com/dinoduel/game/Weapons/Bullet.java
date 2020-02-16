@@ -94,7 +94,7 @@ public class Bullet extends Sprite {
         fdef.filter.maskBits = DinoDuel.MASK_BULLET;
         fixture  = bBody.createFixture(fdef);
         bBody.setLinearVelocity(new Vector2(speed, 0));
-        //bBody.setBullet(true);
+        bBody.setBullet(true);
 
         // TODO: 2020-02-01 make sure that it is oriented on the correct side of the bullet
         //leading edge of bullet
