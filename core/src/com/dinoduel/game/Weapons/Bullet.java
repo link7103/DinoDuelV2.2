@@ -75,8 +75,10 @@ public class Bullet extends Sprite {
 
         BodyDef bdef = new BodyDef();
         bdef.position.set(x , y);
-        bdef.type = BodyDef.BodyType.KinematicBody;
+        bdef.type = BodyDef.BodyType.DynamicBody;
         bBody = world.createBody(bdef);
+        bBody.setGravityScale(0);
+
         //System.out.println(bBody.getPosition().x);
 
         FixtureDef fdef = new FixtureDef();
@@ -88,7 +90,7 @@ public class Bullet extends Sprite {
 
 
 
-        //fdef.isSensor = true;
+        fdef.isSensor = true;
 
         fdef.filter.categoryBits = DinoDuel.CATEGORY_BULLET;
         fdef.filter.maskBits = DinoDuel.MASK_BULLET;

@@ -194,7 +194,7 @@ public class PlayScreen implements Screen {
                 allWeapons.add(spawn);
             spawn = null;
         }
-
+        // FIXME: 2020-02-17 The problem is the ladder is not properly setup (no width or height and at 0,0)
         //tests for players on ladder
         for (Ladder ladder: allLadders
              ) {

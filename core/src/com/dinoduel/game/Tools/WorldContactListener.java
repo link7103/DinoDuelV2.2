@@ -40,6 +40,7 @@ public class WorldContactListener implements ContactListener {
         }
 // FIXME: 2/14/2020 Remove this
         //Bullet collision detection
+
         if ((fixA.getUserData() instanceof Bullet || fixB.getUserData() instanceof Bullet)) {
             Fixture bullet = fixA.getUserData() instanceof Bullet ? fixA : fixB;
             Fixture object = bullet == fixA ? fixB : fixA;
