@@ -54,6 +54,9 @@ public class Dino extends Sprite {
     private Weapon weapon;
     public boolean hasWeapon = false;
 
+    //determine if climbing
+    public boolean climbing;
+
     public Dino(World world, PlayScreen screen, String name, int spriteStartingYValue) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
@@ -336,6 +339,10 @@ public class Dino extends Sprite {
 
     public float getYVel() {
         return b2body.getLinearVelocity().y;
+    }
+
+    public void climbing() {
+
     }
 
 }//end Dino

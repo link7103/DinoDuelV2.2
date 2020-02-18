@@ -14,6 +14,7 @@ import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.GunBox;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
+import com.dinoduel.game.Sprites.Ladder;
 import com.dinoduel.game.Sprites.SemiSolid;
 
 public class B2WorldCreator {
@@ -78,6 +79,13 @@ public class B2WorldCreator {
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             new SemiSolid(world, map, rect, screen);
+        }
+
+        for (MapObject object : map.getLayers().get(14).getObjects().getByType(RectangleMapObject.class)
+        ) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            Ladder newLadder = new Ladder(world, map, rect, screen);
+            screen.allLadders.add(newLadder);
         }
 
 

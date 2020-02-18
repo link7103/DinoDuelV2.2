@@ -20,6 +20,7 @@ import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Scenes.Hud;
 import com.dinoduel.game.Sprites.Dino;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
+import com.dinoduel.game.Sprites.Ladder;
 import com.dinoduel.game.Tools.B2WorldCreator;
 import com.dinoduel.game.Tools.WorldContactListener;
 import com.dinoduel.game.Weapons.AK;
@@ -76,6 +77,8 @@ public class PlayScreen implements Screen {
     //Bullet list
     public ArrayList<Bullet> allBullets = new ArrayList<>();
     public ArrayList<InteractiveTileObject> allBoxes = new ArrayList<>();
+    public ArrayList<Ladder> allLadders = new ArrayList<>();
+    public ArrayList<Dino> allPlayers = new ArrayList<>();
     //private Gun gun;
    // private Bullet bulletTest;
 
@@ -110,7 +113,8 @@ public class PlayScreen implements Screen {
         //Players
         player1 = new Dino(world, this, "douxSprites", 0);
         player2 = new Dino(world, this, "tardSprites", 48);
-
+        allPlayers.add(player1);
+        allPlayers.add(player2);
         //Sniper test Fix (needed for the rest of em)w
         //gun = new Pistol(40, 32, world, this);
         // bulletTest = new Bullet(new Vector2(0,0), 0, 0, 40, 32, null, screen, world, );
@@ -190,6 +194,20 @@ public class PlayScreen implements Screen {
                 allWeapons.add(spawn);
             spawn = null;
         }
+
+        //tests for players on ladder
+        for (Ladder ladder: allLadders
+             ) {
+            for (Dino dino: allPlayers
+                 ) {
+                if (ladder.getBoundingRectangle().contains(dino.b2body.getPosition().x, dino.b2body.getPosition().y))
+                    dino.climbing = true;
+                else
+                    dino.climbing = false;
+            }
+        }
+
+
         //updates player sprite position
         player1.update(dt);
         for (Gun updateGun : allWeapons) {
