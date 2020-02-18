@@ -316,8 +316,9 @@ public class Dino extends Sprite {
                 currentVelocity = b2body.getLinearVelocity();
             world.destroyBody(b2body);
             bdef.position.set(currentPosition);
-            bdef.type = BodyDef.BodyType.KinematicBody;
+            bdef.type = BodyDef.BodyType.DynamicBody;
             b2body = world.createBody(bdef);
+            b2body.setGravityScale(0);
 
             FixtureDef fdef = new FixtureDef();
             fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
