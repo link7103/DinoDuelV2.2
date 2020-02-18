@@ -36,7 +36,6 @@ public class WorldContactListener implements ContactListener {
             if (object.getUserData() instanceof GunBox) {
                 //Gdx.app.log("Gun Box", "Collision");
                 PlayScreen.screen.spawnWeapon(((InteractiveTileObject) object.getUserData()));
-                ((InteractiveTileObject) object.getUserData()).onHeadHit();
             }
         }
 // FIXME: 2/14/2020 Remove this

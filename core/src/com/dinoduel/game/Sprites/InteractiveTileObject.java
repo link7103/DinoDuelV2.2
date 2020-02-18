@@ -4,14 +4,9 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
-import com.dinoduel.game.Tools.B2WorldCreator;
 
 public abstract class InteractiveTileObject {
     protected World world;
@@ -20,6 +15,8 @@ public abstract class InteractiveTileObject {
     protected Rectangle bounds;
     protected Body body;
     protected Fixture fixture;
+    public boolean spawnGun = false;
+    protected float startTime = -16;
 
     public InteractiveTileObject(World world, TiledMap map, Rectangle bounds, PlayScreen screen) {
         this.world = world;
@@ -34,4 +31,19 @@ public abstract class InteractiveTileObject {
     public float getSpawnY() {
         return bounds.getY() + bounds.getHeight();
     }
+    /*public boolean canSpawn(float dt){
+
+        dt *= 1000;
+
+        //System.out.println("start time" + startTime + " dt " + dt);
+        if (spawned) {
+            spawned = false;
+            startTime = dt;
+            return false;
+        } else if (dt-startTime <=15) {
+            return false;
+        } else {
+            return true;
+        }
+    }*/
 }

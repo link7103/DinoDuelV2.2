@@ -29,7 +29,17 @@ public class GunBox extends InteractiveTileObject {
         //Gdx.app.log("Gun Box", "Collision");
         //generates random number to be passed in play screen to choose gun
         //needs to be adjusted for more weapons
-        return (int) (Math.random()*4);
+
+        if (System.nanoTime()/(float)(Math.pow(10, 9)) - startTime <=15) {
+            System.out.println("CT " + System.nanoTime()/(float)(Math.pow(10, 9)) + "ST " + startTime );
+            return -1;
+        } else  {
+            startTime = System.nanoTime()/(float)(Math.pow(10, 9));
+            return (int) (Math.random() * 4);
+
+        }
+
+
         //create random weapon
 
     }

@@ -74,7 +74,8 @@ public class PlayScreen implements Screen {
     //weapon list
     public ArrayList<Gun> allWeapons = new ArrayList<>();
     //Bullet list
-    public static ArrayList<Bullet> allBullets = new ArrayList<>();
+    public ArrayList<Bullet> allBullets = new ArrayList<>();
+    public ArrayList<InteractiveTileObject> allBoxes = new ArrayList<>();
     //private Gun gun;
    // private Bullet bulletTest;
 
@@ -156,12 +157,16 @@ public class PlayScreen implements Screen {
         //takes 1 step in the physics simulation ( 60 times per second)
         world.step(1 / 60f, 6, 2);
 
+
+        //determined if gunboxes can spawn guns
         //spawns weapons if told to
         if (spawnWeapon) {
-            Gun spawn;
+            Gun spawn = null;
             //int rand = (int) (Math.random() * 4);
             //Gdx.app.log("num", String.valueOf(rand));
             switch (spawnType) {
+                case -1:
+                    break;
                 default:
                     //Pistol
                     spawn = new Pistol(spawnX, spawnY, world, this);
@@ -181,7 +186,9 @@ public class PlayScreen implements Screen {
             }
             spawnWeapon = false;
             spawnType = -1;
-            allWeapons.add(spawn);
+            if (spawn!= null)
+                allWeapons.add(spawn);
+            spawn = null;
         }
         //updates player sprite position
         player1.update(dt);
