@@ -31,7 +31,7 @@ public class GunBox extends InteractiveTileObject {
         //needs to be adjusted for more weapons
 
         if (System.nanoTime()/(float)(Math.pow(10, 9)) - startTime <=15) {
-            System.out.println("CT " + System.nanoTime()/(float)(Math.pow(10, 9)) + "ST " + startTime );
+
             return -1;
         } else  {
             startTime = System.nanoTime()/(float)(Math.pow(10, 9));
