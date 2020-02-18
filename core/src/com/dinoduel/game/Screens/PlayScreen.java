@@ -71,6 +71,12 @@ public class PlayScreen implements Screen {
     // TODO: 2020-02-03 change this to better suit number of players
     public boolean[] canJump = {true, true};
 
+    //Climbing key checks
+    boolean[] upCheck = {false, false};
+    boolean[] rightCheck = {false, false};
+    boolean[] leftCheck = {false, false};
+    boolean[] downCheck = {false, false};
+
 
     //weapon list
     public ArrayList<Gun> allWeapons = new ArrayList<>();
@@ -196,14 +202,19 @@ public class PlayScreen implements Screen {
         }
         // FIXME: 2020-02-17 The problem is the ladder is not properly setup (no width or height and at 0,0)
         //tests for players on ladder
-        for (Ladder ladder: allLadders
+        for (Dino dino: allPlayers
              ) {
-            for (Dino dino: allPlayers
+            for (Ladder ladder: allLadders
                  ) {
-                if (ladder.getBoundingRectangle().contains(dino.b2body.getPosition().x, dino.b2body.getPosition().y))
+                //System.out.println("x "+ladder.bounds.x+ "dino x " + dino.b2body.getPosition().x);
+                if (ladder.bounds.contains(dino.b2body.getPosition().x*DinoDuel.PPM, dino.b2body.getPosition().y*DinoDuel.PPM - dino.getHeight()/2) ) {
                     dino.climbing = true;
-                else
+                    dino.currentLadder = ladder;
+                    break;
+                }else {
+                    dino.currentLadder = null;
                     dino.climbing = false;
+                }
             }
         }
 
@@ -239,19 +250,59 @@ public class PlayScreen implements Screen {
 
     private void handleInput(float dt) {
         //Player1
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && canJump[0]) {
+
+        if (upCheck[0] && ! Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            upCheck[0] = false;
+            player1.b2body.setLinearVelocity(0,0);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && canJump[0]) {
             if (player1.currentState != Dino.State.JUMPING)
                 player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
 
+            if (player1.currentState == Dino.State.CLIMBING) {
+                player1.b2body.setLinearVelocity(0, 1f);
+                upCheck[0] = true;
+                //System.out.println("sets velocity");
+            }
+
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
+
+        if (rightCheck[0] && !Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            rightCheck[0] = false;
+            player1.b2body.setLinearVelocity(0,0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
             player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
+
+            if (player1.currentState == Dino.State.CLIMBING) {
+                player1.b2body.setLinearVelocity(1f, 0);
+                rightCheck[0] = true;
+                //System.out.println("sets velocity");
+            }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2) {
+
+        if (leftCheck[0] && !Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            leftCheck[0] = false;
+            player1.b2body.setLinearVelocity(0,0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2) {
             player1.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player1.b2body.getWorldCenter(), true);
+
+            if (player1.currentState == Dino.State.CLIMBING) {
+                player1.b2body.setLinearVelocity(-1f, 0);
+                leftCheck[0] = true;
+                //System.out.println("sets velocity");
+            }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            player1.playerDucking = true;
+
+        if(downCheck[0] && !Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            downCheck[0] = false;
+            player1.b2body.setLinearVelocity(0,0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            if (player1.currentState != Dino.State.CLIMBING)
+                player1.playerDucking = true;
+            else if (player1.currentLadder!= null){
+                    player1.b2body.setLinearVelocity(0, -1f);
+                    downCheck[0] = true;
+
+            }
         } else {
             player1.playerDucking = false;
         }
@@ -276,19 +327,58 @@ public class PlayScreen implements Screen {
         }
 
         //Player2
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump[1]) {
+        if (upCheck[1] && ! Gdx.input.isKeyPressed(Input.Keys.W)) {
+            upCheck[1] = false;
+            player2.b2body.setLinearVelocity(0,0);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.W) && canJump[1]) {
             if (player2.currentState != Dino.State.JUMPING)
                 player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
 
+            if (player2.currentState == Dino.State.CLIMBING) {
+                player2.b2body.setLinearVelocity(0, 1f);
+                upCheck[1] = true;
+                //System.out.println("sets velocity");
+            }
+
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.b2body.getLinearVelocity().x <= 2) {
+
+        if (rightCheck[1] && !Gdx.input.isKeyPressed(Input.Keys.D)) {
+            rightCheck[1] = false;
+            player2.b2body.setLinearVelocity(0,0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.b2body.getLinearVelocity().x <= 2) {
             player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);
+
+            if (player2.currentState == Dino.State.CLIMBING) {
+                player2.b2body.setLinearVelocity(1f, 0);
+                rightCheck[1] = true;
+                //System.out.println("sets velocity");
+            }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && player2.b2body.getLinearVelocity().x >= -2) {
+
+        if (leftCheck[1] && !Gdx.input.isKeyPressed(Input.Keys.A)) {
+            leftCheck[1] = false;
+            player2.b2body.setLinearVelocity(0,0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && player2.b2body.getLinearVelocity().x >= -2) {
             player2.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player2.b2body.getWorldCenter(), true);
+
+            if (player2.currentState == Dino.State.CLIMBING) {
+                player2.b2body.setLinearVelocity(-1f, 0);
+                leftCheck[1] = true;
+                //System.out.println("sets velocity");
+            }
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            player2.playerDucking = true;
+
+        if(downCheck[1] && !Gdx.input.isKeyPressed(Input.Keys.S)) {
+            downCheck[1] = false;
+            player2.b2body.setLinearVelocity(0,0);
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            if (player2.currentState != Dino.State.CLIMBING)
+                player2.playerDucking = true;
+            else if (player2.currentLadder!= null){
+                player2.b2body.setLinearVelocity(0, -1f);
+                downCheck[1] = true;
+
+            }
         } else {
             player2.playerDucking = false;
         }
