@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class Dino extends Sprite {
 
-    public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING}
+    public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING, KICKING}
 
     public State currentState;
     public State previousState;
@@ -53,6 +53,9 @@ public class Dino extends Sprite {
     //Weapons
     private Weapon weapon;
     public boolean hasWeapon = false;
+
+    //kicking
+    public boolean kicking = false;
 
     //determine if climbing
     public boolean climbing;
@@ -124,6 +127,9 @@ public class Dino extends Sprite {
 
         TextureRegion region;
         switch (currentState) {
+            case KICKING:
+                region  = dinoJump.getKeyFrame(stateTimer, true);
+                break;
             case JUMPING:
                 region = dinoJump.getKeyFrame(stateTimer);
                 break;
@@ -165,6 +171,7 @@ public class Dino extends Sprite {
             defineDino(3);
             return State.CLIMBING;
         }
+
 
         if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
@@ -383,6 +390,10 @@ public class Dino extends Sprite {
 
     public void climbing() {
 
+    }
+
+    public void kick() {
+        kicking = true;
     }
 
 }//end Dino

@@ -251,9 +251,9 @@ public class PlayScreen implements Screen {
     private void handleInput(float dt) {
         //Player1
 
-        if (upCheck[0] && ! Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            upCheck[0] = false;
-            player1.b2body.setLinearVelocity(0,0);
+        if (upCheck[0] && ! Gdx.input.isKeyPressed(Input.Keys.UP) && player1.currentLadder!=null) {
+                upCheck[0] = false;
+                player1.b2body.setLinearVelocity(0, 0);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.UP) && canJump[0]) {
             if (player1.currentState != Dino.State.JUMPING)
                 player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
@@ -265,6 +265,17 @@ public class PlayScreen implements Screen {
             }
 
         }
+
+        //doesnt work as intended
+        /*
+        if (player1.currentLadder!=null) {
+            if (player1.b2body.getPosition().y>=player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-player1.getHeight()) {
+                player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
+                player1.currentState = Dino.State.JUMPING;
+            }
+        }
+
+         */
 
         if (rightCheck[0] && !Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             rightCheck[0] = false;
@@ -321,6 +332,7 @@ public class PlayScreen implements Screen {
                 player1.useWeapon();
             } else {
                 //kick implentation
+                player1.kick();
             }
 
 
