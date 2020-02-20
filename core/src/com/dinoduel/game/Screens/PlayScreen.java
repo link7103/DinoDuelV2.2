@@ -251,6 +251,7 @@ public class PlayScreen implements Screen {
     private void handleInput(float dt) {
         //Player1
 
+
         if (upCheck[0] && ! Gdx.input.isKeyPressed(Input.Keys.UP) && player1.currentLadder!=null) {
                 upCheck[0] = false;
                 player1.b2body.setLinearVelocity(0, 0);
@@ -267,15 +268,18 @@ public class PlayScreen implements Screen {
         }
 
         //doesnt work as intended
-        /*
+
         if (player1.currentLadder!=null) {
-            if (player1.b2body.getPosition().y>=player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-player1.getHeight()) {
+            System.out.println("Player y: " + player1.b2body.getPosition().y * DinoDuel.PPM + " Ladder Y: "  + (player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-3f));
+            if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-3f) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
-                player1.currentState = Dino.State.JUMPING;
+                //player1.currentState = Dino.State.JUMPING;
+                System.out.println("Works");
+                //player1.b2body.setLinearVelocity(0, 3f);
             }
         }
 
-         */
+
 
         if (rightCheck[0] && !Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             rightCheck[0] = false;
