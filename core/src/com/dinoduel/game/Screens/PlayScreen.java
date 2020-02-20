@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -88,6 +90,11 @@ public class PlayScreen implements Screen {
     //private Gun gun;
     // private Bullet bulletTest;
 
+    // TODO: 2020-02-20 health 
+    public float testHealth = 1;
+    public Texture blank;
+
+
     public PlayScreen(DinoDuel game) {
         screen = this;
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
@@ -128,6 +135,9 @@ public class PlayScreen implements Screen {
 
         //contact listener stuff
         world.setContactListener(new WorldContactListener());
+        // TODO: 2020-02-20 Health
+        blank = new Texture("blank.png");
+
     }//end constructor
 
     public TextureAtlas getDinoAtlas() {
@@ -257,6 +267,10 @@ public class PlayScreen implements Screen {
         player1.KEYDOWN = false;
         player1.KEYLEFT = false;
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+            testHealth -= 0.1f;
+        }
+
         if (player1.climbing && !Gdx.input.isKeyPressed(Input.Keys.UP)) {
             player1.b2body.setLinearVelocity(0, 0);
         }
@@ -353,12 +367,8 @@ public class PlayScreen implements Screen {
 
 
         if (player2.currentLadder != null) {
-            //System.out.println("Player y: " + player2.b2body.getPosition().y * DinoDuel.PPM + " Ladder Y: "  + (player2.currentLadder.bounds.y+player2.currentLadder.bounds.height-3f));
             if ((player2.b2body.getPosition().y * DinoDuel.PPM >= player2.currentLadder.bounds.y + player2.currentLadder.bounds.height - 3f) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
-                //player2.currentState = Dino.State.JUMPING;
-                //System.out.println("Works");
-                //player2.b2body.setLinearVelocity(0, 3f);
             }
         }
 
@@ -367,7 +377,6 @@ public class PlayScreen implements Screen {
             player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);
             if (player2.currentState == Dino.State.CLIMBING) {
                 player2.b2body.setLinearVelocity(1f, 0);
-                //System.out.println("sets velocity");
             }
         }
 
@@ -376,7 +385,6 @@ public class PlayScreen implements Screen {
             player2.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player2.b2body.getWorldCenter(), true);
             if (player2.currentState == Dino.State.CLIMBING) {
                 player2.b2body.setLinearVelocity(-1f, 0);
-                //System.out.println("sets velocity");
             }
         }
 
@@ -463,11 +471,29 @@ public class PlayScreen implements Screen {
         }
 
         //bulletTest.draw(game.batch);
-        game.batch.end();
+
 
         //sets the batch to draw what the camera sees
+        // FIXME: 2020-02-20 HUD
+        /*
+
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
+        
+         */
+        //Draw health
+        //System.out.println(testHealth);
+        if (testHealth > 0.6f)
+            game.batch.setColor(Color.GREEN);
+        else if (testHealth > 0.2f)
+            game.batch.setColor(Color.ORANGE);
+        else
+            game.batch.setColor(Color.RED);
+
+        game.batch.draw(blank, 0, 0, DinoDuel.V_WIDTH * testHealth, 0.1f);
+        game.batch.setColor(Color.WHITE);
+        game.batch.end();
+
     }//end render
 
     public void setCameraPosition() {

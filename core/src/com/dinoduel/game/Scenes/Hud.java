@@ -78,6 +78,7 @@ public class Hud  extends Sprite implements Disposable {
         table.add(stageNameLabel).expandX().padTop(10);
 
         stage.addActor(table);
+
     }
 
     @Override
