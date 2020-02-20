@@ -39,8 +39,8 @@ public class SemiSolid extends InteractiveTileObject {
 
         shape.setAsBox(bounds.getWidth() / 2 / DinoDuel.PPM, bounds.getHeight() / 2 / DinoDuel.PPM);
         fDef.shape = shape;
-        fDef.filter.categoryBits = DinoDuel.CATEGORY_GUNBOX;
-        fDef.filter.maskBits = DinoDuel.MASK_GUNBOX;
+        fDef.filter.categoryBits = DinoDuel.CATEGORY_SEMISOLID;
+        fDef.filter.maskBits = DinoDuel.MASK_SEMISOLID;
         fixture = body.createFixture(fDef);
     }
 
