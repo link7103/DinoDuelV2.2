@@ -267,14 +267,13 @@ public class PlayScreen implements Screen {
 
         }
 
-        //doesnt work as intended
 
         if (player1.currentLadder!=null) {
-            System.out.println("Player y: " + player1.b2body.getPosition().y * DinoDuel.PPM + " Ladder Y: "  + (player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-3f));
+            //System.out.println("Player y: " + player1.b2body.getPosition().y * DinoDuel.PPM + " Ladder Y: "  + (player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-3f));
             if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-3f) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
                 //player1.currentState = Dino.State.JUMPING;
-                System.out.println("Works");
+                //System.out.println("Works");
                 //player1.b2body.setLinearVelocity(0, 3f);
             }
         }
@@ -356,6 +355,16 @@ public class PlayScreen implements Screen {
                 //System.out.println("sets velocity");
             }
 
+        }
+
+        if (player2.currentLadder!=null) {
+            //System.out.println("Player y: " + player1.b2body.getPosition().y * DinoDuel.PPM + " Ladder Y: "  + (player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-3f));
+            if ((player2.b2body.getPosition().y * DinoDuel.PPM >= player2.currentLadder.bounds.y+player2.currentLadder.bounds.height-3f) && Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+                player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
+                //player1.currentState = Dino.State.JUMPING;
+                //System.out.println("Works");
+                //player1.b2body.setLinearVelocity(0, 3f);
+            }
         }
 
         if (rightCheck[1] && !Gdx.input.isKeyPressed(Input.Keys.D)) {
