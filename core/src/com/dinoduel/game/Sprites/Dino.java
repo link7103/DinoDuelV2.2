@@ -2,8 +2,10 @@ package com.dinoduel.game.Sprites;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -25,18 +27,16 @@ import java.util.ArrayList;
 
 
 public class Dino extends Sprite {
-
+    //States
     public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING, KICKING}
 
     public State currentState;
     public State previousState;
-
-    //Why Do these exist
-    public static int dinoNumber = 0;
-    public int dinoID;
+    private float stateTimer;
 
     public World world;
     public Body b2body;
+
     //Animations and Textures
     private TextureRegion dinoIdle0;
     private Animation<TextureRegion> dinoIdle;
@@ -45,7 +45,6 @@ public class Dino extends Sprite {
     private Animation<TextureRegion> dinoJump;
     private Animation<TextureRegion> dinoDuckRun;
 
-    private float stateTimer;
     //Used for mapping the textures
     private boolean runningRight;
     public boolean playerDucking = false;
@@ -67,6 +66,8 @@ public class Dino extends Sprite {
     public boolean KEYRIGHT;
     public boolean KEYLEFT;
 
+    //Health
+    public float health;
 
     public Dino(World world, PlayScreen screen, String name, int spriteStartingYValue) {
         //Initialize Variables
@@ -76,8 +77,8 @@ public class Dino extends Sprite {
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
-        dinoID = dinoNumber;
-        dinoNumber++;
+        health = 1;
+
 
         //Sets up the various animations - will need to adjust the y value for subsequent players
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -127,6 +128,7 @@ public class Dino extends Sprite {
         if (weapon != null) {
             weapon.update();
         }
+        healthCheck();
     }//end update
 
     public TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
@@ -173,8 +175,6 @@ public class Dino extends Sprite {
     }//end getFrame
 
     public State getState() {
-
-
         if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
             return State.JUMPING;
@@ -220,8 +220,8 @@ public class Dino extends Sprite {
         BodyDef bdef = new BodyDef();
 
         if (instruction == 0) {
-            System.out.println(0);
             //starting position. (Pass in for multiple players?)
+            health = 1;
             bdef.position.set(32 / DinoDuel.PPM, 32 / DinoDuel.PPM);
             bdef.type = BodyDef.BodyType.DynamicBody;
             b2body = world.createBody(bdef);
@@ -271,7 +271,6 @@ public class Dino extends Sprite {
             bdef.position.set(currentPosition);
 
             if (instruction == 1) {//Duck
-                System.out.println(1);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
 
@@ -301,7 +300,6 @@ public class Dino extends Sprite {
 
                  */
             } else if (instruction == 2) {//Unduck
-                System.out.println(2);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
 
@@ -371,7 +369,6 @@ public class Dino extends Sprite {
         hasWeapon = false;
         weapon.dropped();
         weapon = null;
-
     }//end dropGun
 
     public void useWeapon() {
@@ -402,4 +399,14 @@ public class Dino extends Sprite {
         kicking = true;
     }
 
+    public void healthCheck() {
+        if (health <= 0) {
+            System.out.println("Dies");
+            if(hasWeapon) {
+                dropWeapon();
+            }
+            world.destroyBody(b2body);
+            defineDino(0);
+        }
+    }//end HealthCheck
 }//end Dino

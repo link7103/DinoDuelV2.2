@@ -38,22 +38,16 @@ public class WorldContactListener implements ContactListener {
                 PlayScreen.screen.spawnWeapon(((InteractiveTileObject) object.getUserData()));
             }
         }
-// FIXME: 2/14/2020 Remove this
         //Bullet collision detection
-
         if ((fixA.getUserData() instanceof Bullet || fixB.getUserData() instanceof Bullet)) {
             Fixture bullet = fixA.getUserData() instanceof Bullet ? fixA : fixB;
             Fixture object = bullet == fixA ? fixB : fixA;
-            System.out.println("Bullet collision");
-
             ((Bullet) bullet.getUserData()).flag = true;
-
-
             if (object.getUserData() instanceof Dino ) {
                 ((Bullet) bullet.getUserData()).hit((Dino) object.getUserData());
             }
         }
-//Detection for SemiSolids
+        //Detection for SemiSolids
         if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
             Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
             Fixture object = body == fixA ? fixB : fixA;
@@ -74,6 +68,7 @@ public class WorldContactListener implements ContactListener {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
+        //Detection for SemiSolids
         if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
             Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
             Fixture object = body == fixA ? fixB : fixA;
@@ -90,6 +85,7 @@ public class WorldContactListener implements ContactListener {
         Fixture fixA = contact.getFixtureA();
         Fixture fixB = contact.getFixtureB();
 
+        //Detection for SemiSolids
         if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
             Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
             Fixture object = body == fixA ? fixB : fixA;

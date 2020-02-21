@@ -59,41 +59,29 @@ public class PlayScreen implements Screen {
     private Dino player2;
     //Player Sprites
     private TextureAtlas dinoAtlas;
+
     //Weapon Sprites
     public TextureAtlas weaponAtlas;
-
+    //Weapon Spawns
     private boolean spawnWeapon;
     private float spawnX;
     private float spawnY;
     private int spawnType = -1;
 
     public static PlayScreen screen;
-
-    //dictates wether a player can jump
-    // TODO: 2020-02-03 change this to better suit number of players
-    public boolean[] canJump = {true, true};
-
-    //Climbing key checks
-    //boolean[] upCheck = {false, false};
-    // boolean[] rightCheck = {false, false};
-    // boolean[] leftCheck = {false, false};
-    // boolean[] downCheck = {false, false};
-
-
-    //weapon list
+    //Weapon list
     public ArrayList<Gun> allWeapons = new ArrayList<>();
     //Bullet list
     public ArrayList<Bullet> allBullets = new ArrayList<>();
+    //GunBox List
     public ArrayList<InteractiveTileObject> allBoxes = new ArrayList<>();
+    //Ladder List
     public ArrayList<Ladder> allLadders = new ArrayList<>();
+    //Player List
     public ArrayList<Dino> allPlayers = new ArrayList<>();
-    //private Gun gun;
-    // private Bullet bulletTest;
 
-    // TODO: 2020-02-20 health 
-    public float testHealth = 1;
+    //A Blank texture (Used for HealthBars)
     public Texture blank;
-
 
     public PlayScreen(DinoDuel game) {
         screen = this;
@@ -117,7 +105,6 @@ public class PlayScreen implements Screen {
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
 
-
         //Creates the world
         world = new World(new Vector2(0, -10), true);
         b2dr = new Box2DDebugRenderer();
@@ -128,10 +115,6 @@ public class PlayScreen implements Screen {
         player2 = new Dino(world, this, "tardSprites", 48);
         allPlayers.add(player1);
         allPlayers.add(player2);
-        //Sniper test Fix (needed for the rest of em)w
-        //gun = new Pistol(40, 32, world, this);
-        // bulletTest = new Bullet(new Vector2(0,0), 0, 0, 40, 32, null, screen, world, );
-        //allWeapons.add(gun);
 
         //contact listener stuff
         world.setContactListener(new WorldContactListener());
@@ -253,10 +236,9 @@ public class PlayScreen implements Screen {
             updateBullet.update();
 
         }
-//        bulletTest.update();
         setCameraPosition();
         gameCam.update();
-        //tell it to only render what the camera can see
+        //tells it to only render what the camera can see
         renderer.setView(gameCam);
     }//end update
 
@@ -267,17 +249,15 @@ public class PlayScreen implements Screen {
         player1.KEYDOWN = false;
         player1.KEYLEFT = false;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.H)) {
-            testHealth -= 0.1f;
-        }
 
         if (player1.climbing && !Gdx.input.isKeyPressed(Input.Keys.UP)) {
             player1.b2body.setLinearVelocity(0, 0);
         }
 
-        if (canJump[0] && player1.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.UP) && player1.currentState != Dino.State.CLIMBING) {
+        if (player1.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.UP) && player1.currentState != Dino.State.CLIMBING && player1.currentState != Dino.State.FALLING) {
             player1.KEYUP = true;
             player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
+
         } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             player1.KEYUP = true;
             if (player1.currentState == Dino.State.CLIMBING) {
@@ -287,12 +267,8 @@ public class PlayScreen implements Screen {
 
 
         if (player1.currentLadder != null) {
-            //System.out.println("Player y: " + player1.b2body.getPosition().y * DinoDuel.PPM + " Ladder Y: "  + (player1.currentLadder.bounds.y+player1.currentLadder.bounds.height-3f));
             if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
-                //player1.currentState = Dino.State.JUMPING;
-                //System.out.println("Works");
-                //player1.b2body.setLinearVelocity(0, 3f);
             }
         }
 
@@ -301,7 +277,6 @@ public class PlayScreen implements Screen {
             player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
             if (player1.currentState == Dino.State.CLIMBING) {
                 player1.b2body.setLinearVelocity(1f, 0);
-                //System.out.println("sets velocity");
             }
         }
 
@@ -310,7 +285,6 @@ public class PlayScreen implements Screen {
             player1.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player1.b2body.getWorldCenter(), true);
             if (player1.currentState == Dino.State.CLIMBING) {
                 player1.b2body.setLinearVelocity(-1f, 0);
-                //System.out.println("sets velocity");
             }
         }
 
@@ -355,7 +329,7 @@ public class PlayScreen implements Screen {
             player2.b2body.setLinearVelocity(0, 0);
         }
 
-        if (canJump[1] && player2.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.W) && player2.currentState != Dino.State.CLIMBING) {
+        if (player2.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.W) && player2.currentState != Dino.State.CLIMBING && player2.currentState != Dino.State.FALLING) {
             player2.KEYUP = true;
             player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -466,11 +440,8 @@ public class PlayScreen implements Screen {
         for (Bullet drawBullet : allBullets) {
             if (drawBullet.draw) {
                 drawBullet.draw(game.batch);
-                //System.out.println("Should have worked");
             }
         }
-
-        //bulletTest.draw(game.batch);
 
 
         //sets the batch to draw what the camera sees
@@ -479,19 +450,25 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
-        
-         */
-        //Draw health
-        //System.out.println(testHealth);
-        if (testHealth > 0.6f)
-            game.batch.setColor(Color.GREEN);
-        else if (testHealth > 0.2f)
-            game.batch.setColor(Color.ORANGE);
-        else
-            game.batch.setColor(Color.RED);
 
-        game.batch.draw(blank, 0, 0, DinoDuel.V_WIDTH * testHealth, 0.1f);
-        game.batch.setColor(Color.WHITE);
+
+         */
+
+        //Draws the health bars above each dino
+        for (Dino dino : allPlayers) {
+            game.batch.setColor(Color.BLACK);
+            game.batch.draw(blank, dino.b2body.getPosition().x - 0.075f, dino.b2body.getPosition().y + 0.098f, 0.16f, 0.035f);
+            if (dino.health > 0.6f)
+                game.batch.setColor(Color.GREEN);
+            else if (dino.health > 0.2f)
+                game.batch.setColor(Color.ORANGE);
+            else
+                game.batch.setColor(Color.RED);
+
+            game.batch.draw(blank, dino.b2body.getPosition().x - 0.07f, dino.b2body.getPosition().y + 0.1f, 0.15f * dino.health, 0.03f);
+        }
+
+
         game.batch.end();
 
     }//end render
@@ -546,7 +523,7 @@ public class PlayScreen implements Screen {
         float cameraRight = gameCam.position.x + cameraHalfWidth;
         float cameraBottom = gameCam.position.y - cameraHalfHeight;
         float cameraTop = gameCam.position.y + cameraHalfHeight;
-// Horizontal axis
+        // Horizontal axis
         if (x < gameCam.viewportWidth) {
             gameCam.position.x = mapRight / 2;
         } else if (cameraLeft <= mapLeft) {
@@ -554,7 +531,7 @@ public class PlayScreen implements Screen {
         } else if (cameraRight >= mapRight) {
             gameCam.position.x = mapRight - cameraHalfWidth;
         }
-// Vertical axis
+        // Vertical axis
         if (y < gameCam.viewportHeight) {
             gameCam.position.y = mapTop / 2;
         } else if (cameraBottom <= mapBottom) {
