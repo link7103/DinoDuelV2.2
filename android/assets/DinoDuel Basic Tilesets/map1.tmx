@@ -83,6 +83,6 @@
   <object id="15" x="656" y="112" width="16" height="64"/>
  </objectgroup>
  <objectgroup name="semisolid">
-  <object id="37" x="464" y="80" width="64" height="12.9002"/>
+  <object id="37" x="464" y="80" width="64" height="2.76728"/>
  </objectgroup>
 </map>

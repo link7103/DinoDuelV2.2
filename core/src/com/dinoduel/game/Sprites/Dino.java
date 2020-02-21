@@ -399,7 +399,6 @@ public class Dino extends Sprite {
 
     public void healthCheck() {
         if (health <= 0) {
-            System.out.println("Dies");
             if(hasWeapon) {
                 dropWeapon();
             }

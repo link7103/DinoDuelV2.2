@@ -457,7 +457,7 @@ public class PlayScreen implements Screen {
         //Draws the health bars above each dino
         for (Dino dino : allPlayers) {
             game.batch.setColor(Color.BLACK);
-            game.batch.draw(blank, dino.b2body.getPosition().x - 0.075f, dino.b2body.getPosition().y + 0.098f, 0.16f, 0.035f);
+            game.batch.draw(blank, dino.b2body.getPosition().x - 0.075f, dino.b2body.getPosition().y + 0.094f, 0.16f, 0.04f);
             if (dino.health > 0.6f)
                 game.batch.setColor(Color.GREEN);
             else if (dino.health > 0.2f)
