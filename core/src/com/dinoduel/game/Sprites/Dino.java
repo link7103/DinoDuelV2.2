@@ -235,9 +235,8 @@ public class Dino extends Sprite {
             fdef.shape = headShape;
             b2body.createFixture(fdef).setUserData(this);
 
-            CircleShape bodyShape = new CircleShape();
-            bodyShape.setRadius(4 / DinoDuel.PPM);
-            bodyShape.setPosition(new Vector2(0, -4f / DinoDuel.PPM));
+            PolygonShape bodyShape = new PolygonShape();
+            bodyShape.setAsBox(4 / DinoDuel.PPM, 7 / DinoDuel.PPM, new Vector2(+0, +1f / DinoDuel.PPM), 0);
             fdef.shape = bodyShape;
             b2body.createFixture(fdef).setUserData(this);
 
@@ -312,9 +311,8 @@ public class Dino extends Sprite {
                 fdef.shape = headShape;
                 b2body.createFixture(fdef).setUserData(this);
 
-                CircleShape bodyShape = new CircleShape();
-                bodyShape.setRadius(4 / DinoDuel.PPM);
-                bodyShape.setPosition(new Vector2(0, -4f / DinoDuel.PPM));
+                PolygonShape bodyShape = new PolygonShape();
+                bodyShape.setAsBox(4 / DinoDuel.PPM, 7 / DinoDuel.PPM, new Vector2(+0, +1f / DinoDuel.PPM), 0);
                 fdef.shape = bodyShape;
                 b2body.createFixture(fdef).setUserData(this);
 
