@@ -34,6 +34,8 @@ import com.dinoduel.game.Weapons.Pistol;
 
 import java.util.ArrayList;
 
+import sun.management.counter.perf.PerfLongArrayCounter;
+
 import static java.lang.StrictMath.abs;
 
 public class PlayScreen implements Screen {
@@ -243,12 +245,11 @@ public class PlayScreen implements Screen {
     }//end update
 
     private void handleInput(float dt) {
-        //Player1
+        //******************************Player1******************************
         player1.KEYUP = false;
         player1.KEYRIGHT = false;
         player1.KEYDOWN = false;
         player1.KEYLEFT = false;
-
 
         if (player1.climbing && !Gdx.input.isKeyPressed(Input.Keys.UP)) {
             player1.b2body.setLinearVelocity(0, 0);
@@ -265,12 +266,15 @@ public class PlayScreen implements Screen {
             }
         }
 
-
+/* This doesnt actually do anything
         if (player1.currentLadder != null) {
             if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
+                System.out.println("hola");
             }
         }
+
+ */
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
             player1.KEYRIGHT = true;
@@ -289,11 +293,11 @@ public class PlayScreen implements Screen {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            player1.KEYDOWN = true;
             if (player1.currentState != Dino.State.CLIMBING)
                 player1.playerDucking = true;
             else if (player1.currentLadder != null) {
                 player1.b2body.setLinearVelocity(0, -1f);
-                player1.KEYDOWN = true;
             }
         } else {
             player1.playerDucking = false;
@@ -315,11 +319,16 @@ public class PlayScreen implements Screen {
                 //kick implentation
                 player1.kick();
             }
-
-
+        }
+        //Stops Sliding
+        if (player1.b2body.getLinearVelocity().x > 0.05f && !player1.KEYRIGHT && !player1.KEYLEFT) {
+            player1.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player1.b2body.getWorldCenter(), true);
+        } else if (player1.b2body.getLinearVelocity().x < -0.05f && !player1.KEYLEFT && !player1.KEYRIGHT) {
+            player1.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player1.b2body.getWorldCenter(), true);
         }
 
-        //Player2
+
+        //******************************Player2******************************
         player2.KEYUP = false;
         player2.KEYRIGHT = false;
         player2.KEYDOWN = false;
@@ -363,11 +372,11 @@ public class PlayScreen implements Screen {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            player2.KEYDOWN = true;
             if (player2.currentState != Dino.State.CLIMBING)
                 player2.playerDucking = true;
             else if (player2.currentLadder != null) {
                 player2.b2body.setLinearVelocity(0, -1f);
-                player2.KEYDOWN = true;
             }
         } else {
             player2.playerDucking = false;
@@ -390,6 +399,14 @@ public class PlayScreen implements Screen {
                 player2.kick();
             }
         }
+
+        //Stops Sliding
+        if (player2.b2body.getLinearVelocity().x > 0.05f && !player2.KEYRIGHT && !player2.KEYLEFT) {
+            player2.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player2.b2body.getWorldCenter(), true);
+        } else if (player2.b2body.getLinearVelocity().x < -0.05f && !player2.KEYLEFT && !player2.KEYRIGHT) {
+            player2.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player2.b2body.getWorldCenter(), true);
+        }
+
     }//end handleInput
 
     @Override

@@ -175,21 +175,19 @@ public class Dino extends Sprite {
     }//end getFrame
 
     public State getState() {
+        //Sets different states
         if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
             return State.JUMPING;
         } else if (b2body.getLinearVelocity().y < 0 && !playerDucking && previousState == State.DUCKFALLING) {
             defineDino(2);
             return State.FALLING;
-        }
-        //Calls for a change in collision box
-        if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && b2body.getLinearVelocity().y == 0)) {
+        }else if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && b2body.getLinearVelocity().y == 0)) {
             defineDino(1);
         } else if ((!playerDucking && (previousState == State.DUCKING || previousState == State.DUCKRUNNING)) || (previousState == State.CLIMBING && !climbing)) {
             defineDino(2);
         }
 
-        //Sets different states
         if (climbing && previousState != State.CLIMBING) {
             defineDino(3);
             return State.CLIMBING;
@@ -202,7 +200,6 @@ public class Dino extends Sprite {
         } else if (b2body.getLinearVelocity().y < 0) {
             return State.FALLING;
         } else if (b2body.getLinearVelocity().x != 0) {
-            //will need to adapt for multiple players
             if (playerDucking) {
                 return State.DUCKRUNNING;
             } else {
@@ -323,7 +320,6 @@ public class Dino extends Sprite {
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
             } else if (instruction == 3) { //Climbing
-                System.out.println(3);
                 currentVelocity = new Vector2(0, 0);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
@@ -406,4 +402,5 @@ public class Dino extends Sprite {
             defineDino(0);
         }
     }//end HealthCheck
+
 }//end Dino

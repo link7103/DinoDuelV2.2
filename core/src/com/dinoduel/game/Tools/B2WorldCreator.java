@@ -75,16 +75,14 @@ public class B2WorldCreator {
        //here
         //SemiSolids 15
 
-        for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)
-        ) {
+        for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             new SemiSolid(world, map, rect, screen);
         }
 
-        for (MapObject object : map.getLayers().get(14).getObjects().getByType(RectangleMapObject.class)
-        ) {
+        for (MapObject object : map.getLayers().get(14).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            System.out.println(rect.width + ""+ rect.x );
+            System.out.println(rect.width + " "+ rect.x );
             Ladder newLadder = new Ladder(world, map, rect, screen);
             screen.allLadders.add(newLadder);
         }
