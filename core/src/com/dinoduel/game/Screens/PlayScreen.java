@@ -245,7 +245,7 @@ public class PlayScreen implements Screen {
         player1.KEYRIGHT = false;
         player1.KEYDOWN = false;
         player1.KEYLEFT = false;
-        if (player1.climbing && !Gdx.input.isKeyPressed(Input.Keys.UP)) {
+        if (player1.climbing) {
             player1.b2body.setLinearVelocity(0, 0);
         }
         if (player1.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.UP) && player1.currentState != Dino.State.CLIMBING && player1.currentState != Dino.State.FALLING) {
@@ -401,7 +401,6 @@ public class PlayScreen implements Screen {
         } else if (player2.b2body.getLinearVelocity().x < -0.05f && !player2.KEYLEFT && !player2.KEYRIGHT) {
             player2.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player2.b2body.getWorldCenter(), true);
         }
-        System.out.println(player1.climbing);
     }//end handleInput
 
     @Override
