@@ -12,8 +12,10 @@ public abstract class Gun extends Weapon  {
     protected float firerate;
     protected int accuracy;
     public int mag ;
-    protected float speed;
-    protected int duration;
+    protected float speedX;
+    protected float duration;
+
+
 
 
 
@@ -43,42 +45,49 @@ public abstract class Gun extends Weapon  {
 
 
     public void useWeapon() {
-        if (ammo>0) {
 
-            if (mag > 0) {
-                //fire
-                if (user.isRunningRight()) {
-                    if (speed < 0)
-                        speed *= -1;
+        if (buildTime-lastFireTime>firerate) {
+
+            if (ammo > 0) {
+
+                if (mag > 0) {
+                    //fire
+                    if (user.isRunningRight()) {
+                        if (speedX < 0)
+                            speedX *= -1;
+
+                    } else {
+                        if (speedX > 0)
+                            speedX *= -1;
+
+                    }
+
+                    float bulletX;
+                    if (speedX > 0) {
+                        bulletX = getX() + getWidth();
+                    } else {
+                        bulletX = getX();
+                    }
+                    Bullet fired = new Bullet(speedX, 0, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired.draw = true;
+                    screen.allBullets.add(fired);
+                    //System.out.println("Drew bullet");
+
+
+                    mag--;
+                    ammo--;
+                    lastFireTime = buildTime;
 
                 } else {
-                    if (speed > 0)
-                        speed *= -1;
-
+                    //reload
+                    //System.out.println(this.getName() + " needs to be reloaded");
+                    mag = magCap;
+                    lastFireTime = buildTime;
                 }
-
-                float bulletX;
-                if (speed > 0) {
-                    bulletX = getX() + getWidth();
-                } else {
-                    bulletX = getX();
-                }
-                Bullet fired = new Bullet(speed, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
-                fired.draw = true;
-                screen.allBullets.add(fired);
-                //System.out.println("Drew bullet");
-
-
-                mag--;
-                ammo--;
-
             } else {
-                //reload
-                //System.out.println(this.getName() + " needs to be reloaded");
-                mag = magCap;
+                empty = true;
             }
-        } else {
-            empty = true;
+
         }
     }
 

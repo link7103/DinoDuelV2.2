@@ -17,10 +17,11 @@ public class Pistol extends Gun {
         ammo = 12;
         magCap = 4;
         mag = magCap;
-        firerate = 7;
-        speed = 2;
+        firerate = 1;
+        speedX = 2;
         accuracy = 7;
         damage = 3.4;
+        duration = .5f;
 
 
 

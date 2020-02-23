@@ -145,6 +145,7 @@ public class PlayScreen implements Screen {
 
     //dt = delta time
     public void update(float dt) { //Updates the screen every frame
+
         //handle user input first
         handleInput(dt);
 
@@ -216,7 +217,7 @@ public class PlayScreen implements Screen {
         player1.update(dt);
         for (Weapon updateWeapon : allWeapons) {
             if (updateWeapon.getUser() == player1) {
-                updateWeapon.update();
+                updateWeapon.update(dt);
                 updateWeapon.update = true;
             }
         }
@@ -225,13 +226,13 @@ public class PlayScreen implements Screen {
 
         for (Weapon updateWeapon : allWeapons) {
             if (!updateWeapon.drawn)
-                updateWeapon.update();
+                updateWeapon.update(dt);
             else
                 updateWeapon.update = false;
         }
 
         for (Bullet updateBullet : allBullets) {
-            updateBullet.update();
+            updateBullet.update(dt);
 
         }
         setCameraPosition();

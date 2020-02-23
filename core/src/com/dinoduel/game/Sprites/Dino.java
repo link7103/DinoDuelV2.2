@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
+import com.dinoduel.game.Sprites.Weapons.Shotgun;
 import com.dinoduel.game.Sprites.Weapons.Weapon;
 
 import java.util.ArrayList;
@@ -125,7 +126,7 @@ public class Dino extends Sprite {
         setRegion(getFrame(dt));
 
         if (weapon != null) {
-            weapon.update();
+            weapon.update(dt);
         }
         healthCheck();
     }//end update
@@ -373,7 +374,7 @@ public class Dino extends Sprite {
     }//end dropGun
 
     public void useWeapon() {
-        weapon.useWeapon();
+            weapon.useWeapon();
     }
 
     public Weapon getWeapon() {

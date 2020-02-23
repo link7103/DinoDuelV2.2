@@ -14,8 +14,9 @@ import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.Dino;
 
 public class Bullet extends Sprite {
-    public float speed;
-    private int duration;
+    public float speedX;
+    public float speedY;
+    private float duration;
     public double damage;
     private float x;
     private float y;
@@ -32,9 +33,12 @@ public class Bullet extends Sprite {
 
     public Fixture fixture;
 
-    public Bullet(float s, int dr, double dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun) {
+    private float buildTime = 0;
+
+    public Bullet(float sX, float sY, float dr, double dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun) {
         super(screen.getweaponAtlas().findRegion("weapons"));
-        this.speed = s;
+        this.speedX = sX;
+        this.speedY = sY;
         this.duration = dr;
         this.damage = dm;
         this.x = x;
@@ -47,7 +51,7 @@ public class Bullet extends Sprite {
         img = new TextureRegion(getTexture(), 358, 138, 12, 6);
         defineBullet();
         fixture.setUserData(this);
-        if (speed < 0) {
+        if (speedX < 0) {
             img.flip(true, false);
         }
 
@@ -55,7 +59,7 @@ public class Bullet extends Sprite {
         setRegion(img);
         //setPosition(x, y);
         setPosition(bBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, bBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
-        setSize(12 / 5 / DinoDuel.PPM, 6 / 5 / DinoDuel.PPM);
+        setSize( (16f / 5f) / DinoDuel.PPM,  (8f / 5f) / DinoDuel.PPM);
 
     }//end constructor
 
@@ -66,7 +70,7 @@ public class Bullet extends Sprite {
         float hitNum = 10 - (gun.accuracy * (float) Math.random());
         if (hitNum < gun.accuracy) {
             //System.out.println("success");
-            target.health -= (float) (0.1*damage);
+            target.health -= (float) (0.1 * damage);
         }
     }
 
@@ -86,7 +90,7 @@ public class Bullet extends Sprite {
         fdef.filter.categoryBits = DinoDuel.CATEGORY_BULLET;
         fdef.filter.maskBits = DinoDuel.MASK_BULLET;
         fixture = bBody.createFixture(fdef);
-        bBody.setLinearVelocity(new Vector2(speed, 0));
+        bBody.setLinearVelocity(new Vector2(speedX, speedY));
         bBody.setBullet(true);
     }//end defineBullet
 
@@ -94,8 +98,12 @@ public class Bullet extends Sprite {
         this.user = dino;
     }
 
-    public void update() {
-        setPosition(bBody.getPosition().x - getWidth() / 2, bBody.getPosition().y - getHeight() / 2);
+    public void update(float dt) {
+        buildTime += dt;
+        if (buildTime < duration)
+            setPosition(bBody.getPosition().x - getWidth() / 2, bBody.getPosition().y - getHeight() / 2);
+        else
+            flag = true;
 
     }
 

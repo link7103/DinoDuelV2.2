@@ -38,6 +38,9 @@ public abstract class Weapon extends Sprite {
     public boolean drawn = false;
     public boolean update = false;
 
+    protected float buildTime=0;
+    protected float lastFireTime = 0;
+
     public Weapon (float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("weapons"));
         this.x = x;
@@ -58,7 +61,8 @@ public abstract class Weapon extends Sprite {
 
     public abstract void useWeapon();
 
-    public void update() {
+    public void update(float dt) {
+        buildTime+= dt;
         if (user != null) {
             if (user.isRunningRight()) {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
@@ -136,7 +140,7 @@ public abstract class Weapon extends Sprite {
 
         wBody.setAwake(true);
         this.clearUser();
-        this.update();
+        this.update(0);
     }//end dropped
 
 

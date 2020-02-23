@@ -17,10 +17,11 @@ public class Shotgun extends Gun {
         ammo = 8;
         magCap = 2;
         mag = magCap;
-        firerate = 3;
-        speed = 2;
+        firerate = 2;
+        speedX = 2;
         accuracy = 9;
-        damage = 5;
+        damage = 1;
+        duration = .25f;
 
 
         img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
@@ -33,6 +34,65 @@ public class Shotgun extends Gun {
     }//end constructor
 
     @Override
+    public void useWeapon() {
+        if (buildTime-lastFireTime>firerate) {
+
+            if (ammo > 0) {
+
+                if (mag > 0) {
+                    //fire
+                    if (user.isRunningRight()) {
+                        if (speedX < 0)
+                            speedX *= -1;
+
+                    } else {
+                        if (speedX > 0)
+                            speedX *= -1;
+
+                    }
+
+                    float bulletX;
+                    if (speedX > 0) {
+                        bulletX = getX() + getWidth();
+                    } else {
+                        bulletX = getX();
+                    }
+                    Bullet fired;
+
+                    fired = new Bullet(speedX, 0, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired.draw = true;
+                    screen.allBullets.add(fired);
+                    fired = new Bullet(speedX, 0.2f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired.draw = true;
+                    screen.allBullets.add(fired);
+                    fired = new Bullet(speedX, 0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired.draw = true;
+                    screen.allBullets.add(fired);
+                    fired = new Bullet(speedX, -0.2f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired.draw = true;
+                    screen.allBullets.add(fired);
+                    fired = new Bullet(speedX, -0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired.draw = true;
+                    screen.allBullets.add(fired);
+                    //System.out.println("Drew bullet");
+
+
+                    mag--;
+                    ammo--;
+                    lastFireTime=buildTime;
+
+                } else {
+                    //reload
+                    //System.out.println(this.getName() + " needs to be reloaded");
+                    mag = magCap;
+                    lastFireTime=buildTime;
+                }
+            } else {
+                empty = true;
+            }
+        }
+    }
+
 
 
     public String getName() {
