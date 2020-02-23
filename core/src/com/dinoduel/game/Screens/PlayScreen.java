@@ -31,6 +31,7 @@ import com.dinoduel.game.Weapons.Sniper;
 import com.dinoduel.game.Weapons.Gun;
 import com.dinoduel.game.Weapons.Shotgun;
 import com.dinoduel.game.Weapons.Pistol;
+import com.dinoduel.game.Weapons.Weapon;
 
 import java.util.ArrayList;
 
@@ -72,7 +73,7 @@ public class PlayScreen implements Screen {
 
     public static PlayScreen screen;
     //Weapon list
-    public ArrayList<Gun> allWeapons = new ArrayList<>();
+    public ArrayList<Weapon> allWeapons = new ArrayList<>();
     //Bullet list
     public ArrayList<Bullet> allBullets = new ArrayList<>();
     //GunBox List
@@ -166,7 +167,7 @@ public class PlayScreen implements Screen {
         //determined if gunboxes can spawn guns
         //spawns weapons if told to
         if (spawnWeapon) {
-            Gun spawn = null;
+            Weapon spawn = null;
             //int rand = (int) (Math.random() * 4);
             //Gdx.app.log("num", String.valueOf(rand));
             switch (spawnType) {
@@ -199,11 +200,13 @@ public class PlayScreen implements Screen {
         //tests for players on ladder
         for (Dino dino : allPlayers) {
             dino.climbing = false;
+            dino.currentLadder = null;
             for (Ladder ladder : allLadders) {
                 //System.out.println("x "+ladder.bounds.x+ "dino x " + dino.b2body.getPosition().x);
                 if (ladder.bounds.contains(dino.b2body.getPosition().x * DinoDuel.PPM, dino.b2body.getPosition().y * DinoDuel.PPM - dino.getHeight() / 2)) {
                     if (dino.KEYUP || dino.KEYDOWN || dino.previousState == Dino.State.CLIMBING) {
                         dino.climbing = true;
+                        dino.currentLadder = ladder;
                     }
                     break;
                 }
@@ -213,20 +216,20 @@ public class PlayScreen implements Screen {
 
         //updates player sprite position
         player1.update(dt);
-        for (Gun updateGun : allWeapons) {
-            if (updateGun.getUser() == player1) {
-                updateGun.update();
-                updateGun.update = true;
+        for (Weapon updateWeapon : allWeapons) {
+            if (updateWeapon.getUser() == player1) {
+                updateWeapon.update();
+                updateWeapon.update = true;
             }
         }
 
         player2.update(dt);
 
-        for (Gun updateGun : allWeapons) {
-            if (!updateGun.drawn)
-                updateGun.update();
+        for (Weapon updateWeapon : allWeapons) {
+            if (!updateWeapon.drawn)
+                updateWeapon.update();
             else
-                updateGun.update = false;
+                updateWeapon.update = false;
         }
 
         for (Bullet updateBullet : allBullets) {
@@ -259,15 +262,15 @@ public class PlayScreen implements Screen {
             }
         }
 
-/* This doesnt actually do anything
-        if (player1.currentLadder != null) {
-            if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-                player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
-                System.out.println("hola");
+//works
+        if (player1.climbing) {
+            if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                player1.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player1.b2body.getWorldCenter(), true);
+                //System.out.println("hola");
             }
         }
 
- */
+
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
             player1.KEYRIGHT = true;
@@ -427,23 +430,23 @@ public class PlayScreen implements Screen {
 
         player1.draw(game.batch);
         //Used to draw at the same time as p1
-        for (Gun drawGun : allWeapons) {
-            if (drawGun.getUser() == player1) {
-                drawGun.setSize(drawGun.xSize / 10 / DinoDuel.PPM, drawGun.ySize / 10 / DinoDuel.PPM);
-                drawGun.draw(game.batch);
-                drawGun.drawn = true;
+        for (Weapon drawWeapon : allWeapons) {
+            if (drawWeapon.getUser() == player1) {
+                drawWeapon.setSize(drawWeapon.xSize / 10 / DinoDuel.PPM, drawWeapon.ySize / 10 / DinoDuel.PPM);
+                drawWeapon.draw(game.batch);
+                drawWeapon.drawn = true;
             }
         }
 
 
         player2.draw(game.batch);
 
-        for (Gun drawGun : allWeapons) {
-            if (!drawGun.drawn) {
-                drawGun.setSize(drawGun.xSize / 10 / DinoDuel.PPM, drawGun.ySize / 10 / DinoDuel.PPM);
-                drawGun.draw(game.batch);
+        for (Weapon drawWeapon : allWeapons) {
+            if (!drawWeapon.drawn) {
+                drawWeapon.setSize(drawWeapon.xSize / 10 / DinoDuel.PPM, drawWeapon.ySize / 10 / DinoDuel.PPM);
+                drawWeapon.draw(game.batch);
             } else {
-                drawGun.drawn = false;
+                drawWeapon.drawn = false;
             }
         }
 

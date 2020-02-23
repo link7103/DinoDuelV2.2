@@ -37,6 +37,8 @@ public class Dino extends Sprite {
     public World world;
     public Body b2body;
 
+    PlayScreen screen;
+
     //Animations and Textures
     private TextureRegion dinoIdle0;
     private Animation<TextureRegion> dinoIdle;
@@ -60,10 +62,12 @@ public class Dino extends Sprite {
     public boolean climbing;
 
     //Directions
-    public boolean KEYUP;
-    public boolean KEYDOWN;
-    public boolean KEYRIGHT;
-    public boolean KEYLEFT;
+    public boolean KEYUP = false;
+    public boolean KEYDOWN= false;
+    public boolean KEYRIGHT = false;
+    public boolean KEYLEFT = false;
+
+    public Ladder currentLadder = null;
 
     //Health
     public float health;
@@ -72,6 +76,7 @@ public class Dino extends Sprite {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         this.world = world;
+        this.screen = screen;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
@@ -123,7 +128,9 @@ public class Dino extends Sprite {
         } else {
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
         }
+
         setRegion(getFrame(dt));
+
         if (weapon != null) {
             weapon.update();
         }
@@ -131,6 +138,7 @@ public class Dino extends Sprite {
     }//end update
 
     public TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
+
         currentState = getState();
 
         TextureRegion region;
@@ -177,14 +185,18 @@ public class Dino extends Sprite {
         //Sets different states
         if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
+
             return State.JUMPING;
         } else if (b2body.getLinearVelocity().y < 0 && !playerDucking && previousState == State.DUCKFALLING) {
             defineDino(2);
+
             return State.FALLING;
         }else if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && b2body.getLinearVelocity().y == 0)) {
             defineDino(1);
+
         } else if ((!playerDucking && (previousState == State.DUCKING || previousState == State.DUCKRUNNING)) || (previousState == State.CLIMBING && !climbing)) {
             defineDino(2);
+
         }
 
         if (climbing && previousState != State.CLIMBING) {
@@ -347,14 +359,14 @@ public class Dino extends Sprite {
         }
     }//end defineDino
 
-    public void pickupWeapon(ArrayList<Gun> allGuns) {
-        for (Gun gun : allGuns) {
+    public void pickupWeapon(ArrayList<Weapon> allWeapons) {
+        for (Weapon weapon : allWeapons) {
             if (!hasWeapon) {
                 //Checks to see if the x and y coordinate of the Dino is inside of the gun (+ of - a couple of pixels to be safe)
-                if (((gun.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (gun.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (gun.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) && !gun.inUse) {
+                if (((weapon.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) && !weapon.inUse) {
                     hasWeapon = true;
-                    gun.setUser(this);
-                    weapon = gun;
+                    weapon.setUser(this);
+                    this.weapon = weapon;
                     break;
                 }
             }
