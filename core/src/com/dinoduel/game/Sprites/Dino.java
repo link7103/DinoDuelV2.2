@@ -58,7 +58,6 @@ public class Dino extends Sprite {
 
     //determine if climbing
     public boolean climbing;
-    public Ladder currentLadder;
 
     //Directions
     public boolean KEYUP;
@@ -267,6 +266,7 @@ public class Dino extends Sprite {
             bdef.position.set(currentPosition);
 
             if (instruction == 1) {//Duck
+                System.out.println(1);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
 
@@ -296,6 +296,7 @@ public class Dino extends Sprite {
 
                  */
             } else if (instruction == 2) {//Unduck
+                System.out.println(2);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
 
@@ -320,6 +321,7 @@ public class Dino extends Sprite {
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
             } else if (instruction == 3) { //Climbing
+                System.out.println(3);
                 currentVelocity = new Vector2(0, 0);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
