@@ -12,7 +12,12 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
-import com.dinoduel.game.Sprites.GunBox;
+import com.dinoduel.game.Sprites.GunBox.AKGunBox;
+import com.dinoduel.game.Sprites.GunBox.GunBox;
+
+import com.dinoduel.game.Sprites.GunBox.PistolGunBox;
+import com.dinoduel.game.Sprites.GunBox.ShotgunGunBox;
+import com.dinoduel.game.Sprites.GunBox.SniperGunBox;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
 import com.dinoduel.game.Sprites.Ladder;
 import com.dinoduel.game.Sprites.SemiSolid;
@@ -72,6 +77,40 @@ public class B2WorldCreator {
             InteractiveTileObject newBox = new GunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
+
+        //pistol red GunBox 12
+        for (MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)
+        ) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            InteractiveTileObject newBox = new PistolGunBox(world, map, rect, screen);
+            screen.allBoxes.add(newBox);
+        }
+
+        //shotgun blue GunBox 8
+        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)
+        ) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            InteractiveTileObject newBox = new ShotgunGunBox(world, map, rect, screen);
+            screen.allBoxes.add(newBox);
+        }
+
+        //sniper purple GunBox 11
+        for (MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)
+        ) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            InteractiveTileObject newBox = new SniperGunBox(world, map, rect, screen);
+            screen.allBoxes.add(newBox);
+        }
+
+        //AK pink GunBox 10
+        for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)
+        ) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            InteractiveTileObject newBox = new AKGunBox(world, map, rect, screen);
+            screen.allBoxes.add(newBox);
+        }
+
+        //
        //here
         //SemiSolids 15
 

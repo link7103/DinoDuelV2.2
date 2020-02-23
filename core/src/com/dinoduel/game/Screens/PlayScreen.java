@@ -21,21 +21,19 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Scenes.Hud;
 import com.dinoduel.game.Sprites.Dino;
+
 import com.dinoduel.game.Sprites.InteractiveTileObject;
 import com.dinoduel.game.Sprites.Ladder;
 import com.dinoduel.game.Tools.B2WorldCreator;
 import com.dinoduel.game.Tools.WorldContactListener;
-import com.dinoduel.game.Weapons.AK;
-import com.dinoduel.game.Weapons.Bullet;
-import com.dinoduel.game.Weapons.Sniper;
-import com.dinoduel.game.Weapons.Gun;
-import com.dinoduel.game.Weapons.Shotgun;
-import com.dinoduel.game.Weapons.Pistol;
-import com.dinoduel.game.Weapons.Weapon;
+import com.dinoduel.game.Sprites.Weapons.AK;
+import com.dinoduel.game.Sprites.Weapons.Bullet;
+import com.dinoduel.game.Sprites.Weapons.Sniper;
+import com.dinoduel.game.Sprites.Weapons.Shotgun;
+import com.dinoduel.game.Sprites.Weapons.Pistol;
+import com.dinoduel.game.Sprites.Weapons.Weapon;
 
 import java.util.ArrayList;
-
-import sun.management.counter.perf.PerfLongArrayCounter;
 
 import static java.lang.StrictMath.abs;
 
