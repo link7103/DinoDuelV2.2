@@ -78,19 +78,22 @@ public class B2WorldCreator {
             screen.allBoxes.add(newBox);
         }
 
-        //pistol red GunBox 12
-        for (MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)
-        ) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            InteractiveTileObject newBox = new PistolGunBox(world, map, rect, screen);
-            screen.allBoxes.add(newBox);
-        }
+
 
         //shotgun blue GunBox 8
         for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             InteractiveTileObject newBox = new ShotgunGunBox(world, map, rect, screen);
+            screen.allBoxes.add(newBox);
+        }
+
+
+        //AK pink GunBox 10
+        for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)
+        ) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            InteractiveTileObject newBox = new AKGunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
 
@@ -101,14 +104,15 @@ public class B2WorldCreator {
             InteractiveTileObject newBox = new SniperGunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
-
-        //AK pink GunBox 10
-        for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)
+        //pistol red GunBox 12
+        for (MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            InteractiveTileObject newBox = new AKGunBox(world, map, rect, screen);
+            InteractiveTileObject newBox = new PistolGunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
+
+
 
         //
        //here

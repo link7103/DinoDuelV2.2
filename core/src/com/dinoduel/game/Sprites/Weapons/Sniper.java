@@ -19,6 +19,7 @@ public class Sniper extends Gun {
         firerate = 1;
         speed = 2;
         accuracy = 10;
+        damage = 10;
 
 
         img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);

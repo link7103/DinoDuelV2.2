@@ -18,7 +18,7 @@ public abstract class Weapon extends Sprite {
     protected TextureRegion img;
 
     public boolean inUse = false;
-    protected int damage;
+    protected double damage;
     protected PlayScreen screen;
 
     public boolean empty = false;

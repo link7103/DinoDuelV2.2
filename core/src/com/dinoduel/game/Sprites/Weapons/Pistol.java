@@ -20,6 +20,7 @@ public class Pistol extends Gun {
         firerate = 7;
         speed = 2;
         accuracy = 7;
+        damage = 3.4;
 
 
 

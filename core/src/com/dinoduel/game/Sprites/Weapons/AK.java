@@ -19,6 +19,7 @@ public class AK extends Gun {
         firerate = 10;
         speed = 2;
         accuracy = 6;
+        damage = 3.4;
 
 
 

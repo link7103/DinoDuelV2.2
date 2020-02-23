@@ -16,7 +16,7 @@ import com.dinoduel.game.Sprites.Dino;
 public class Bullet extends Sprite {
     public float speed;
     private int duration;
-    public int damage;
+    public double damage;
     private float x;
     private float y;
     public Body bBody;
@@ -32,7 +32,7 @@ public class Bullet extends Sprite {
 
     public Fixture fixture;
 
-    public Bullet(float s, int dr, int dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun) {
+    public Bullet(float s, int dr, double dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun) {
         super(screen.getweaponAtlas().findRegion("weapons"));
         this.speed = s;
         this.duration = dr;
@@ -62,12 +62,11 @@ public class Bullet extends Sprite {
     public void hit(Dino target) {
         //add code so that when hit, decrease by damage
         //additional feature, accuracy, random number generated multiplied by accuracy multiplier
-        System.out.println("hit ");
+        //System.out.println("hit ");
         float hitNum = 10 - (gun.accuracy * (float) Math.random());
         if (hitNum < gun.accuracy) {
-            System.out.println("success");
-            // TODO: 2020-02-20 Damage 
-            target.health -= 0.1f;
+            //System.out.println("success");
+            target.health -= (float) (0.1*damage);
         }
     }
 

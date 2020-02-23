@@ -68,15 +68,13 @@ public abstract class Gun extends Weapon  {
                 screen.allBullets.add(fired);
                 //System.out.println("Drew bullet");
 
-                // TODO: 2020-02-11 change to speed variable
-                //fired.bBody.setLinearVelocity(20/DinoDuel.PPM, 0);
 
                 mag--;
                 ammo--;
 
             } else {
                 //reload
-                System.out.println(this.getName() + " needs to be reloaded");
+                //System.out.println(this.getName() + " needs to be reloaded");
                 mag = magCap;
             }
         } else {

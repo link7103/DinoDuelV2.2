@@ -20,6 +20,7 @@ public class Shotgun extends Gun {
         firerate = 3;
         speed = 2;
         accuracy = 9;
+        damage = 5;
 
 
         img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
