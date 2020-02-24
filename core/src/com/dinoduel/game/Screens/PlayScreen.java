@@ -144,7 +144,6 @@ public class PlayScreen implements Screen {
 
     //dt = delta time
     public void update(float dt) { //Updates the screen every frame
-
         //handle user input first
         handleInput(dt);
 
@@ -160,7 +159,6 @@ public class PlayScreen implements Screen {
         }
         //takes 1 step in the physics simulation ( 60 times per second)
         world.step(1 / 60f, 6, 2);
-
 
         //determined if gunboxes can spawn guns
         //spawns weapons if told to
@@ -195,7 +193,7 @@ public class PlayScreen implements Screen {
             spawn = null;
         }
 
-        //tests for players on ladder
+        //Tests for players on a ladder
         for (Dino dino : allPlayers) {
             dino.climbing = false;
             dino.currentLadder = null;
@@ -212,7 +210,7 @@ public class PlayScreen implements Screen {
 
         }
 
-        //updates player sprite position
+        //Updates player sprite position
         player1.update(dt);
         for (Weapon updateWeapon : allWeapons) {
             if (updateWeapon.getUser() == player1) {
@@ -260,15 +258,11 @@ public class PlayScreen implements Screen {
             }
         }
 
-//works
         if (player1.climbing) {
             if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 player1.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player1.b2body.getWorldCenter(), true);
-                //System.out.println("hola");
             }
         }
-
-
 
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
             player1.KEYRIGHT = true;
@@ -342,15 +336,13 @@ public class PlayScreen implements Screen {
             }
         }
 
-/*
-        if (player2.currentLadder != null) {
-            if ((player2.b2body.getPosition().y * DinoDuel.PPM >= player2.currentLadder.bounds.y + player2.currentLadder.bounds.height - 3f) && Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-                player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
+        if (player2.climbing) {
+            if ((player2.b2body.getPosition().y * DinoDuel.PPM >= player2.currentLadder.bounds.y + player2.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.W)) {
+                player2.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player2.b2body.getWorldCenter(), true);
+
             }
         }
 
-
- */
         if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.b2body.getLinearVelocity().x <= 2) {
             player2.KEYRIGHT = true;
             player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);
@@ -480,7 +472,6 @@ public class PlayScreen implements Screen {
 
 
         game.batch.end();
-
     }//end render
 
     public void setCameraPosition() {
@@ -580,6 +571,4 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         hud.dispose();
     }//end dispose
-
-
 }//end class
