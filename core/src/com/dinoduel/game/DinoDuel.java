@@ -29,7 +29,6 @@ public class DinoDuel extends Game {
     public static final short MASK_SEMISOLID = CATEGORY_DINO | CATEGORY_BULLET;
 
 
-
     public SpriteBatch batch;
 
     @Override
@@ -43,4 +42,3 @@ public class DinoDuel extends Game {
         super.render();
     }//end render
 }//end class
-//testing

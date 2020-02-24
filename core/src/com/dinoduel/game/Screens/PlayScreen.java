@@ -119,7 +119,6 @@ public class PlayScreen implements Screen {
 
         //contact listener stuff
         world.setContactListener(new WorldContactListener());
-        // TODO: 2020-02-20 Health
         blank = new Texture("blank.png");
 
     }//end constructor

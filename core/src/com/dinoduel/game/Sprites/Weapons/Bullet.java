@@ -24,7 +24,6 @@ public class Bullet extends Sprite {
     public World world;
     public boolean flag = false;
 
-
     private TextureRegion img;
     protected Dino user;
     public boolean draw = false;
@@ -59,7 +58,7 @@ public class Bullet extends Sprite {
         setRegion(img);
         //setPosition(x, y);
         setPosition(bBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, bBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
-        setSize( (16f / 5f) / DinoDuel.PPM,  (8f / 5f) / DinoDuel.PPM);
+        setSize((16f / 5f) / DinoDuel.PPM, (8f / 5f) / DinoDuel.PPM);
 
     }//end constructor
 
@@ -72,7 +71,7 @@ public class Bullet extends Sprite {
             //System.out.println("success");
             target.health -= (float) (0.1 * damage);
         }
-    }
+    }//end hit
 
     public void defineBullet() {
         BodyDef bdef = new BodyDef();
@@ -96,7 +95,7 @@ public class Bullet extends Sprite {
 
     public void setUser(Dino dino) {
         this.user = dino;
-    }
+    }//end setUser
 
     public void update(float dt) {
         buildTime += dt;
@@ -104,8 +103,5 @@ public class Bullet extends Sprite {
             setPosition(bBody.getPosition().x - getWidth() / 2, bBody.getPosition().y - getHeight() / 2);
         else
             flag = true;
-
-    }
-
-
-}
+    }//end Update
+}//end class

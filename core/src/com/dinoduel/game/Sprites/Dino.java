@@ -57,7 +57,7 @@ public class Dino extends Sprite {
 
     //Directions
     public boolean KEYUP = false;
-    public boolean KEYDOWN= false;
+    public boolean KEYDOWN = false;
     public boolean KEYRIGHT = false;
     public boolean KEYLEFT = false;
 
@@ -185,7 +185,7 @@ public class Dino extends Sprite {
             defineDino(2);
 
             return State.FALLING;
-        }else if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && b2body.getLinearVelocity().y == 0)) {
+        } else if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && b2body.getLinearVelocity().y == 0)) {
             defineDino(1);
 
         } else if ((!playerDucking && (previousState == State.DUCKING || previousState == State.DUCKRUNNING)) || (previousState == State.CLIMBING && !climbing)) {
@@ -374,7 +374,7 @@ public class Dino extends Sprite {
     }//end dropGun
 
     public void useWeapon() {
-            weapon.useWeapon();
+        weapon.useWeapon();
     }
 
     public Weapon getWeapon() {
@@ -403,7 +403,7 @@ public class Dino extends Sprite {
 
     public void healthCheck() {
         if (health <= 0) {
-            if(hasWeapon) {
+            if (hasWeapon) {
                 dropWeapon();
             }
             world.destroyBody(b2body);

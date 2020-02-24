@@ -11,40 +11,30 @@ import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
 
 public class GunBox extends InteractiveTileObject {
-
     public PlayScreen screen;
 
     public GunBox(World world, TiledMap map, Rectangle bounds, PlayScreen screen) {
         super(world, map, bounds, screen);
-
         defineGunBox();
         fixture.setUserData(this);
-
         this.screen = screen;
-
-
-    }
+    }//end Constructor
 
     @Override
     public int onHeadHit() {
         //Gdx.app.log("Gun Box", "Collision");
         //generates random number to be passed in play screen to choose gun
         //needs to be adjusted for more weapons
-
-        if (System.nanoTime()/(float)(Math.pow(10, 9)) - startTime <=15) {
+        if (System.nanoTime() / (float) (Math.pow(10, 9)) - startTime <= 15) {
 
             return -1;
-        } else  {
-            startTime = System.nanoTime()/(float)(Math.pow(10, 9));
+        } else {
+            startTime = System.nanoTime() / (float) (Math.pow(10, 9));
             return (int) (Math.random() * 4);
 
         }
-
-
         //create random weapon
-
-    }
-
+    }//end onHeadHit
 
 
     public void defineGunBox() {
@@ -62,7 +52,5 @@ public class GunBox extends InteractiveTileObject {
         fDef.filter.categoryBits = DinoDuel.CATEGORY_GUNBOX;
         fDef.filter.maskBits = DinoDuel.MASK_GUNBOX;
         fixture = body.createFixture(fDef);
-
-    }
-
-}
+    }//end defineGunBox
+}//end class

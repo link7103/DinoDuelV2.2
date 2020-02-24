@@ -10,13 +10,9 @@ public class PistolGunBox extends GunBox {
     //Red
     public PistolGunBox(World world, TiledMap map, Rectangle bounds, PlayScreen screen) {
         super(world, map, bounds, screen);
-    }
+    }//end Constructor
 
     public int onHeadHit() {
-        //Gdx.app.log("Gun Box", "Collision");
-        //generates random number to be passed in play screen to choose gun
-        //needs to be adjusted for more weapons
-
         if (System.nanoTime()/(float)(Math.pow(10, 9)) - startTime <=15) {
 
             return -1;
@@ -25,9 +21,5 @@ public class PistolGunBox extends GunBox {
             return 0;
 
         }
-
-
-        //create random weapon
-
-    }
-}
+    }//end onHeadHit
+}//end class

@@ -8,12 +8,11 @@ import com.dinoduel.game.Screens.PlayScreen;
 public class Shotgun extends Gun {
 
     public Shotgun(float x, float y, World world, PlayScreen screen) {
-
         super(x, y, world, screen);
         xSize = 161;
         ySize = 54;
-        heldXOffset = (float)0.05;
-        heldYOffset = (float)-0.02;
+        heldXOffset =  0.05f;
+        heldYOffset =  -0.02f;
         ammo = 8;
         magCap = 2;
         mag = magCap;
@@ -23,32 +22,27 @@ public class Shotgun extends Gun {
         damage = 1;
         duration = .25f;
 
-
         img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
-        setPosition(wBody.getPosition().x/DinoDuel.PPM-getWidth()/2, wBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
+        setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
     }//end constructor
 
     @Override
     public void useWeapon() {
-        if (buildTime-lastFireTime>firerate) {
-
+        if (buildTime - lastFireTime > firerate) {
             if (ammo > 0) {
-
                 if (mag > 0) {
                     //fire
                     if (user.isRunningRight()) {
                         if (speedX < 0)
                             speedX *= -1;
-
                     } else {
                         if (speedX > 0)
                             speedX *= -1;
-
                     }
 
                     float bulletX;
@@ -74,30 +68,23 @@ public class Shotgun extends Gun {
                     fired = new Bullet(speedX, -0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
                     fired.draw = true;
                     screen.allBullets.add(fired);
-                    //System.out.println("Drew bullet");
-
 
                     mag--;
                     ammo--;
-                    lastFireTime=buildTime;
-
+                    lastFireTime = buildTime;
                 } else {
                     //reload
-                    //System.out.println(this.getName() + " needs to be reloaded");
                     mag = magCap;
-                    lastFireTime=buildTime;
+                    lastFireTime = buildTime;
                 }
             } else {
                 empty = true;
             }
         }
-    }
-
-
+    }//end useWeapon
 
     public String getName() {
         return "Shotgun";
     }//end getName
-
 }//end class
 

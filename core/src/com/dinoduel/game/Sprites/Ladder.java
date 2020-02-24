@@ -13,6 +13,7 @@ public class Ladder extends Sprite {
     protected TiledMap map;
     //protected TiledMapTile tile;
     public Rectangle bounds;
+
     public Ladder(World world, TiledMap map, Rectangle bounds, PlayScreen screen) {
         this.world = world;
         this.bounds = bounds;

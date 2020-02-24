@@ -11,8 +11,8 @@ public class Pistol extends Gun {
 
         xSize = 120;
         ySize = 66;
-        heldXOffset = (float)0.03;
-        heldYOffset = (float)-0.018;
+        heldXOffset = 0.03f;
+        heldYOffset = -0.018f;
 
         ammo = 12;
         magCap = 4;
@@ -23,8 +23,6 @@ public class Pistol extends Gun {
         damage = 3.4;
         duration = .5f;
 
-
-
         img = new TextureRegion(getTexture(), 0, 120, xSize, ySize);
 
         defineWeapon();
@@ -32,14 +30,10 @@ public class Pistol extends Gun {
 
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
-        setPosition(wBody.getPosition().x/DinoDuel.PPM-getWidth()/2, wBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
+        setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
     }//end constructor
-
-    @Override
-
 
     public String getName() {
         return "Pistol";
     }//end getName
-
 }//end class

@@ -30,15 +30,17 @@ public class WorldContactListener implements ContactListener {
                 PlayScreen.screen.spawnWeapon(((InteractiveTileObject) object.getUserData()));
             }
         }
+
         //Bullet collision detection
         if ((fixA.getUserData() instanceof Bullet || fixB.getUserData() instanceof Bullet)) {
             Fixture bullet = fixA.getUserData() instanceof Bullet ? fixA : fixB;
             Fixture object = bullet == fixA ? fixB : fixA;
             ((Bullet) bullet.getUserData()).flag = true;
-            if (object.getUserData() instanceof Dino ) {
+            if (object.getUserData() instanceof Dino) {
                 ((Bullet) bullet.getUserData()).hit((Dino) object.getUserData());
             }
         }
+
         //Detection for SemiSolids
         if ((fixA.getUserData() instanceof Dino || fixB.getUserData() instanceof Dino)) {
             Fixture body = fixA.getUserData() instanceof Dino ? fixA : fixB;
@@ -47,11 +49,9 @@ public class WorldContactListener implements ContactListener {
                 if (((Dino) body.getUserData()).isDucking() || ((Dino) body.getUserData()).getYVel() > 0) {
                     canCollide = false;
                 }
-
             } else {
                 canCollide = true;
             }
-
         }
     }//end begin contact
 
@@ -70,7 +70,7 @@ public class WorldContactListener implements ContactListener {
                 }
             }
         }
-    }
+    }//end endContact
 
     @Override
     public void preSolve(Contact contact, Manifold oldManifold) {
@@ -87,13 +87,10 @@ public class WorldContactListener implements ContactListener {
                 }
             }
         }
-
-
-    }
+    }//end presolve
 
     @Override
     public void postSolve(Contact contact, ContactImpulse impulse) {
 
-    }
-
+    }//end postSolve
 }//end WorldContactListener

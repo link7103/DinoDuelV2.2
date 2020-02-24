@@ -22,23 +22,17 @@ public class AK extends Gun {
         damage = 3.4;
         duration = .75f;
 
-
-
         img = new TextureRegion(getTexture(), 198, 54, xSize, ySize);
 
         defineWeapon();
         fixture.setUserData("gun");
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
-        setPosition(wBody.getPosition().x/DinoDuel.PPM-getWidth()/2, wBody.getPosition().y/DinoDuel.PPM-getHeight()/2);
-    }//end class
-
-    @Override
-
+        setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
+    }//end Consrtuctor
 
     public String getName() {
         return "AK";
     }//end getName
-
 }//end class
 

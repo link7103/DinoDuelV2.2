@@ -38,16 +38,16 @@ public abstract class Weapon extends Sprite {
     public boolean drawn = false;
     public boolean update = false;
 
-    protected float buildTime=0;
+    protected float buildTime = 0;
     protected float lastFireTime = 0;
 
-    public Weapon (float x, float y, World world, PlayScreen screen) {
+    public Weapon(float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("weapons"));
         this.x = x;
         this.y = y;
         this.world = world;
         this.screen = screen;
-    }
+    }//end Constructor
 
     public TextureRegion getFrame() {
         TextureRegion region = img;
@@ -62,7 +62,7 @@ public abstract class Weapon extends Sprite {
     public abstract void useWeapon();
 
     public void update(float dt) {
-        buildTime+= dt;
+        buildTime += dt;
         if (user != null) {
             if (user.isRunningRight()) {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
@@ -82,18 +82,17 @@ public abstract class Weapon extends Sprite {
                 screen.allWeapons.remove(this);
             }
         }
-
     }//end update
 
     public void defineWeapon() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(x/ DinoDuel.PPM , y/DinoDuel.PPM );
+        bdef.position.set(x / DinoDuel.PPM, y / DinoDuel.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
         wBody = world.createBody(bdef);
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(xSize/20  / DinoDuel.PPM, ySize/20 / DinoDuel.PPM);
+        shape.setAsBox(xSize / 20 / DinoDuel.PPM, ySize / 20 / DinoDuel.PPM);
 
         fdef.shape = shape;
 
@@ -110,8 +109,8 @@ public abstract class Weapon extends Sprite {
             wBody = null;
             inUse = true;
         }
-
     }//end setUser
+
     public Dino getUser() {
         return this.user;
     }//end getUser
@@ -142,7 +141,4 @@ public abstract class Weapon extends Sprite {
         this.clearUser();
         this.update(0);
     }//end dropped
-
-
-
-}
+}//end class

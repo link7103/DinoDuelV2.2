@@ -18,12 +18,12 @@ public class SemiSolid extends InteractiveTileObject {
         defineSemiSolid();
         fixture.setUserData(this);
         this.screen = screen;
-    }
+    }//end Constructor
 
     @Override
     public int onHeadHit() {
         return -1;
-    }
+    }//end onHeadHit
 
 
 
@@ -42,7 +42,6 @@ public class SemiSolid extends InteractiveTileObject {
         fDef.filter.categoryBits = DinoDuel.CATEGORY_SEMISOLID;
         fDef.filter.maskBits = DinoDuel.MASK_SEMISOLID;
         fixture = body.createFixture(fDef);
-    }
-
-}
+    }//end defineSemiSolid
+}//end SemiSolid
 

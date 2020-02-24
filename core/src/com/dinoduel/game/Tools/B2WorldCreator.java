@@ -23,10 +23,7 @@ import com.dinoduel.game.Sprites.Ladder;
 import com.dinoduel.game.Sprites.SemiSolid;
 
 public class B2WorldCreator {
-
-
     public B2WorldCreator(World world, TiledMap map, PlayScreen screen) {
-
         BodyDef bDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fDef = new FixtureDef();
@@ -34,7 +31,8 @@ public class B2WorldCreator {
         Fixture fixture;
 
         //the first get(x); x = layer number in tiled counting from bottom up starting at 0
-        //Ground layer
+
+        //Ground layer 5
         for (MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
@@ -50,12 +48,10 @@ public class B2WorldCreator {
             fDef.filter.maskBits = DinoDuel.MASK_SCENERY;
             fixture = body.createFixture(fDef);
             fixture.setUserData("ground");
-
         }
 
         //Guns 6
-        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)
-        ) {
+        for (MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
 
             bDef.type = BodyDef.BodyType.StaticBody;
@@ -70,59 +66,43 @@ public class B2WorldCreator {
             fixture = body.createFixture(fDef);
             fixture.setUserData("ground");
         }
-        //normal GunBox 7
-        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)
-        ) {
+
+        //Normal GunBox 7
+        for (MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             InteractiveTileObject newBox = new GunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
 
-
-
-        //shotgun blue GunBox 8
-        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)
-        ) {
+        //Shotgun (Blue) GunBox 8
+        for (MapObject object : map.getLayers().get(8).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             InteractiveTileObject newBox = new ShotgunGunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
 
-
-        //AK pink GunBox 10
-        for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)
-        ) {
+        //AK (Pink) GunBox 10
+        for (MapObject object : map.getLayers().get(10).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             InteractiveTileObject newBox = new AKGunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
 
-        //sniper purple GunBox 11
-        for (MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)
-        ) {
+        //Sniper (Purple) GunBox 11
+        for (MapObject object : map.getLayers().get(11).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             InteractiveTileObject newBox = new SniperGunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
-        //pistol red GunBox 12
-        for (MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)
-        ) {
+
+        //Pistol (Red) GunBox 12
+        for (MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             InteractiveTileObject newBox = new PistolGunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
 
-
-
-        //
-       //here
-        //SemiSolids 15
-
-        for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            new SemiSolid(world, map, rect, screen);
-        }
-
+        //Ladders 14
         for (MapObject object : map.getLayers().get(14).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             System.out.println(rect.width + " "+ rect.x );
@@ -130,6 +110,11 @@ public class B2WorldCreator {
             screen.allLadders.add(newLadder);
         }
 
+        //SemiSolids 15
+        for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            new SemiSolid(world, map, rect, screen);
+        }
 
-    }
+    }//end Constructor
 }//end class

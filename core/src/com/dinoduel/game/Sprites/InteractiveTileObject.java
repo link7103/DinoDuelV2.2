@@ -22,7 +22,7 @@ public abstract class InteractiveTileObject {
         this.world = world;
         this.map = map;
         this.bounds = bounds;
-    }
+    }//end Constructor
 
     public abstract int onHeadHit();
     public float getSpawnX() {
