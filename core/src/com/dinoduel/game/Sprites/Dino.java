@@ -113,8 +113,7 @@ public class Dino extends Sprite {
         frames.add(new TextureRegion(getTexture(), 15 * 24, spriteStartingYValue, 24, 24));
         frames.add(new TextureRegion(getTexture(), 14 * 24, spriteStartingYValue, 24, 24));
 
-
-        dinoDies = new Animation(0.15f, frames);
+        dinoDies = new Animation(0.105f, frames);
         frames.clear();
 
         //Finishes setting up the dino and sets its sprite.
