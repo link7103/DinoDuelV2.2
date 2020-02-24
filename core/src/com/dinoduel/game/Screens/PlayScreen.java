@@ -16,6 +16,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
@@ -85,6 +86,7 @@ public class PlayScreen implements Screen {
     public Texture blank;
 
     public PlayScreen(DinoDuel game) {
+
         screen = this;
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
         weaponAtlas = new TextureAtlas("Weapons/weapons.txt");
@@ -93,7 +95,7 @@ public class PlayScreen implements Screen {
         //Camera that follows the players
         gameCam = new OrthographicCamera();
         //Fits the proper aspect ratio
-        gamePort = new FitViewport(DinoDuel.V_WIDTH / DinoDuel.PPM, DinoDuel.V_HEIGHT / DinoDuel.PPM, gameCam);
+        gamePort = new FillViewport(DinoDuel.V_WIDTH / DinoDuel.PPM, DinoDuel.V_HEIGHT / DinoDuel.PPM, gameCam);
         //Creates the hud
         hud = new Hud(game.batch);
         //Renders the map
@@ -477,8 +479,8 @@ public class PlayScreen implements Screen {
     public void setCameraPosition() {
 //attach the gamecam to the the middle x and y coordinate
         gameCam.position.x = (player1.b2body.getPosition().x + player2.b2body.getPosition().x) / 2;
-
         gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
+
         float xRatio = DinoDuel.V_WIDTH / DinoDuel.PPM / abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
         float yRatio = DinoDuel.V_HEIGHT / DinoDuel.PPM / abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
 

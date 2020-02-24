@@ -233,7 +233,7 @@ public class Dino extends Sprite {
             fdef.filter.maskBits = DinoDuel.MASK_DINO;
 
             PolygonShape headShape = new PolygonShape();
-            headShape.setAsBox(7 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
+            headShape.setAsBox(6 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
             fdef.shape = headShape;
             b2body.createFixture(fdef).setUserData(this);
 
@@ -261,10 +261,7 @@ public class Dino extends Sprite {
             fdef.shape = left;
             fdef.isSensor = true;
             b2body.createFixture(fdef).setUserData("side");
-
              */
-
-
         } else {
             Vector2 currentPosition = b2body.getPosition();
             Vector2 currentVelocity = b2body.getLinearVelocity();
@@ -298,11 +295,8 @@ public class Dino extends Sprite {
                 fdef.shape = left;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("side");
-
-
                  */
             } else if (instruction == 2) {//Unduck
-                //System.out.println(2);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
 
@@ -311,7 +305,7 @@ public class Dino extends Sprite {
                 fdef.filter.maskBits = DinoDuel.MASK_DINO;
 
                 PolygonShape headShape = new PolygonShape();
-                headShape.setAsBox(7 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
+                headShape.setAsBox(6 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
                 fdef.shape = headShape;
                 b2body.createFixture(fdef).setUserData(this);
 
@@ -327,7 +321,6 @@ public class Dino extends Sprite {
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
             } else if (instruction == 3) { //Climbing
-                //System.out.println(3);
                 currentVelocity = new Vector2(0, 0);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
