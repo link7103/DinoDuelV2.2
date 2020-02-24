@@ -22,7 +22,7 @@ import java.util.ArrayList;
 
 public class Dino extends Sprite {
     //States
-    public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING, KICKING}
+    public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING, KICKING, DEAD}
 
     public State currentState;
     public State previousState;
@@ -40,6 +40,7 @@ public class Dino extends Sprite {
     private Animation<TextureRegion> dinoRun;
     private Animation<TextureRegion> dinoJump;
     private Animation<TextureRegion> dinoDuckRun;
+    private Animation<TextureRegion> dinoDies;
 
     //Used for mapping the textures
     private boolean runningRight;
@@ -103,6 +104,19 @@ public class Dino extends Sprite {
         }
         dinoDuckRun = new Animation(0.1f, frames);
         frames.clear();
+
+        //Dies
+        frames.add(new TextureRegion(getTexture(), 15 * 24, spriteStartingYValue, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 14 * 24, spriteStartingYValue, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 15 * 24, spriteStartingYValue, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 14 * 24, spriteStartingYValue, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 15 * 24, spriteStartingYValue, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 14 * 24, spriteStartingYValue, 24, 24));
+
+
+        dinoDies = new Animation(0.15f, frames);
+        frames.clear();
+
         //Finishes setting up the dino and sets its sprite.
         defineDino(0);
         dinoIdle0 = new TextureRegion(getTexture(), 0, spriteStartingYValue, 24, 24);
@@ -128,7 +142,6 @@ public class Dino extends Sprite {
         if (weapon != null) {
             weapon.update(dt);
         }
-        healthCheck();
     }//end update
 
     public TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
@@ -137,6 +150,12 @@ public class Dino extends Sprite {
 
         TextureRegion region;
         switch (currentState) {
+            case DEAD:
+                region = dinoDies.getKeyFrame(stateTimer, false);
+                if (dinoDies.isAnimationFinished(stateTimer)) {
+                    dies();
+                }
+                break;
             case KICKING:
                 region = dinoJump.getKeyFrame(stateTimer, true);
                 break;
@@ -177,9 +196,11 @@ public class Dino extends Sprite {
 
     public State getState() {
         //Sets different states
-        if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
+        if (health <= 0) {
+            health = 0;
+            return State.DEAD;
+        } else if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
-
             return State.JUMPING;
         } else if (b2body.getLinearVelocity().y < 0 && !playerDucking && previousState == State.DUCKFALLING) {
             defineDino(2);
@@ -275,7 +296,7 @@ public class Dino extends Sprite {
 
                 FixtureDef fdef = new FixtureDef();
                 PolygonShape shape = new PolygonShape();
-                shape.setAsBox(8 / DinoDuel.PPM, 6 / DinoDuel.PPM);
+                shape.setAsBox(8 / DinoDuel.PPM, 5 / DinoDuel.PPM);
 
                 fdef.shape = shape;
                 fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
@@ -394,14 +415,12 @@ public class Dino extends Sprite {
         kicking = true;
     }
 
-    public void healthCheck() {
-        if (health <= 0) {
-            if (hasWeapon) {
-                dropWeapon();
-            }
-            world.destroyBody(b2body);
-            defineDino(0);
+    public void dies() {
+        if (hasWeapon) {
+            dropWeapon();
         }
-    }//end HealthCheck
+        world.destroyBody(b2body);
+        defineDino(0);
+    }//end dies
 
 }//end Dino

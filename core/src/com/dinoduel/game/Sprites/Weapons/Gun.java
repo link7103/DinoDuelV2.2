@@ -12,6 +12,7 @@ public abstract class Gun extends Weapon {
     public int mag;
     protected float speedX;
     protected float duration;
+    protected float bulletHeightOffset;
 
     public Gun(float x, float y, World world, PlayScreen screen) {
         //adjust how this works - Currently loads one big section, change to loading individuals
@@ -39,7 +40,7 @@ public abstract class Gun extends Weapon {
                     } else {
                         bulletX = getX();
                     }
-                    Bullet fired = new Bullet(speedX, 0, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    Bullet fired = new Bullet(speedX, 0, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
                     mag--;

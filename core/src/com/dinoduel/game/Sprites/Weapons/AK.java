@@ -21,7 +21,7 @@ public class AK extends Gun {
         accuracy = 6;
         damage = 3.4;
         duration = .75f;
-
+        bulletHeightOffset = 0.005f;
         img = new TextureRegion(getTexture(), 198, 54, xSize, ySize);
 
         defineWeapon();

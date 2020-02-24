@@ -11,8 +11,8 @@ public class Shotgun extends Gun {
         super(x, y, world, screen);
         xSize = 161;
         ySize = 54;
-        heldXOffset =  0.05f;
-        heldYOffset =  -0.02f;
+        heldXOffset = 0.05f;
+        heldYOffset = -0.02f;
         ammo = 8;
         magCap = 2;
         mag = magCap;
@@ -21,7 +21,7 @@ public class Shotgun extends Gun {
         accuracy = 9;
         damage = 1;
         duration = .25f;
-
+        bulletHeightOffset = 0f;
         img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
 
         defineWeapon();
@@ -53,19 +53,19 @@ public class Shotgun extends Gun {
                     }
                     Bullet fired;
 
-                    fired = new Bullet(speedX, 0, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired = new Bullet(speedX, 0, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
-                    fired = new Bullet(speedX, 0.2f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired = new Bullet(speedX, 0.2f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
-                    fired = new Bullet(speedX, 0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired = new Bullet(speedX, 0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
-                    fired = new Bullet(speedX, -0.2f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired = new Bullet(speedX, -0.2f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
-                    fired = new Bullet(speedX, -0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this);
+                    fired = new Bullet(speedX, -0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
 

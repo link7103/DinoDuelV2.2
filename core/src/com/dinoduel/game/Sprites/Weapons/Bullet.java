@@ -14,8 +14,8 @@ import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.Dino;
 
 public class Bullet extends Sprite {
-    public float speedX;
-    public float speedY;
+    private float speedX;
+    private float speedY;
     private float duration;
     public double damage;
     private float x;
@@ -23,6 +23,7 @@ public class Bullet extends Sprite {
     public Body bBody;
     public World world;
     public boolean flag = false;
+    private float heightOffset;
 
     private TextureRegion img;
     protected Dino user;
@@ -34,7 +35,7 @@ public class Bullet extends Sprite {
 
     private float buildTime = 0;
 
-    public Bullet(float sX, float sY, float dr, double dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun) {
+    public Bullet(float sX, float sY, float dr, double dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun, float heightOffset) {
         super(screen.getweaponAtlas().findRegion("weapons"));
         this.speedX = sX;
         this.speedY = sY;
@@ -46,7 +47,7 @@ public class Bullet extends Sprite {
         this.world = world;
         this.gun = gun;
         this.screen = screen;
-
+        this.heightOffset = heightOffset;
         img = new TextureRegion(getTexture(), 358, 138, 12, 6);
         defineBullet();
         fixture.setUserData(this);
@@ -57,7 +58,8 @@ public class Bullet extends Sprite {
         setBounds(x, y, 12 / DinoDuel.PPM, 6 / DinoDuel.PPM);
         setRegion(img);
         //setPosition(x, y);
-        setPosition(bBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, bBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
+        // FIXME: 2/24/2020 I Dont this the setposition works - it is not affected by a heightoffeset variable
+        setPosition(bBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, bBody.getPosition().y / DinoDuel.PPM + heightOffset);
         setSize((16f / 5f) / DinoDuel.PPM, (8f / 5f) / DinoDuel.PPM);
 
     }//end constructor
@@ -75,7 +77,7 @@ public class Bullet extends Sprite {
 
     public void defineBullet() {
         BodyDef bdef = new BodyDef();
-        bdef.position.set(x, y);
+        bdef.position.set(x, y + heightOffset);
         bdef.type = BodyDef.BodyType.DynamicBody;
         bBody = world.createBody(bdef);
         bBody.setGravityScale(0);
@@ -100,7 +102,7 @@ public class Bullet extends Sprite {
     public void update(float dt) {
         buildTime += dt;
         if (buildTime < duration)
-            setPosition(bBody.getPosition().x - getWidth() / 2, bBody.getPosition().y - getHeight() / 2);
+            setPosition(bBody.getPosition().x - getWidth() / 2, bBody.getPosition().y - getHeight() / 2 + heightOffset);
         else
             flag = true;
     }//end Update
