@@ -32,11 +32,12 @@ public class DinoDuel extends Game {
 
 
     public SpriteBatch batch;
-    public AssetManager manager = new AssetManager();
+    public AssetManager manager;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
+        manager = new AssetManager();
         //        setScreen((new PlayScreen(this)));
         setScreen(new LoadingScreen(this));
     }//end create
@@ -45,4 +46,10 @@ public class DinoDuel extends Game {
     public void render() {
         super.render();
     }//end render
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+        manager.dispose();
+    }
 }//end class
