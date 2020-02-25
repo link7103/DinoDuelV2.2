@@ -30,7 +30,6 @@ public class DinoDuel extends Game {
     public static final short MASK_BULLET = CATEGORY_SCENERY | CATEGORY_DINO | CATEGORY_GUNBOX;
     public static final short MASK_SEMISOLID = CATEGORY_DINO | CATEGORY_BULLET;
 
-
     public SpriteBatch batch;
     public AssetManager manager;
 
@@ -38,7 +37,7 @@ public class DinoDuel extends Game {
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
-        //        setScreen((new PlayScreen(this)));
+        //setScreen((new PlayScreen(this)));
         setScreen(new LoadingScreen(this));
     }//end create
 
@@ -51,5 +50,6 @@ public class DinoDuel extends Game {
     public void dispose() {
         batch.dispose();
         manager.dispose();
+        this.getScreen().dispose();
     }
 }//end class
