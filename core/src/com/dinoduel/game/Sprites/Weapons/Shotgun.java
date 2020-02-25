@@ -59,13 +59,13 @@ public class Shotgun extends Gun {
                     fired = new Bullet(speedX, 0.2f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
-                    fired = new Bullet(speedX, 0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
+                    fired = new Bullet(speedX, 0.5f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
                     fired = new Bullet(speedX, -0.2f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
-                    fired = new Bullet(speedX, -0.4f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
+                    fired = new Bullet(speedX, -0.5f, duration, damage, bulletX, getY() + getHeight() / 2, user, screen, world, this, bulletHeightOffset);
                     fired.draw = true;
                     screen.allBullets.add(fired);
 
