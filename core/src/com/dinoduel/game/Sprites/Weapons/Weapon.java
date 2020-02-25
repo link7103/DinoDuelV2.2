@@ -2,6 +2,7 @@ package com.dinoduel.game.Sprites.Weapons;
 
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -17,11 +18,11 @@ public abstract class Weapon extends Sprite {
     public Body wBody;
     protected TextureRegion img;
 
-    public boolean inUse = false;
     protected double damage;
     protected PlayScreen screen;
 
     public boolean empty = false;
+    public boolean flag = false;
 
     protected float x;
     protected float y;
@@ -40,6 +41,7 @@ public abstract class Weapon extends Sprite {
 
     protected float buildTime = 0;
     protected float lastFireTime = 0;
+    protected float dropTime = 0;
 
     public Weapon(float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("weapons"));
@@ -74,12 +76,13 @@ public abstract class Weapon extends Sprite {
             setPosition(wBody.getPosition().x - getWidth() / 2, wBody.getPosition().y - getHeight() / 2);
         }
 
-        if (empty) {
-            if (user == null) {
-                wBody.setAwake(false);
-                world.destroyBody(wBody);
-                wBody = null;
-                screen.allWeapons.remove(this);
+        if (empty && user == null) {
+            if (dropTime==0) {
+                dropTime = buildTime;
+            } else if (buildTime-dropTime > 10) {
+                flag = true;
+
+
             }
         }
     }//end update
@@ -107,7 +110,6 @@ public abstract class Weapon extends Sprite {
             wBody.setAwake(false);
             world.destroyBody(wBody);
             wBody = null;
-            inUse = true;
         }
     }//end setUser
 
@@ -120,10 +122,9 @@ public abstract class Weapon extends Sprite {
     }//end clearUser
 
     public void dropped() {
-        inUse = false;
         //recreates fixture
         BodyDef bdef = new BodyDef();
-        bdef.position.set(user.b2body.getPosition().x, user.b2body.getPosition().y - user.getHeight() / 2);
+        bdef.position.set(user.b2body.getPosition().x, user.b2body.getPosition().y);
         bdef.type = BodyDef.BodyType.DynamicBody;
         wBody = world.createBody(bdef);
 
@@ -137,7 +138,14 @@ public abstract class Weapon extends Sprite {
         fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
         fixture = wBody.createFixture(fdef);
 
-        wBody.setAwake(true);
+        wBody.setLinearVelocity(user.b2body.getLinearVelocity());
+        if (user.isRunningRight()) {
+            wBody.applyLinearImpulse(new Vector2(.5f, 2f), new Vector2(wBody.getWorldCenter()), false);
+            wBody.applyAngularImpulse(-20f, true);
+        } else {
+            wBody.applyLinearImpulse(new Vector2(-.5f, 2f), new Vector2(wBody.getWorldCenter()), false);
+            wBody.applyAngularImpulse(20f, true);
+        }
         this.clearUser();
         this.update(0);
     }//end dropped

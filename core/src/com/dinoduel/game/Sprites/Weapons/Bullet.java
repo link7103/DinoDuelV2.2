@@ -91,7 +91,7 @@ public class Bullet extends Sprite {
         fdef.filter.categoryBits = DinoDuel.CATEGORY_BULLET;
         fdef.filter.maskBits = DinoDuel.MASK_BULLET;
         fixture = bBody.createFixture(fdef);
-        bBody.setLinearVelocity(new Vector2(speedX, speedY));
+        bBody.setLinearVelocity(new Vector2(speedX+user.b2body.getLinearVelocity().x, speedY+user.b2body.getLinearVelocity().y));
         bBody.setBullet(true);
     }//end defineBullet
 

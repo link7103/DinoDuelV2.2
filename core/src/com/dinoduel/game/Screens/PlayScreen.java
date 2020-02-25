@@ -159,6 +159,16 @@ public class PlayScreen implements Screen {
                 i--;
             }
         }
+
+        // Destroys empty weapons
+        for (int i = 0; i < allWeapons.size(); i++) {
+            if (allWeapons.get(i).flag) {
+                allWeapons.get(i).wBody.setAwake(false);
+                world.destroyBody(allWeapons.get(i).wBody);
+                allWeapons.get(i).wBody = null;
+                screen.allWeapons.remove(allWeapons.get(i));
+            }
+        }
         //takes 1 step in the physics simulation ( 60 times per second)
         world.step(1 / 60f, 6, 2);
 

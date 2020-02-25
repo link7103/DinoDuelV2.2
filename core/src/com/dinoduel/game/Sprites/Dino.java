@@ -370,7 +370,7 @@ public class Dino extends Sprite {
         for (Weapon weapon : allWeapons) {
             if (!hasWeapon) {
                 //Checks to see if the x and y coordinate of the Dino is inside of the gun (+ of - a couple of pixels to be safe)
-                if (((weapon.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) && !weapon.inUse) {
+                if (((weapon.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) && weapon.getUser() == null) {
                     hasWeapon = true;
                     weapon.setUser(this);
                     this.weapon = weapon;
