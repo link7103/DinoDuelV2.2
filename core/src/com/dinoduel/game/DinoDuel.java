@@ -38,7 +38,7 @@ public class DinoDuel extends Game {
         batch = new SpriteBatch();
         manager = new AssetManager();
         //setScreen((new PlayScreen(this)));
-        setScreen(new LoadingScreen(this));
+        setScreen(new LoadingScreen(this, "MainMenuScreen"));
     }//end create
 
     @Override
