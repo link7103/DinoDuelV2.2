@@ -5,12 +5,14 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.Dino;
 import com.dinoduel.game.Sprites.GunBox.GunBox;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
 import com.dinoduel.game.Sprites.SemiSolid;
 import com.dinoduel.game.Sprites.Weapons.Bullet;
+import com.dinoduel.game.Sprites.Weapons.Weapon;
 
 public class WorldContactListener implements ContactListener {
     private boolean canCollide;
@@ -53,6 +55,18 @@ public class WorldContactListener implements ContactListener {
                 canCollide = true;
             }
         }
+
+        if ((fixA.getFilterData().categoryBits == DinoDuel.CATEGORY_WEAPON || fixB.getFilterData().categoryBits == DinoDuel.CATEGORY_WEAPON)) {
+            Fixture weapon = fixA.getUserData() instanceof Weapon ? fixA : fixB;
+            Fixture ground = weapon == fixA ? fixB : fixA;
+            System.out.println("Weapon collides");
+            if (ground.getFilterData().categoryBits == DinoDuel.CATEGORY_SCENERY) {
+                System.out.println("with ground");
+                ((Weapon) (weapon.getUserData())).wBody.setAngularVelocity(0);
+            }
+        }
+
+
     }//end begin contact
 
     @Override

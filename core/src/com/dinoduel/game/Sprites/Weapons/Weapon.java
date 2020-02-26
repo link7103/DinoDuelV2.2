@@ -137,16 +137,24 @@ public abstract class Weapon extends Sprite {
         fdef.filter.categoryBits = DinoDuel.CATEGORY_WEAPON;
         fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
         fixture = wBody.createFixture(fdef);
+        fixture.setUserData(this);
 
         wBody.setLinearVelocity(user.b2body.getLinearVelocity());
+        wBody.setFixedRotation(false);
         if (user.isRunningRight()) {
-            wBody.applyLinearImpulse(new Vector2(.5f, 2f), new Vector2(wBody.getWorldCenter()), false);
-            wBody.applyAngularImpulse(-20f, true);
+            //wBody.applyAngularImpulse(-4000f, true);
+            wBody.setAngularVelocity(-5f);
+            wBody.applyLinearImpulse(new Vector2(.5f, 2f), new Vector2(wBody.getWorldCenter()), true);
+
+
         } else {
-            wBody.applyLinearImpulse(new Vector2(-.5f, 2f), new Vector2(wBody.getWorldCenter()), false);
-            wBody.applyAngularImpulse(20f, true);
+            //wBody.applyAngularImpulse(4000f, true);
+            wBody.setAngularVelocity(5f);
+            wBody.applyLinearImpulse(new Vector2(-.5f, 2f), new Vector2(wBody.getWorldCenter()), true);
+
         }
         this.clearUser();
         this.update(0);
+
     }//end dropped
 }//end class
