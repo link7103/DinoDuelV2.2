@@ -12,6 +12,8 @@ import com.dinoduel.game.Sprites.InteractiveTileObject;
 
 public class GunBox extends InteractiveTileObject {
     public PlayScreen screen;
+    protected GreyGunBox timerBox = null;
+    protected float buildTime = 0;
 
     public GunBox(World world, TiledMap map, Rectangle bounds, PlayScreen screen) {
         super(world, map, bounds, screen);
@@ -25,16 +27,29 @@ public class GunBox extends InteractiveTileObject {
         //Gdx.app.log("Gun Box", "Collision");
         //generates random number to be passed in play screen to choose gun
         //needs to be adjusted for more weapons
-        if (System.nanoTime() / (float) (Math.pow(10, 9)) - startTime <= 15) {
+        if (buildTime - startTime <= 10) {
 
             return -1;
         } else {
-            startTime = System.nanoTime() / (float) (Math.pow(10, 9));
+
+            startTime = buildTime;
+            timerBox = new GreyGunBox(body.getPosition().x, body.getPosition().y, screen);
+
             return (int) (Math.random() * 4);
 
         }
         //create random weapon
     }//end onHeadHit
+
+    public void update(float dt) {
+        buildTime += dt;
+        if (buildTime - startTime >= 15) {
+            if (timerBox!= null) {
+                timerBox.destroy();
+                timerBox = null;
+            }
+        }
+    }
 
 
     public void defineGunBox() {

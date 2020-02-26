@@ -43,5 +43,7 @@ public class SemiSolid extends InteractiveTileObject {
         fDef.filter.maskBits = DinoDuel.MASK_SEMISOLID;
         fixture = body.createFixture(fDef);
     }//end defineSemiSolid
+
+    public void update(float dt){};
 }//end SemiSolid
 

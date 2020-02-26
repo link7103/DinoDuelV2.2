@@ -12,8 +12,8 @@ public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
     protected TiledMapTile tile;
-    protected Rectangle bounds;
-    protected Body body;
+    public Rectangle bounds;
+    public Body body;
     protected Fixture fixture;
     public boolean spawnGun = false;
     protected float startTime = -16;
@@ -31,6 +31,7 @@ public abstract class InteractiveTileObject {
     public float getSpawnY() {
         return bounds.getY() + bounds.getHeight();
     }
+    public abstract void update(float dt);
     /*public boolean canSpawn(float dt){
 
         dt *= 1000;

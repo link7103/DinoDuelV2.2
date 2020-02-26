@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -23,6 +25,8 @@ import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Scenes.Hud;
 import com.dinoduel.game.Sprites.Dino;
 
+import com.dinoduel.game.Sprites.GunBox.GreyGunBox;
+import com.dinoduel.game.Sprites.GunBox.GunBox;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
 import com.dinoduel.game.Sprites.Ladder;
 import com.dinoduel.game.Tools.B2WorldCreator;
@@ -49,6 +53,7 @@ public class PlayScreen extends AbstractScreen {
     //Map
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
+    private ShapeRenderer shapeRenderer = new ShapeRenderer();
     //Asset Manager
     private AssetManager assetManager;
 
@@ -64,6 +69,9 @@ public class PlayScreen extends AbstractScreen {
 
     //Weapon Sprites
     public TextureAtlas weaponAtlas;
+
+    //Crate sprites
+    public TextureAtlas crateAtlas;
     //Weapon Spawns
     private boolean spawnWeapon;
     private float spawnX;
@@ -81,6 +89,8 @@ public class PlayScreen extends AbstractScreen {
     public ArrayList<Ladder> allLadders = new ArrayList<>();
     //Player List
     public ArrayList<Dino> allPlayers = new ArrayList<>();
+    //Grey box List
+    public ArrayList<GreyGunBox> allGreyGunBoxes = new ArrayList<>();
 
     private enum State {Running, Paused}
     public State currentState;
@@ -93,6 +103,7 @@ public class PlayScreen extends AbstractScreen {
         screen = this;
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
         weaponAtlas = new TextureAtlas("Weapons/weapons.txt");
+        crateAtlas = new TextureAtlas("DinoDuel Basic Tilesets/crates.txt");
 
         this.game = game;
         //Camera that follows the players
@@ -246,6 +257,11 @@ public class PlayScreen extends AbstractScreen {
         for (Bullet updateBullet : allBullets) {
             updateBullet.update(dt);
 
+        }
+
+        for (InteractiveTileObject updateBox: allBoxes
+             ) {
+            updateBox.update(dt);
         }
         setCameraPosition();
         gameCam.update();
@@ -429,6 +445,21 @@ public class PlayScreen extends AbstractScreen {
         //renders the game map
         renderer.render();
 
+        //renders grayed boxes
+        /*shapeRenderer.setProjectionMatrix(gameCam.combined);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        for (InteractiveTileObject gunBox: allBoxes) {
+            //Vector2 pos = gunBox.body.getWorldCenter();
+            shapeRenderer.setColor(new Color());
+            shapeRenderer.rect(gunBox.bounds.getX()/DinoDuel.PPM, gunBox.bounds.getY()/DinoDuel.PPM, gunBox.bounds.width/DinoDuel.PPM, gunBox.bounds.height/DinoDuel.PPM);
+
+        }
+        shapeRenderer.end();
+
+         */
+
+
+
         //renderer our Box2DDebugLines
         b2dr.render(world, gameCam.combined);
 
@@ -464,6 +495,13 @@ public class PlayScreen extends AbstractScreen {
             if (drawBullet.draw) {
                 drawBullet.draw(game.batch);
             }
+        }
+
+        //GreyGunBox textBox = new GreyGunBox(32, 32, this);
+        for (GreyGunBox greyGunBox: allGreyGunBoxes) {
+            //System.out.println("should draw");
+            greyGunBox.draw(game.batch);
+
         }
 
 
@@ -580,7 +618,7 @@ public class PlayScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
-        //map.dispose();
+        map.dispose();
         assetManager.dispose();
         renderer.dispose();
         world.dispose();

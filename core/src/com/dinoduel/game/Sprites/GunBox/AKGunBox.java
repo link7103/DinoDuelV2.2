@@ -12,11 +12,12 @@ public class AKGunBox extends GunBox {
     }//end Constructor
 
     public int onHeadHit() {
-        if (System.nanoTime() / (float) (Math.pow(10, 9)) - startTime <= 15) {
+        if (buildTime - startTime <= 10) {
 
             return -1;
         } else {
-            startTime = System.nanoTime() / (float) (Math.pow(10, 9));
+            startTime = buildTime;
+            timerBox = new GreyGunBox(body.getPosition().x, body.getPosition().y, screen);
             return 3;
 
         }
