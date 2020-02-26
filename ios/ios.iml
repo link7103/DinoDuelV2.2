@@ -46,5 +46,6 @@
     <orderEntry type="library" exported="" name="Gradle: gdx-1.9.10" level="project" />
     <orderEntry type="library" exported="" name="Gradle: universal-tween-engine-6.3.3" level="project" />
     <orderEntry type="module" module-name="core" exported="" />
+    <orderEntry type="module" module-name="core" exported="" />
   </component>
 </module>

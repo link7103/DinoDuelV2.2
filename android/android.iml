@@ -95,5 +95,6 @@
     <orderEntry type="library" name="Gradle: org.mini2Dx:universal-tween-engine:6.3.3@jar" level="project" />
     <orderEntry type="module" module-name="core" />
     <orderEntry type="module" module-name="core" />
+    <orderEntry type="module" module-name="core" />
   </component>
 </module>

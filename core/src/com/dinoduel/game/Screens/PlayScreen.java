@@ -82,6 +82,9 @@ public class PlayScreen extends AbstractScreen {
     //Player List
     public ArrayList<Dino> allPlayers = new ArrayList<>();
 
+    private enum State {Running, Paused}
+    public State currentState;
+
     //A Blank texture (Used for HealthBars)
     public Texture blank;
 
@@ -405,6 +408,9 @@ public class PlayScreen extends AbstractScreen {
             player2.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player2.b2body.getWorldCenter(), true);
         } else if (player2.b2body.getLinearVelocity().x < -0.05f && !player2.KEYLEFT && !player2.KEYRIGHT) {
             player2.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player2.b2body.getWorldCenter(), true);
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
         }
     }//end handleInput
 
