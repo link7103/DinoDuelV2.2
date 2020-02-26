@@ -49,17 +49,17 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addActor(table);
 
         // temporary until we have asset manager in
-        Skin skin = new Skin(Gdx.files.internal("Skins/skin/pixthulhu-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("Skins/skin/glassy-ui.json"));
 
         //create buttons
-        TextButton newGame = new TextButton("New Game", skin);
-        TextButton preferences = new TextButton("Preferences", skin);
+        TextButton newGame = new TextButton("Start Game", skin);
+        TextButton options = new TextButton("Options", skin);
         TextButton exit = new TextButton("Exit", skin);
 
         //add buttons to table
         table.add(newGame).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
-        table.add(preferences).fillX().uniformX();
+        table.add(options).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();
 
@@ -79,10 +79,10 @@ public class MainMenuScreen extends AbstractScreen {
             }
         });
 
-        preferences.addListener(new ChangeListener() {
+        options.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new OptionsScreen(game, "MainMenuScreen"));
                 dispose();
             }
         });
