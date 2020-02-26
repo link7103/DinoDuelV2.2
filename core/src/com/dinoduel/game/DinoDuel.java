@@ -29,7 +29,7 @@ public class DinoDuel extends Game {
     public static final short MASK_DINOCLIMBING = CATEGORY_SCENERY | CATEGORY_GUNBOX | CATEGORY_BULLET;
     public static final short MASK_GUNBOX = CATEGORY_DINO | CATEGORY_WEAPON | CATEGORY_BULLET;
     public static final short MASK_BULLET = CATEGORY_SCENERY | CATEGORY_DINO | CATEGORY_GUNBOX;
-    public static final short MASK_SEMISOLID = CATEGORY_DINO | CATEGORY_BULLET;
+    public static final short MASK_SEMISOLID = CATEGORY_DINO | CATEGORY_BULLET | CATEGORY_WEAPON;
 
     public SpriteBatch batch;
     public AssetManager manager;

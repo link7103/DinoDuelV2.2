@@ -122,11 +122,13 @@ public abstract class Weapon extends Sprite {
         if (empty && user == null) {
             if (dropTime==0) {
                 dropTime = buildTime;
-            } else if (buildTime-dropTime > 10) {
+            } else if (buildTime-dropTime > 1) {
                 flag = true;
 
 
             }
+        } else {
+            dropTime = 0;
         }
 
 
@@ -192,7 +194,10 @@ public abstract class Weapon extends Sprite {
         wBody.setLinearVelocity(user.b2body.getLinearVelocity());
         wBody.setFixedRotation(false);
         //System.out.println("start angle" + wBody.getAngle());
-        if (user.isRunningRight()) {
+
+        if (user.b2body.getLinearVelocity().equals(new Vector2(0,0))) {
+
+        } else if (user.isRunningRight()) {
             //wBody.applyAngularImpulse(-4000f, true);
             wBody.setAngularVelocity(-10f);
             wBody.applyLinearImpulse(new Vector2(.5f, 2f), new Vector2(wBody.getWorldCenter()), true);

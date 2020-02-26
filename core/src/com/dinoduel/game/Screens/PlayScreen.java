@@ -279,7 +279,7 @@ public class PlayScreen extends AbstractScreen {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2 && player1.getState() != Dino.State.DUCKRUNNING) {
             player1.KEYRIGHT = true;
             player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
             if (player1.currentState == Dino.State.CLIMBING) {
@@ -287,7 +287,7 @@ public class PlayScreen extends AbstractScreen {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2 && player1.getState() != Dino.State.DUCKRUNNING) {
             player1.KEYLEFT = true;
             player1.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player1.b2body.getWorldCenter(), true);
             if (player1.currentState == Dino.State.CLIMBING) {
@@ -296,6 +296,7 @@ public class PlayScreen extends AbstractScreen {
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+
             player1.KEYDOWN = true;
             if (player1.currentState != Dino.State.CLIMBING)
                 player1.playerDucking = true;
