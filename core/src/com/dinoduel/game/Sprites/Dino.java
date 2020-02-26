@@ -64,6 +64,9 @@ public class Dino extends Sprite {
 
     public Ladder currentLadder = null;
 
+    private float standingHeight = 0;
+    private float standingWidth = 0;
+
     //Health
     public float health;
 
@@ -122,14 +125,17 @@ public class Dino extends Sprite {
         dinoDuck = new TextureRegion(getTexture(), 17 * 24, spriteStartingYValue, 24, 24);
         setBounds(0, 0, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
         setRegion(dinoIdle0);
+
+        standingHeight = this.getHeight();
+        standingWidth = this.getWidth();
     }//end constructor
 
     public void update(float dt) { //Updates the sprite every frame
         if (playerDucking && currentState != State.FALLING && currentState != State.JUMPING) {
             if (runningRight) {
-                setPosition(b2body.getPosition().x - 0.025f - getWidth() / 2, b2body.getPosition().y + 0.0125f - getHeight() / 2);
+                setPosition(b2body.getPosition().x - 0.025f - getWidth() / 2, b2body.getPosition().y +0.0125f - getHeight() / 2);
             } else {
-                setPosition(b2body.getPosition().x + 0.025f - getWidth() / 2, b2body.getPosition().y + 0.0125f - getHeight() / 2);
+                setPosition(b2body.getPosition().x + 0.025f - getWidth() / 2, b2body.getPosition().y +0.0125f  - getHeight() / 2);
 
             }
         } else {
@@ -305,7 +311,7 @@ public class Dino extends Sprite {
                 b2body.createFixture(fdef).setUserData(this);
 
 
-                //setSize(getWidth()/2, getHeight()/2);
+                //setSize(getWidth()*(6f/8f), getHeight()*(2f/3f));
 
 
                 //head sensor
@@ -353,6 +359,8 @@ public class Dino extends Sprite {
                 fdef.shape = head;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
+
+                setSize(standingWidth,standingHeight);
             } else if (instruction == 3) { //Climbing
                 currentVelocity = new Vector2(0, 0);
                 bdef.type = BodyDef.BodyType.DynamicBody;

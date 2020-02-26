@@ -25,7 +25,7 @@ public class Sniper extends Gun {
         img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);
 
         defineWeapon();
-        fixture.setUserData("gun");
+
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
         setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
