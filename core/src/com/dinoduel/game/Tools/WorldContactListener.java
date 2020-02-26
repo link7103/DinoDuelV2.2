@@ -59,10 +59,11 @@ public class WorldContactListener implements ContactListener {
         if ((fixA.getFilterData().categoryBits == DinoDuel.CATEGORY_WEAPON || fixB.getFilterData().categoryBits == DinoDuel.CATEGORY_WEAPON)) {
             Fixture weapon = fixA.getUserData() instanceof Weapon ? fixA : fixB;
             Fixture ground = weapon == fixA ? fixB : fixA;
-            System.out.println("Weapon collides");
+            //System.out.println("Weapon collides");
             if (ground.getFilterData().categoryBits == DinoDuel.CATEGORY_SCENERY) {
-                System.out.println("with ground");
-                ((Weapon) (weapon.getUserData())).wBody.setAngularVelocity(0);
+                //System.out.println("with ground");
+                ((Weapon) (weapon.getUserData())).spinStop = true;
+                System.out.println("Contact angle" + ((Weapon) (weapon.getUserData())).wBody.getAngle());
             }
         }
 

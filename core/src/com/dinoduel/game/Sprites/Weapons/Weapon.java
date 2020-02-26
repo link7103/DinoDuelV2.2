@@ -42,6 +42,7 @@ public abstract class Weapon extends Sprite {
     protected float buildTime = 0;
     protected float lastFireTime = 0;
     protected float dropTime = 0;
+    public boolean spinStop = false;
 
     public Weapon(float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("weapons"));
@@ -83,6 +84,15 @@ public abstract class Weapon extends Sprite {
                 flag = true;
 
 
+            }
+        }
+
+        if (spinStop) {
+            System.out.println("stop check angle" + wBody.getAngle()%(2*Math.PI));
+            if(wBody.getAngle()%(Math.PI) >= -0.6 && wBody.getAngle()%(Math.PI) <= 0.6) {
+                wBody.setAngularVelocity(0);
+                wBody.setFixedRotation(true);
+                spinStop = false;
             }
         }
     }//end update
@@ -141,6 +151,7 @@ public abstract class Weapon extends Sprite {
 
         wBody.setLinearVelocity(user.b2body.getLinearVelocity());
         wBody.setFixedRotation(false);
+        //System.out.println("start angle" + wBody.getAngle());
         if (user.isRunningRight()) {
             //wBody.applyAngularImpulse(-4000f, true);
             wBody.setAngularVelocity(-5f);
