@@ -69,6 +69,8 @@ public abstract class Weapon extends Sprite {
     public void update(float dt) {
         buildTime += dt;
 
+
+
         if (user != null) {
             if (user.isRunningRight()) {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
@@ -80,6 +82,20 @@ public abstract class Weapon extends Sprite {
             setRegion(getFrame());
 
         } else {
+
+            if (wBody.getAngularVelocity()!=0) {
+                if (wBody.getAngularVelocity()>0) {
+                    if ((wBody.getAngle()*180/Math.PI) > 360) {
+                        wBody.setTransform(wBody.getPosition(), 0);
+                    }
+                } else {
+                    if ((wBody.getAngle()*180/Math.PI) < -360) {
+                        wBody.setTransform(wBody.getPosition(), 0);
+                    }
+                }
+            }
+
+
             setPosition(wBody.getPosition().x - getWidth() / 2, wBody.getPosition().y - getHeight() / 2);
             setOriginCenter();
             rotate((float)((wBody.getAngle()-previousAngle) *180/Math.PI));
@@ -97,9 +113,10 @@ public abstract class Weapon extends Sprite {
         }
 
         if (spinStop) {
-            System.out.println("stop check angle" + (3/4*3.14)%(3.14/2));
+            //System.out.println("stop check angle" + (3/4*3.14)%(3.14/2));
 
                 wBody.setTransform(wBody.getPosition(), 0);
+                wBody.setAngularVelocity(0);
                 wBody.setFixedRotation(true);
 
                 spinStop = false;
