@@ -9,17 +9,17 @@ public abstract class AbstractScreen implements Screen {
 
     public AbstractScreen(DinoDuel game) {
         this.game = game;
-    }
+    }//end constructor
 
     @Override
     public void pause() {
-    }
+    }//end pause
 
     @Override
     public void resume() {
-    }
+    }//end resume
 
     @Override
     public void dispose() {
-    }
-}
+    }//end dispose
+}//end class

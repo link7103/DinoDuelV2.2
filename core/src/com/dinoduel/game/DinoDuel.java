@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dinoduel.game.Screens.LoadingScreen;
 import com.dinoduel.game.Screens.PlayScreen;
+import com.dinoduel.game.Tools.GameOptions;
 
 public class DinoDuel extends Game {
     public static int V_WIDTH = 320;
@@ -32,11 +33,13 @@ public class DinoDuel extends Game {
 
     public SpriteBatch batch;
     public AssetManager manager;
+    private GameOptions options;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         manager = new AssetManager();
+        options = new GameOptions();
         //setScreen((new PlayScreen(this)));
         setScreen(new LoadingScreen(this, "MainMenuScreen"));
     }//end create
@@ -51,5 +54,9 @@ public class DinoDuel extends Game {
         batch.dispose();
         manager.dispose();
         this.getScreen().dispose();
-    }
+    }//end dispose
+
+    public GameOptions getOptions() {
+        return this.options;
+    }//end getOptions
 }//end class

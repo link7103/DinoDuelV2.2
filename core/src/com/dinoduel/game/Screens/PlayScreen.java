@@ -561,17 +561,14 @@ public class PlayScreen extends AbstractScreen {
 
     @Override
     public void pause() {
-
     }//end pause
 
     @Override
     public void resume() {
-
     }//end resume
 
     @Override
     public void hide() {
-
     }//end hide
 
     @Override

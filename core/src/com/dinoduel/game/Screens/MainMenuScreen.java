@@ -21,7 +21,7 @@ public class MainMenuScreen extends AbstractScreen {
         /// create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-    }
+    }//end constructor
 
     @Override
     public void render(float delta) {
@@ -32,13 +32,13 @@ public class MainMenuScreen extends AbstractScreen {
         // tell our stage to do actions and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-    }
+    }//end render
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
 
-    }
+    }//end resize
 
     @Override
     public void show() {
@@ -49,17 +49,17 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addActor(table);
 
         // temporary until we have asset manager in
-        Skin skin = new Skin(Gdx.files.internal("Skins/skin/pixthulhu-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("Skins/skin/glassy-ui.json"));
 
         //create buttons
-        TextButton newGame = new TextButton("New Game", skin);
-        TextButton preferences = new TextButton("Preferences", skin);
+        TextButton newGame = new TextButton("Start Game", skin);
+        TextButton options = new TextButton("Options", skin);
         TextButton exit = new TextButton("Exit", skin);
 
         //add buttons to table
         table.add(newGame).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
-        table.add(preferences).fillX().uniformX();
+        table.add(options).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();
 
@@ -68,7 +68,7 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
-            }
+            }//end changed
         });
 
         newGame.addListener(new ChangeListener() {
@@ -76,35 +76,32 @@ public class MainMenuScreen extends AbstractScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new PlayScreen(game));
                 dispose();
-            }
+            }//end changed
         });
 
-        preferences.addListener(new ChangeListener() {
+        options.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new OptionsScreen(game, "MainMenuScreen"));
                 dispose();
-            }
+            }//end changed
         });
-
-    }
+    }//end show
 
     @Override
     public void hide() {
-    }
+    }//end hide
 
     @Override
     public void pause() {
-    }
+    }//end pause
 
     @Override
     public void resume() {
-
-    }
+    }//end resume
 
     @Override
     public void dispose() {
         stage.dispose();
-    }
-
-}
+    }//end dispose
+}//end class
