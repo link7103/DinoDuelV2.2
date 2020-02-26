@@ -11,7 +11,7 @@ public class GreyGunBox extends Sprite {
     public GreyGunBox(float x, float y, PlayScreen screen) {
         super(screen.crateAtlas.findRegion("crates"));
         this.screen = screen;
-        img = new TextureRegion(getTexture(), 16, 0, 16, 15);
+        img = new TextureRegion(getTexture(), 16, 0, 16, 16);
         setBounds(x , y, 16 / DinoDuel.PPM, 16 / DinoDuel.PPM);
         setRegion(img);
         //setPosition(x, y);
