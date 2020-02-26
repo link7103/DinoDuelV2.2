@@ -1,6 +1,7 @@
 package com.dinoduel.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Animation.PlayMode;
@@ -29,8 +30,11 @@ public class LoadingScreen extends AbstractScreen {
 
     private Actor loadingBar;
 
-    public LoadingScreen(DinoDuel game) {
+    private String nextScreen;
+
+    public LoadingScreen(DinoDuel game, String nextScreen) {
         super(game);
+        this.nextScreen = nextScreen;
     }
 
     @Override
@@ -112,7 +116,11 @@ public class LoadingScreen extends AbstractScreen {
 
         if (game.manager.update()) { // Load some, will return true if done loading
             if (Gdx.input.isTouched()) { // If the screen is touched after the game is done loading, go to the main menu screen
-                game.setScreen(new PlayScreen(game));
+                if (nextScreen.equalsIgnoreCase("MainMenuScreen")) {
+                    game.setScreen(new MainMenuScreen(game));
+                } else {
+                    game.setScreen(new PlayScreen(game));
+                }
             }
         }
 
@@ -134,5 +142,7 @@ public class LoadingScreen extends AbstractScreen {
     public void hide() {
         // Dispose the loading assets as we no longer need them
         game.manager.unload("data/loading.pack");
+        stage.dispose();
+        this.dispose();
     }
 }

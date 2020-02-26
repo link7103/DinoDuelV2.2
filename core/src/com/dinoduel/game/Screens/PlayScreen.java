@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 import static java.lang.StrictMath.abs;
 
-public class PlayScreen implements Screen {
+public class PlayScreen extends AbstractScreen {
     //Main Game
     private DinoDuel game;
     private OrthographicCamera gameCam;
@@ -86,7 +86,7 @@ public class PlayScreen implements Screen {
     public Texture blank;
 
     public PlayScreen(DinoDuel game) {
-
+        super(game);
         screen = this;
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
         weaponAtlas = new TextureAtlas("Weapons/weapons.txt");
