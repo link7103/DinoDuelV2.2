@@ -45,6 +45,7 @@ public abstract class Weapon extends Sprite {
     protected float lastFireTime = 0;
     protected float dropTime = 0;
     public boolean spinStop = false;
+    protected boolean upsideDown = false;
 
     public Weapon(float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("weapons"));
@@ -72,6 +73,7 @@ public abstract class Weapon extends Sprite {
 
 
         if (user != null) {
+            spinStop = false;
             if (user.isRunningRight()) {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
 
@@ -82,6 +84,21 @@ public abstract class Weapon extends Sprite {
             setRegion(getFrame());
 
         } else {
+            if (spinStop) {
+                //System.out.println("stop check angle" + (3/4*3.14)%(3.14/2));
+                if ((wBody.getAngle() > (Math.PI/2) && wBody.getAngle() < (3*Math.PI/2) )|| (wBody.getAngle() < (-Math.PI/2) && wBody.getAngle() > (-3*Math.PI/2) )) {
+                    wBody.setTransform(wBody.getPosition(), (float) Math.PI);
+                    upsideDown = true;
+                }else
+                    wBody.setTransform(wBody.getPosition(), 0);
+
+
+                wBody.setAngularVelocity(0);
+                wBody.setFixedRotation(true);
+
+                spinStop = false;
+
+            }
 
             if (wBody.getAngularVelocity()!=0) {
                 if (wBody.getAngularVelocity()>0) {
@@ -112,16 +129,7 @@ public abstract class Weapon extends Sprite {
             }
         }
 
-        if (spinStop) {
-            //System.out.println("stop check angle" + (3/4*3.14)%(3.14/2));
 
-                wBody.setTransform(wBody.getPosition(), 0);
-                wBody.setAngularVelocity(0);
-                wBody.setFixedRotation(true);
-
-                spinStop = false;
-
-        }
 
     }//end update
 
@@ -140,15 +148,19 @@ public abstract class Weapon extends Sprite {
         fdef.filter.categoryBits = DinoDuel.CATEGORY_WEAPON;
         fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
         fixture = wBody.createFixture(fdef);
+        fixture.setUserData(this);
     }//end defineWeapon
 
     public void setUser(Dino dino) {
-        if (!empty) {
+            if (upsideDown) {
+                rotate(180);
+                upsideDown = false;
+            }
             user = dino;
             wBody.setAwake(false);
             world.destroyBody(wBody);
             wBody = null;
-        }
+
     }//end setUser
 
     public Dino getUser() {
