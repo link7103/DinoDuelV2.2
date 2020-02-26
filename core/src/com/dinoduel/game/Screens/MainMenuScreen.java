@@ -21,7 +21,7 @@ public class MainMenuScreen extends AbstractScreen {
         /// create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-    }
+    }//end constructor
 
     @Override
     public void render(float delta) {
@@ -32,13 +32,13 @@ public class MainMenuScreen extends AbstractScreen {
         // tell our stage to do actions and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-    }
+    }//end render
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
 
-    }
+    }//end resize
 
     @Override
     public void show() {
@@ -68,7 +68,7 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
-            }
+            }//end changed
         });
 
         newGame.addListener(new ChangeListener() {
@@ -76,7 +76,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new PlayScreen(game));
                 dispose();
-            }
+            }//end changed
         });
 
         options.addListener(new ChangeListener() {
@@ -84,27 +84,24 @@ public class MainMenuScreen extends AbstractScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new OptionsScreen(game, "MainMenuScreen"));
                 dispose();
-            }
+            }//end changed
         });
-
-    }
+    }//end show
 
     @Override
     public void hide() {
-    }
+    }//end hide
 
     @Override
     public void pause() {
-    }
+    }//end pause
 
     @Override
     public void resume() {
-
-    }
+    }//end resume
 
     @Override
     public void dispose() {
         stage.dispose();
-    }
-
-}
+    }//end dispose
+}//end class

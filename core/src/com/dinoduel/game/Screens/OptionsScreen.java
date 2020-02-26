@@ -31,7 +31,7 @@ public class OptionsScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         this.game = game;
         this.previousScreen = previousScreen;
-    }
+    }//end constructor
 
     @Override
     public void show() {
@@ -39,7 +39,6 @@ public class OptionsScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         // Create a table that fills the screen. Everything else will go inside
-        // this table.
         Table table = new Table();
         table.setFillParent(true);
         //table.setDebug(true);
@@ -57,7 +56,7 @@ public class OptionsScreen implements Screen {
                 game.getOptions().setMusicVolume(volumeMusicSlider.getValue());
                 // updateVolumeLabel();
                 return false;
-            }
+            }//end handle
         });
 
         // sound volume
@@ -69,7 +68,7 @@ public class OptionsScreen implements Screen {
                 game.getOptions().setSoundVolume(soundMusicSlider.getValue());
                 // updateVolumeLabel();
                 return false;
-            }
+            }//end handle
         });
 
         // music on/off
@@ -81,7 +80,7 @@ public class OptionsScreen implements Screen {
                 boolean enabled = musicCheckbox.isChecked();
                 game.getOptions().setMusicEnabled(enabled);
                 return false;
-            }
+            }//end handle
         });
 
         // sound on/off
@@ -93,7 +92,7 @@ public class OptionsScreen implements Screen {
                 boolean enabled = soundEffectsCheckbox.isChecked();
                 game.getOptions().setSoundEffectsEnabled(enabled);
                 return false;
-            }
+            }//end handle
         });
 
         // return to main screen button
@@ -104,7 +103,7 @@ public class OptionsScreen implements Screen {
                 if (previousScreen.equalsIgnoreCase("MainMenuScreen")) {
                     game.setScreen(new MainMenuScreen(game));
                 }
-            }
+            }//end changed
         });
 
         titleLabel = new Label("Preferences", skin);
@@ -128,7 +127,7 @@ public class OptionsScreen implements Screen {
         table.add(soundEffectsCheckbox);
         table.row().pad(10, 0, 0, 10);
         table.add(backButton).colspan(2);
-    }
+    }//end show
 
     @Override
     public void render(float delta) {
@@ -139,29 +138,29 @@ public class OptionsScreen implements Screen {
         // tell our stage to do actions and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
-    }
+    }//end render
 
     @Override
     public void resize(int width, int height) {
         // change the stage's viewport when the screen size is changed
         stage.getViewport().update(width, height, true);
-    }
+    }//end resize
 
     @Override
     public void pause() {
-    }
+    }//end pause
 
     @Override
     public void resume() {
-    }
+    }//end resume
 
     @Override
     public void hide() {
-    }
+    }//end hide
 
     @Override
     public void dispose() {
         stage.dispose();
-    }
-}
+    }//end dispose
+}//end class
 

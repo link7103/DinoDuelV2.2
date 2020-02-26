@@ -35,7 +35,7 @@ public class LoadingScreen extends AbstractScreen {
     public LoadingScreen(DinoDuel game, String nextScreen) {
         super(game);
         this.nextScreen = nextScreen;
-    }
+    }//end constructor
 
     @Override
     public void show() {
@@ -77,7 +77,7 @@ public class LoadingScreen extends AbstractScreen {
         // game.manager.load("data/assets1.pack", TextureAtlas.class);
         // game.manager.load("data/assets2.pack", TextureAtlas.class);
         // game.manager.load("data/assets3.pack", TextureAtlas.class);
-    }
+    }//end show
 
     @Override
     public void resize(int width, int height) {
@@ -107,7 +107,7 @@ public class LoadingScreen extends AbstractScreen {
         loadingBg.setSize(450, 50);
         loadingBg.setX(loadingBarHidden.getX() + 30);
         loadingBg.setY(loadingBarHidden.getY() + 3);
-    }
+    }//end resize
 
     @Override
     public void render(float delta) {
@@ -136,7 +136,7 @@ public class LoadingScreen extends AbstractScreen {
         // Show the loading screen
         stage.act();
         stage.draw();
-    }
+    }//end render
 
     @Override
     public void hide() {
@@ -144,5 +144,5 @@ public class LoadingScreen extends AbstractScreen {
         game.manager.unload("data/loading.pack");
         stage.dispose();
         this.dispose();
-    }
-}
+    }//end hide
+}//end class

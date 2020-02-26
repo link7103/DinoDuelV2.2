@@ -54,9 +54,9 @@ public class DinoDuel extends Game {
         batch.dispose();
         manager.dispose();
         this.getScreen().dispose();
-    }
+    }//end dispose
 
-    public GameOptions getOptions(){
+    public GameOptions getOptions() {
         return this.options;
-    }
+    }//end getOptions
 }//end class
