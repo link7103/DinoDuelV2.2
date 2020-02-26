@@ -34,6 +34,8 @@ public abstract class Weapon extends Sprite {
     public int xSize;
     public int ySize;
 
+    protected float previousAngle = 0;
+
     protected Fixture fixture;
     protected Dino user;
     public boolean drawn = false;
@@ -66,15 +68,22 @@ public abstract class Weapon extends Sprite {
 
     public void update(float dt) {
         buildTime += dt;
+
         if (user != null) {
             if (user.isRunningRight()) {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
+
+
             } else {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
             }
             setRegion(getFrame());
+
         } else {
             setPosition(wBody.getPosition().x - getWidth() / 2, wBody.getPosition().y - getHeight() / 2);
+            setOriginCenter();
+            rotate((float)((wBody.getAngle()-previousAngle) *180/Math.PI));
+            previousAngle = wBody.getAngle();
         }
 
         if (empty && user == null) {
@@ -88,13 +97,15 @@ public abstract class Weapon extends Sprite {
         }
 
         if (spinStop) {
-            System.out.println("stop check angle" + wBody.getAngle()%(2*Math.PI));
-            if(wBody.getAngle()%(Math.PI) >= -0.6 && wBody.getAngle()%(Math.PI) <= 0.6) {
-                wBody.setAngularVelocity(0);
+            System.out.println("stop check angle" + (3/4*3.14)%(3.14/2));
+
+                wBody.setTransform(wBody.getPosition(), 0);
                 wBody.setFixedRotation(true);
+
                 spinStop = false;
-            }
+
         }
+
     }//end update
 
     public void defineWeapon() {
@@ -154,14 +165,16 @@ public abstract class Weapon extends Sprite {
         //System.out.println("start angle" + wBody.getAngle());
         if (user.isRunningRight()) {
             //wBody.applyAngularImpulse(-4000f, true);
-            wBody.setAngularVelocity(-5f);
+            wBody.setAngularVelocity(-10f);
             wBody.applyLinearImpulse(new Vector2(.5f, 2f), new Vector2(wBody.getWorldCenter()), true);
+            previousAngle = wBody.getAngle();
 
 
         } else {
             //wBody.applyAngularImpulse(4000f, true);
-            wBody.setAngularVelocity(5f);
+            wBody.setAngularVelocity(10f);
             wBody.applyLinearImpulse(new Vector2(-.5f, 2f), new Vector2(wBody.getWorldCenter()), true);
+            previousAngle = wBody.getAngle();
 
         }
         this.clearUser();
