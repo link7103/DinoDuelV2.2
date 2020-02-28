@@ -110,6 +110,8 @@ public abstract class Weapon extends Sprite {
                         wBody.setTransform(wBody.getPosition(), 0);
                     }
                 }
+
+
             }
 
 
@@ -154,9 +156,13 @@ public abstract class Weapon extends Sprite {
     }//end defineWeapon
 
     public void setUser(Dino dino) {
-            if (upsideDown) {
+
+        if (upsideDown) {
                 rotate(180);
+                upsideDown = false;
             }
+
+
             user = dino;
             wBody.setAwake(false);
             world.destroyBody(wBody);
@@ -170,10 +176,12 @@ public abstract class Weapon extends Sprite {
 
     private void clearUser() {
         this.user = null;
-        if (upsideDown) {
+        /*if (upsideDown) {
             rotate(180);
             upsideDown = false;
         }
+
+         */
     }//end clearUser
 
     public void dropped() {
