@@ -43,7 +43,7 @@ public class GunBox extends InteractiveTileObject {
 
     public void update(float dt) {
         buildTime += dt;
-        if (buildTime - startTime >= 15) {
+        if (buildTime - startTime >= 10) {
             if (timerBox!= null) {
                 timerBox.destroy();
                 timerBox = null;
