@@ -111,7 +111,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         stage.addActor(table);
 
         // temporary until we have asset manager in
-        Skin skin = new Skin(Gdx.files.internal("SkinTest/8BitSkinTest.json"));
+        Skin skin = new Skin(Gdx.files.internal("Skin/8BitSkinTest.json"));
 
         //create buttons
         TextButton start = new TextButton(" Start ", skin);
