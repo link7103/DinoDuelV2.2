@@ -20,8 +20,7 @@ public class Sniper extends Gun {
         accuracy = 10;
         damage = 10;
         duration = 10;
-        bulletHeightOffset = 0f;
-
+        bulletHeightOffset = 0.005f;
         img = new TextureRegion(getTexture(), 120, 120, xSize, ySize);
 
         defineWeapon();

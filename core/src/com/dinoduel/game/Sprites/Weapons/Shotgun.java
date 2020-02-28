@@ -21,7 +21,7 @@ public class Shotgun extends Gun {
         accuracy = 9;
         damage = 1;
         duration = .25f;
-        bulletHeightOffset = 0f;
+        bulletHeightOffset = 0.005f ;
         img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
 
         defineWeapon();

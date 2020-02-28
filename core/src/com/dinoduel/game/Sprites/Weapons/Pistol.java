@@ -22,8 +22,7 @@ public class Pistol extends Gun {
         accuracy = 7;
         damage = 3.4;
         duration = .5f;
-        bulletHeightOffset = 0f;
-
+        bulletHeightOffset = 0.005f;
         img = new TextureRegion(getTexture(), 0, 120, xSize, ySize);
 
         defineWeapon();
