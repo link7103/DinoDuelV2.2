@@ -49,10 +49,10 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addActor(table);
 
         // temporary until we have asset manager in
-        Skin skin = new Skin(Gdx.files.internal("Skins/skin/glassy-ui.json"));
+        Skin skin = new Skin(Gdx.files.internal("SkinTest/8BitSkinTest.json"));
 
         //create buttons
-        TextButton newGame = new TextButton("Start Game", skin);
+        TextButton newGame = new TextButton("Start\n Game ", skin);
         TextButton options = new TextButton("Options", skin);
         TextButton exit = new TextButton("Exit", skin);
 
@@ -74,7 +74,7 @@ public class MainMenuScreen extends AbstractScreen {
         newGame.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new PlayScreen(game));
+                game.setScreen(new CharcterSelectMenu(game));
                 dispose();
             }//end changed
         });
