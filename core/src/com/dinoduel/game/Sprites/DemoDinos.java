@@ -3,23 +3,10 @@ package com.dinoduel.game.Sprites;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.EdgeShape;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.dinoduel.game.DinoDuel;
-import com.dinoduel.game.Screens.AbstractScreen;
 import com.dinoduel.game.Screens.CharcterSelectMenu;
-import com.dinoduel.game.Screens.PlayScreen;
-import com.dinoduel.game.Sprites.Weapons.Weapon;
-
-import java.util.ArrayList;
-
 
 public class DemoDinos extends Sprite {
     //States
@@ -39,64 +26,69 @@ public class DemoDinos extends Sprite {
     private Animation<TextureRegion> dinoRun;
     private Animation<TextureRegion> dinoJump;
     private Animation<TextureRegion> dinoDuckRun;
-    private float startingPosX;
-    private float startingPosY;
-    private float size;
+    private String name;
 
 
-    public DemoDinos(World world, CharcterSelectMenu screen, String name, int spriteStartingYValue, float startingPosX, float startingPosY, float size) {
+    public DemoDinos(World world, CharcterSelectMenu screen, String name, float startingPosX, float size) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
+        this.name = name;
+        int dinoNumber = 0;
+        if (name.equalsIgnoreCase("nullSprites")) {
+            dinoNumber = 0;
+        } else if (name.equalsIgnoreCase("douxSprites")) {
+            dinoNumber = 1;
+        } else if (name.equalsIgnoreCase("mortSprites")) {
+            dinoNumber = 2;
+        } else if (name.equalsIgnoreCase("tardSprites")) {
+            dinoNumber = 3;
+        } else if (name.equalsIgnoreCase("vitaSprites")) {
+            dinoNumber = 4;
+        }
         this.world = world;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
-        this.startingPosX = startingPosX;
-        this.startingPosY = startingPosY;
-        this.size = size;
 
         //Sets up the various animations - will need to adjust the y value for subsequent players
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, spriteStartingYValue, 24, 24));
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
         dinoIdle = new Animation(0.15f, frames);
         frames.clear();
 
         for (int i = 4; i < 9; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, spriteStartingYValue, 24, 24));
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
         dinoRun = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 11; i < 13; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, spriteStartingYValue, 24, 24));
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
         dinoJump = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 18; i < 23; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, spriteStartingYValue, 24, 24));
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
         dinoDuckRun = new Animation(0.1f, frames);
         frames.clear();
 
         //Finishes setting up the dino and sets its sprite.
-        //defineDino(0);
-        dinoIdle0 = new TextureRegion(getTexture(), 0, spriteStartingYValue, 24, 24);
-        dinoDuck = new TextureRegion(getTexture(), 17 * 24, spriteStartingYValue, 24, 24);
-        setBounds(startingPosX, startingPosY, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
+        dinoIdle0 = new TextureRegion(getTexture(), 0, dinoNumber * 24, 24, 24);
+        dinoDuck = new TextureRegion(getTexture(), 17 * 24, dinoNumber * 24, 24, 24);
+        setBounds(startingPosX, 10, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
         setRegion(dinoIdle0);
-        setSize(getWidth()*size, getHeight()*size);
+        setSize(getWidth() * size, getHeight() * size);
     }//end constructor
 
     public void update(float dt) { //Updates the sprite every frame
         setRegion(getFrame(dt));
-        System.out.println(currentState);
     }//end update
 
     private TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
-
         currentState = getState();
         TextureRegion region;
         switch (currentState) {
@@ -126,8 +118,12 @@ public class DemoDinos extends Sprite {
     }//end getFrame
 
     private State getState() {
-            return State.STANDING;
+        return State.STANDING;
     }//end getState
+
+    public String getName() {
+        return name;
+    }//end getName
 }//end Dino
 
 

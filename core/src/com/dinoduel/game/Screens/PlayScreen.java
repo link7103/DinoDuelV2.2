@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Scenes.Hud;
+import com.dinoduel.game.Sprites.DemoDinos;
 import com.dinoduel.game.Sprites.Dino;
 import com.dinoduel.game.Sprites.GunBox.GreyGunBox;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
@@ -59,6 +60,9 @@ public class PlayScreen extends AbstractScreen {
     //Player
     private Dino player1;
     private Dino player2;
+    private Dino player3;
+    private Dino player4;
+
     //Player Sprites
     private TextureAtlas dinoAtlas;
 
@@ -88,10 +92,11 @@ public class PlayScreen extends AbstractScreen {
     public ArrayList<GreyGunBox> allGreyGunBoxes = new ArrayList<>();
 
     private enum State {Running, Paused}
+
     public State currentState;
 
     //A Blank texture (Used for HealthBars)
-    public Texture blank;
+    private Texture blank;
 
     public PlayScreen(DinoDuel game) {
         super(game);
@@ -123,10 +128,7 @@ public class PlayScreen extends AbstractScreen {
         new B2WorldCreator(world, map, this);
 
         //Players
-        player1 = new Dino(world, this, "douxSprites", 0);
-        player2 = new Dino(world, this, "tardSprites", 48);
-        allPlayers.add(player1);
-        allPlayers.add(player2);
+        createPlayers();
 
         //contact listener stuff
         world.setContactListener(new WorldContactListener());
@@ -253,8 +255,8 @@ public class PlayScreen extends AbstractScreen {
 
         }
 
-        for (InteractiveTileObject updateBox: allBoxes
-             ) {
+        for (InteractiveTileObject updateBox : allBoxes
+        ) {
             updateBox.update(dt);
         }
         setCameraPosition();
@@ -289,7 +291,7 @@ public class PlayScreen extends AbstractScreen {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2)  {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
             player1.KEYRIGHT = true;
             player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
             if (player1.currentState == Dino.State.CLIMBING) {
@@ -297,7 +299,7 @@ public class PlayScreen extends AbstractScreen {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2 ) {
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2) {
             player1.KEYLEFT = true;
             player1.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player1.b2body.getWorldCenter(), true);
             if (player1.currentState == Dino.State.CLIMBING) {
@@ -453,7 +455,6 @@ public class PlayScreen extends AbstractScreen {
          */
 
 
-
         //renderer our Box2DDebugLines
         b2dr.render(world, gameCam.combined);
 
@@ -492,7 +493,7 @@ public class PlayScreen extends AbstractScreen {
         }
 
         //GreyGunBox textBox = new GreyGunBox(32, 32, this);
-        for (GreyGunBox greyGunBox: allGreyGunBoxes) {
+        for (GreyGunBox greyGunBox : allGreyGunBoxes) {
             //System.out.println("should draw");
             greyGunBox.draw(game.batch);
 
@@ -592,6 +593,25 @@ public class PlayScreen extends AbstractScreen {
             gameCam.position.y = mapTop - cameraHalfHeight;
         }
     }//end setCameraPosition
+
+    public void createPlayers() {
+        String p1 = CharcterSelectMenu.getDinoData(1);
+        String p2= CharcterSelectMenu.getDinoData(2);
+        String p3= CharcterSelectMenu.getDinoData(3);
+        String p4= CharcterSelectMenu.getDinoData(4);
+        player1 = new Dino(world, this, p1, new Vector2(0.5f, 0.2f));
+        allPlayers.add(player1);
+        player2 = new Dino(world, this, p2, new Vector2(2.5f, 1.5f));
+        allPlayers.add(player2);
+        if (!p3.equalsIgnoreCase("nullSprites")) {
+            player3 = new Dino(world, this, p3, new Vector2(2.5f, 1.5f));
+            allPlayers.add(player3);
+        }
+        if (!p4.equalsIgnoreCase("nullSprites")) {
+            player4 = new Dino(world, this, p4, new Vector2(2.5f, 1.5f));
+            allPlayers.add(player4);
+        }
+    }//end createPlayers
 
     @Override
     public void resize(int width, int height) {

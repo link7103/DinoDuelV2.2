@@ -63,62 +63,73 @@ public class Dino extends Sprite {
 
     private float standingHeight = 0;
     private float standingWidth = 0;
-
+    private Vector2 startingPos;
     //Health
     public float health;
 
-    public Dino(World world, PlayScreen screen, String name, int spriteStartingYValue) {
+    public Dino(World world, PlayScreen screen, String name, Vector2 startingPos) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
+        int dinoNumber = 0;
+        if (name.equalsIgnoreCase("nullSprites")) {
+            dinoNumber = 0;
+        } else if (name.equalsIgnoreCase("douxSprites")) {
+            dinoNumber = 1;
+        }else if (name.equalsIgnoreCase("mortSprites")) {
+            dinoNumber = 2;
+        }else if (name.equalsIgnoreCase("tardSprites")) {
+            dinoNumber = 3;
+        }else if (name.equalsIgnoreCase("vitaSprites")) {
+            dinoNumber = 4;
+        }
         this.world = world;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
         runningRight = true;
         health = 1;
-
-
+        this.startingPos = startingPos;
         //Sets up the various animations - will need to adjust the y value for subsequent players
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, spriteStartingYValue, 24, 24));
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
         dinoIdle = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 4; i < 9; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, spriteStartingYValue, 24, 24));
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
         dinoRun = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 11; i < 13; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, spriteStartingYValue, 24, 24));
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
         dinoJump = new Animation(0.1f, frames);
         frames.clear();
 
         for (int i = 18; i < 23; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, spriteStartingYValue, 24, 24));
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
         dinoDuckRun = new Animation(0.1f, frames);
         frames.clear();
 
         //Dies
-        frames.add(new TextureRegion(getTexture(), 15 * 24, spriteStartingYValue, 24, 24));
-        frames.add(new TextureRegion(getTexture(), 14 * 24, spriteStartingYValue, 24, 24));
-        frames.add(new TextureRegion(getTexture(), 15 * 24, spriteStartingYValue, 24, 24));
-        frames.add(new TextureRegion(getTexture(), 14 * 24, spriteStartingYValue, 24, 24));
-        frames.add(new TextureRegion(getTexture(), 15 * 24, spriteStartingYValue, 24, 24));
-        frames.add(new TextureRegion(getTexture(), 14 * 24, spriteStartingYValue, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 15 * 24, dinoNumber * 24, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 14 * 24, dinoNumber * 24, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 15 * 24, dinoNumber * 24, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 14 * 24, dinoNumber * 24, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 15 * 24, dinoNumber * 24, 24, 24));
+        frames.add(new TextureRegion(getTexture(), 14 * 24, dinoNumber * 24, 24, 24));
 
         dinoDies = new Animation(0.105f, frames);
         frames.clear();
 
         //Finishes setting up the dino and sets its sprite.
         defineDino(0);
-        dinoIdle0 = new TextureRegion(getTexture(), 0, spriteStartingYValue, 24, 24);
-        dinoDuck = new TextureRegion(getTexture(), 17 * 24, spriteStartingYValue, 24, 24);
+        dinoIdle0 = new TextureRegion(getTexture(), 0, dinoNumber * 24, 24, 24);
+        dinoDuck = new TextureRegion(getTexture(), 17 * 24, dinoNumber * 24, 24, 24);
         setBounds(0, 0, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
         setRegion(dinoIdle0);
 
@@ -129,9 +140,9 @@ public class Dino extends Sprite {
     public void update(float dt) { //Updates the sprite every frame
         if (playerDucking && currentState != State.FALLING && currentState != State.JUMPING) {
             if (runningRight) {
-                setPosition(b2body.getPosition().x - 0.025f - getWidth() / 2, b2body.getPosition().y +0.0125f - getHeight() / 2);
+                setPosition(b2body.getPosition().x - 0.025f - getWidth() / 2, b2body.getPosition().y + 0.0125f - getHeight() / 2);
             } else {
-                setPosition(b2body.getPosition().x + 0.025f - getWidth() / 2, b2body.getPosition().y +0.0125f  - getHeight() / 2);
+                setPosition(b2body.getPosition().x + 0.025f - getWidth() / 2, b2body.getPosition().y + 0.0125f - getHeight() / 2);
 
             }
         } else {
@@ -246,7 +257,7 @@ public class Dino extends Sprite {
         if (instruction == 0) {
             //starting position. (Pass in for multiple players?)
             health = 1;
-            bdef.position.set(32 / DinoDuel.PPM, 32 / DinoDuel.PPM);
+            bdef.position.set(startingPos);
             bdef.type = BodyDef.BodyType.DynamicBody;
             b2body = world.createBody(bdef);
 
@@ -312,7 +323,7 @@ public class Dino extends Sprite {
 
                 //head sensor
                 EdgeShape head = new EdgeShape();
-                head.set(new Vector2(-8 / DinoDuel.PPM,  5/ DinoDuel.PPM), new Vector2(8 / DinoDuel.PPM, 5 / DinoDuel.PPM));
+                head.set(new Vector2(-8 / DinoDuel.PPM, 5 / DinoDuel.PPM), new Vector2(8 / DinoDuel.PPM, 5 / DinoDuel.PPM));
                 fdef.shape = head;
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
@@ -348,7 +359,6 @@ public class Dino extends Sprite {
                 b2body.createFixture(fdef).setUserData(this);
 
 
-
                 //head sensor
                 EdgeShape head = new EdgeShape();
                 head.set(new Vector2(-3 / DinoDuel.PPM, 7.8f / DinoDuel.PPM), new Vector2(3 / DinoDuel.PPM, 7.8f / DinoDuel.PPM));
@@ -356,7 +366,7 @@ public class Dino extends Sprite {
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("head");
 
-                setSize(standingWidth,standingHeight);
+                setSize(standingWidth, standingHeight);
             } else if (instruction == 3) { //Climbing
                 currentVelocity = new Vector2(0, 0);
                 bdef.type = BodyDef.BodyType.DynamicBody;
