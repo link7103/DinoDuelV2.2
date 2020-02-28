@@ -14,7 +14,6 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
-import com.dinoduel.game.Sprites.Weapons.Shotgun;
 import com.dinoduel.game.Sprites.Weapons.Weapon;
 
 import java.util.ArrayList;
@@ -30,8 +29,6 @@ public class Dino extends Sprite {
 
     public World world;
     public Body b2body;
-
-    PlayScreen screen;
 
     //Animations and Textures
     private TextureRegion dinoIdle0;
@@ -51,7 +48,7 @@ public class Dino extends Sprite {
     public boolean hasWeapon = false;
 
     //kicking
-    public boolean kicking = false;
+    private boolean kicking = false;
 
     //determine if climbing
     public boolean climbing;
@@ -74,7 +71,6 @@ public class Dino extends Sprite {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         this.world = world;
-        this.screen = screen;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
@@ -149,7 +145,7 @@ public class Dino extends Sprite {
         }
     }//end update
 
-    public TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
+    private TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
 
         currentState = getState();
 
@@ -199,7 +195,7 @@ public class Dino extends Sprite {
         return region;
     }//end getFrame
 
-    public State getState() {
+    private State getState() {
         //Sets different states
         if (health <= 0) {
             health = 0;
@@ -243,7 +239,7 @@ public class Dino extends Sprite {
         }
     }//end getState
 
-    public void defineDino(int instruction) { //Side Sensors may need to be tweaked - (Head area?)
+    private void defineDino(int instruction) { //Side Sensors may need to be tweaked - (Head area?)
         //0 = Initialize, 1 = Ducking, 2 = Not Ducking, 3 climbing
         BodyDef bdef = new BodyDef();
 
@@ -435,7 +431,7 @@ public class Dino extends Sprite {
         kicking = true;
     }
 
-    public void dies() {
+    private void dies() {
         if (hasWeapon) {
             dropWeapon();
         }

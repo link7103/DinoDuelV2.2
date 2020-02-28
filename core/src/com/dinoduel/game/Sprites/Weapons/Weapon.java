@@ -14,40 +14,40 @@ import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.Dino;
 
 public abstract class Weapon extends Sprite {
-    public World world;
+    protected World world;
     public Body wBody;
-    protected TextureRegion img;
+    TextureRegion img;
 
-    protected double damage;
+    double damage;
     protected PlayScreen screen;
 
-    public boolean empty = false;
+    boolean empty = false;
     public boolean flag = false;
 
     protected float x;
     protected float y;
     //When Held:
-    protected float heldXOffset;
-    protected float heldYOffset;
+    float heldXOffset;
+    float heldYOffset;
 
     //Size
     public int xSize;
     public int ySize;
 
-    protected float previousAngle = 0;
+    private float previousAngle = 0;
 
-    protected Fixture fixture;
-    protected Dino user;
+    private Fixture fixture;
+    Dino user;
     public boolean drawn = false;
     public boolean update = false;
 
-    protected float buildTime = 0;
-    protected float lastFireTime = 0;
-    protected float dropTime = 0;
+    float buildTime = 0;
+    float lastFireTime = 0;
+    private float dropTime = 0;
     public boolean spinStop = false;
-    protected boolean upsideDown = false;
+    private boolean upsideDown = false;
 
-    public Weapon(float x, float y, World world, PlayScreen screen) {
+    Weapon(float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("weapons"));
         this.x = x;
         this.y = y;
@@ -55,7 +55,7 @@ public abstract class Weapon extends Sprite {
         this.screen = screen;
     }//end Constructor
 
-    public TextureRegion getFrame() {
+    private TextureRegion getFrame() {
         TextureRegion region = img;
         if (!user.isRunningRight() && !region.isFlipX()) {
             region.flip(true, false);
@@ -135,7 +135,7 @@ public abstract class Weapon extends Sprite {
 
     }//end update
 
-    public void defineWeapon() {
+    void defineWeapon() {
         BodyDef bdef = new BodyDef();
         bdef.position.set(x / DinoDuel.PPM, y / DinoDuel.PPM);
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -143,7 +143,7 @@ public abstract class Weapon extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(xSize / 20 / DinoDuel.PPM, ySize / 20 / DinoDuel.PPM);
+        shape.setAsBox(xSize / 20f / DinoDuel.PPM, ySize / 20f / DinoDuel.PPM);
 
         fdef.shape = shape;
 
@@ -168,7 +168,7 @@ public abstract class Weapon extends Sprite {
         return this.user;
     }//end getUser
 
-    public void clearUser() {
+    private void clearUser() {
         this.user = null;
         if (upsideDown) {
             rotate(180);
@@ -185,7 +185,7 @@ public abstract class Weapon extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(xSize / 20 / DinoDuel.PPM, ySize / 20 / DinoDuel.PPM);
+        shape.setAsBox(xSize / 20f / DinoDuel.PPM, ySize / 20f / DinoDuel.PPM);
 
         fdef.shape = shape;
 
@@ -199,7 +199,7 @@ public abstract class Weapon extends Sprite {
         //System.out.println("start angle" + wBody.getAngle());
 
         if (user.b2body.getLinearVelocity().equals(new Vector2(0,0))) {
-
+            wBody.setAngularVelocity(0);
         } else if (user.isRunningRight()) {
             //wBody.applyAngularImpulse(-4000f, true);
             wBody.setAngularVelocity(-10f);

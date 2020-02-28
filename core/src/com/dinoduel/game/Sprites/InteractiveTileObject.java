@@ -12,7 +12,7 @@ public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
     protected TiledMapTile tile;
-    public Rectangle bounds;
+    protected Rectangle bounds;
     public Body body;
     protected Fixture fixture;
     public boolean spawnGun = false;

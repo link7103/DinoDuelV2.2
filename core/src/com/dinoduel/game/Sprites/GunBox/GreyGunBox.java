@@ -6,9 +6,9 @@ import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 
 public class GreyGunBox extends Sprite {
-    protected TextureRegion img;
+    private TextureRegion img;
     protected PlayScreen screen;
-    public GreyGunBox(float x, float y, PlayScreen screen) {
+    GreyGunBox(float x, float y, PlayScreen screen) {
         super(screen.crateAtlas.findRegion("crates"));
         this.screen = screen;
         img = new TextureRegion(getTexture(), 16, 0, 16, 16);

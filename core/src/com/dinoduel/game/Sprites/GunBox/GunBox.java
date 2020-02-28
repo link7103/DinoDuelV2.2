@@ -12,8 +12,8 @@ import com.dinoduel.game.Sprites.InteractiveTileObject;
 
 public class GunBox extends InteractiveTileObject {
     public PlayScreen screen;
-    protected GreyGunBox timerBox = null;
-    protected float buildTime = 0;
+    GreyGunBox timerBox = null;
+    float buildTime = 0;
 
     public GunBox(World world, TiledMap map, Rectangle bounds, PlayScreen screen) {
         super(world, map, bounds, screen);
@@ -52,7 +52,7 @@ public class GunBox extends InteractiveTileObject {
     }
 
 
-    public void defineGunBox() {
+    private void defineGunBox() {
         BodyDef bDef = new BodyDef();
         FixtureDef fDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();

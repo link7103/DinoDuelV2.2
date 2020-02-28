@@ -5,16 +5,16 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.Screens.PlayScreen;
 
 public abstract class Gun extends Weapon {
-    protected int ammo;
-    protected int magCap;
-    protected float firerate;
-    protected int accuracy;
-    public int mag;
-    protected float speedX;
-    protected float duration;
-    protected float bulletHeightOffset;
+    int ammo;
+    int magCap;
+    float firerate;
+    int accuracy;
+    int mag;
+    float speedX;
+    float duration;
+    float bulletHeightOffset;
 
-    public Gun(float x, float y, World world, PlayScreen screen) {
+    Gun(float x, float y, World world, PlayScreen screen) {
         //adjust how this works - Currently loads one big section, change to loading individuals
         super(x, y, world, screen);
     }//end Constructor

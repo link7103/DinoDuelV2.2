@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.Screens.PlayScreen;
-import com.dinoduel.game.Sprites.GunBox.GunBox;
 
 public class PistolGunBox extends GunBox {
     //Red

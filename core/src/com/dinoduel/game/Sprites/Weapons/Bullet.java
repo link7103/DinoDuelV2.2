@@ -17,7 +17,7 @@ public class Bullet extends Sprite {
     private float speedX;
     private float speedY;
     private float duration;
-    public double damage;
+    private double damage;
     private float x;
     private float y;
     public Body bBody;
@@ -25,17 +25,16 @@ public class Bullet extends Sprite {
     public boolean flag = false;
     private float heightOffset;
 
-    private TextureRegion img;
-    protected Dino user;
+    private Dino user;
     public boolean draw = false;
-    public Gun gun;
+    private Gun gun;
     public PlayScreen screen;
 
-    public Fixture fixture;
+    private Fixture fixture;
 
     private float buildTime = 0;
 
-    public Bullet(float sX, float sY, float dr, double dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun, float heightOffset) {
+    Bullet(float sX, float sY, float dr, double dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun, float heightOffset) {
         super(screen.getweaponAtlas().findRegion("weapons"));
         this.speedX = sX;
         this.speedY = sY;
@@ -48,7 +47,7 @@ public class Bullet extends Sprite {
         this.gun = gun;
         this.screen = screen;
         this.heightOffset = heightOffset;
-        img = new TextureRegion(getTexture(), 358, 138, 12, 6);
+        TextureRegion img = new TextureRegion(getTexture(), 358, 138, 12, 6);
         defineBullet();
         fixture.setUserData(this);
         if (speedX < 0) {
@@ -58,7 +57,6 @@ public class Bullet extends Sprite {
         setBounds(x, y, 12 / DinoDuel.PPM, 6 / DinoDuel.PPM);
         setRegion(img);
         //setPosition(x, y);
-        // FIXME: 2/24/2020 I Dont this the setposition works - it is not affected by a heightoffeset variable
         setPosition(bBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, bBody.getPosition().y / DinoDuel.PPM + heightOffset);
         setSize((16f / 5f) / DinoDuel.PPM, (8f / 5f) / DinoDuel.PPM);
 
@@ -75,7 +73,7 @@ public class Bullet extends Sprite {
         }
     }//end hit
 
-    public void defineBullet() {
+    private void defineBullet() {
         BodyDef bdef = new BodyDef();
         bdef.position.set(x, y + heightOffset);
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -84,7 +82,7 @@ public class Bullet extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12 / 10 / DinoDuel.PPM, 6 / 10 / DinoDuel.PPM);
+        shape.setAsBox(12f / 10f / DinoDuel.PPM, 6f/ 10f / DinoDuel.PPM);
         fdef.shape = shape;
         fdef.isSensor = true;
 
@@ -95,9 +93,7 @@ public class Bullet extends Sprite {
         bBody.setBullet(true);
     }//end defineBullet
 
-    public void setUser(Dino dino) {
-        this.user = dino;
-    }//end setUser
+
 
     public void update(float dt) {
         buildTime += dt;

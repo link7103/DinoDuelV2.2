@@ -27,7 +27,7 @@ public class SemiSolid extends InteractiveTileObject {
 
 
 
-    public void defineSemiSolid() {
+    private void defineSemiSolid() {
         BodyDef bDef = new BodyDef();
         FixtureDef fDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
@@ -44,6 +44,6 @@ public class SemiSolid extends InteractiveTileObject {
         fixture = body.createFixture(fDef);
     }//end defineSemiSolid
 
-    public void update(float dt){};
+    public void update(float dt){}
 }//end SemiSolid
 

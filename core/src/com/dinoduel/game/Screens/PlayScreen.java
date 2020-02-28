@@ -2,14 +2,12 @@ package com.dinoduel.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g3d.utils.MeshBuilder;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
@@ -19,24 +17,21 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FillViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Scenes.Hud;
 import com.dinoduel.game.Sprites.Dino;
-
 import com.dinoduel.game.Sprites.GunBox.GreyGunBox;
-import com.dinoduel.game.Sprites.GunBox.GunBox;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
 import com.dinoduel.game.Sprites.Ladder;
-import com.dinoduel.game.Tools.B2WorldCreator;
-import com.dinoduel.game.Tools.WorldContactListener;
 import com.dinoduel.game.Sprites.Weapons.AK;
 import com.dinoduel.game.Sprites.Weapons.Bullet;
-import com.dinoduel.game.Sprites.Weapons.Sniper;
-import com.dinoduel.game.Sprites.Weapons.Shotgun;
 import com.dinoduel.game.Sprites.Weapons.Pistol;
+import com.dinoduel.game.Sprites.Weapons.Shotgun;
+import com.dinoduel.game.Sprites.Weapons.Sniper;
 import com.dinoduel.game.Sprites.Weapons.Weapon;
+import com.dinoduel.game.Tools.B2WorldCreator;
+import com.dinoduel.game.Tools.WorldContactListener;
 
 import java.util.ArrayList;
 
@@ -62,13 +57,13 @@ public class PlayScreen extends AbstractScreen {
     private Box2DDebugRenderer b2dr;
 
     //Player
-    public static Dino player1;
+    private Dino player1;
     private Dino player2;
     //Player Sprites
     private TextureAtlas dinoAtlas;
 
     //Weapon Sprites
-    public TextureAtlas weaponAtlas;
+    private TextureAtlas weaponAtlas;
 
     //Crate sprites
     public TextureAtlas crateAtlas;
@@ -216,7 +211,6 @@ public class PlayScreen extends AbstractScreen {
             spawnType = -1;
             if (spawn != null)
                 allWeapons.add(spawn);
-            spawn = null;
         }
 
         //Tests for players on a ladder
@@ -472,7 +466,7 @@ public class PlayScreen extends AbstractScreen {
         //Used to draw at the same time as p1
         for (Weapon drawWeapon : allWeapons) {
             if (drawWeapon.getUser() == player1) {
-                drawWeapon.setSize(drawWeapon.xSize / 10 / DinoDuel.PPM, drawWeapon.ySize / 10 / DinoDuel.PPM);
+                drawWeapon.setSize(drawWeapon.xSize / 10f / DinoDuel.PPM, drawWeapon.ySize / 10f / DinoDuel.PPM);
                 drawWeapon.draw(game.batch);
                 drawWeapon.drawn = true;
             }
@@ -483,7 +477,7 @@ public class PlayScreen extends AbstractScreen {
 
         for (Weapon drawWeapon : allWeapons) {
             if (!drawWeapon.drawn) {
-                drawWeapon.setSize(drawWeapon.xSize / 10 / DinoDuel.PPM, drawWeapon.ySize / 10 / DinoDuel.PPM);
+                drawWeapon.setSize(drawWeapon.xSize / 10f / DinoDuel.PPM, drawWeapon.ySize / 10f / DinoDuel.PPM);
                 drawWeapon.draw(game.batch);
             } else {
                 drawWeapon.drawn = false;
@@ -531,7 +525,7 @@ public class PlayScreen extends AbstractScreen {
         game.batch.end();
     }//end render
 
-    public void setCameraPosition() {
+    private void setCameraPosition() {
 //attach the gamecam to the the middle x and y coordinate
         gameCam.position.x = (player1.b2body.getPosition().x + player2.b2body.getPosition().x) / 2;
         gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
