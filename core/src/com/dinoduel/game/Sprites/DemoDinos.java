@@ -28,7 +28,6 @@ public class DemoDinos extends Sprite {
     private Animation<TextureRegion> dinoDuckRun;
     private String name;
 
-
     public DemoDinos(World world, CharcterSelectMenu screen, String name, float startingPosX, float size) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));

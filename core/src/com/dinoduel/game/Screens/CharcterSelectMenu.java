@@ -240,7 +240,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         }
         selections[num] = tempselection;
         takenSelections.add(tempselection);
-    }//end tesetDown
+    }//end testDown
 
     private DemoDinos setPlayer(int dinoNumber, int startingPos) {
         String name = "";

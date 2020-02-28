@@ -448,5 +448,4 @@ public class Dino extends Sprite {
         world.destroyBody(b2body);
         defineDino(0);
     }//end dies
-
 }//end Dino
