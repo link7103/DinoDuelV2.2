@@ -36,5 +36,7 @@
     <orderEntry type="library" exported="" name="Gradle: gdx-freetype-1.9.10" level="project" />
     <orderEntry type="library" exported="" name="Gradle: gdx-1.9.10" level="project" />
     <orderEntry type="library" exported="" name="Gradle: universal-tween-engine-6.3.3" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: tween-engine-api-sources" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: tween-engine-api" level="project" />
   </component>
 </module>

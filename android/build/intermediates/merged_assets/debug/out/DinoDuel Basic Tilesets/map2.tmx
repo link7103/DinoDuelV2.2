@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="16" tileheight="16" nextobjectid="38">
+ <tileset firstgid="1" name="BasicTiles" tilewidth="16" tileheight="16" tilecount="136" columns="17">
+  <image source="BasicTiles.png" trans="ff00ff" width="272" height="128"/>
+ </tileset>
+ <tileset firstgid="137" name="crates" tilewidth="16" tileheight="16" tilecount="8" columns="8">
+  <image source="crates.png" trans="ff00ff" width="128" height="16"/>
+ </tileset>
+ <tileset firstgid="145" name="caveTileset" tilewidth="16" tileheight="16" tilecount="280" columns="20">
+  <image source="caveTileset.png" width="320" height="224"/>
+ </tileset>
+ <layer name="background" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztzrENAAAIw7Ce3fM5gBFGR/KeJikAALBc+n4ZH8xYmA==
+  </data>
+ </layer>
+ <layer name="bushes" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+  </data>
+ </layer>
+ <layer name="timergunbox" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+  </data>
+ </layer>
+ <layer name="graphics" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt0stOwkAUgOEpKj5Fva3c4m2nuFHUDShuFHDjZSdeNgq68ZoQEH0DUXkz3kJF/Jv0JE1xSqAEG8JJvnTaOWfOTDOmUsrsA/0Qtf/eQJdicI5gxeAcwYpunWPRUGrJaH72KqxzmPQbwzgmMImpNvewSf6W0fzsVVjniNBvBrOYwzwWEMVyi71cMX/typWxzHmFV48Uipi26fLjvCewglXEsIZ1bCCJbU0PuTfPeHHlyljmvO6YV49W+SX72z7vB9jBLlJII4M9O7fgWkf+sdybD1Qd+yg7cmWukzumuyN/xQXfL3GMLE5wijOca2rkH/uJQ+qPfKzxRG3ZUV9kXMINbnGHezzgUdPH/f87iRz1eR9rvFH77qh/ZVzBJ+MvfKOOHzSsBOYMhDCEYYwgjNEA1v0CybBTCg==
+  </data>
+ </layer>
+ <layer name="plantsnstuff" width="50" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAIB3Awu4AAE=
+  </data>
+ </layer>
+ <objectgroup name="ground">
+  <object id="4" x="0" y="224" width="800" height="16"/>
+  <object id="5" x="0" y="0" width="800" height="16"/>
+  <object id="6" x="0" y="16" width="16" height="208"/>
+  <object id="7" x="776" y="16" width="24" height="208"/>
+  <object id="12" x="272" y="119" width="97" height="26"/>
+  <object id="17" x="209" y="168" width="63" height="25"/>
+  <object id="18" x="244" y="145" width="29" height="23"/>
+  <object id="19" x="177" y="178" width="31" height="46"/>
+  <object id="24" x="355" y="144" width="24" height="24"/>
+  <object id="25" x="353" y="170" width="63" height="22"/>
+  <object id="26" x="452" y="201" width="24" height="24"/>
+  <object id="32" x="709" y="201" width="22" height="22"/>
+ </objectgroup>
+ <objectgroup name="guns"/>
+ <objectgroup name="randomgunbox">
+  <object id="1" x="112" y="176" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="bluegunbox">
+  <object id="34" x="623" y="144" width="16" height="15"/>
+ </objectgroup>
+ <objectgroup name="greengunbox">
+  <object id="37" x="735" y="161" width="16" height="15"/>
+ </objectgroup>
+ <objectgroup name="pinkgunbox"/>
+ <objectgroup name="purplegunbox">
+  <object id="30" x="304" y="177" width="16" height="14"/>
+ </objectgroup>
+ <objectgroup name="redgunbox"/>
+ <objectgroup name="yellowgunbox"/>
+</map>
