@@ -130,7 +130,9 @@ public class PlayScreen extends AbstractScreen {
         //contact listener stuff
         world.setContactListener(new WorldContactListener());
         blank = new Texture("blank.png");
-
+        game.playingSong.stop();
+        game.playingSong = game.manager.assetManager.get("Music/TheWhite.mp3");
+        game.playingSong.play();
     }//end constructor
 
     public TextureAtlas getDinoAtlas() {

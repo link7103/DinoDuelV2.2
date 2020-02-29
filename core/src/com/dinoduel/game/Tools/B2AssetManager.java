@@ -13,6 +13,8 @@ public class B2AssetManager {
     private final String skin = "Skin/8BitSkinTest.json";
     private final String skinAtlas = "Skin/8BitSkinTest.atlas";
     private final String menuMusic = "Music/TheLittleBroth.mp3";
+    private final String map1Music = "Music/TheWhite.mp3";
+
 
     public B2AssetManager() {
         AssetManager assetManager = new AssetManager();
@@ -30,5 +32,6 @@ public class B2AssetManager {
 
     public void queueMusic() {
         assetManager.load(menuMusic, Music.class);
+        assetManager.load(map1Music, Music.class);
     }//end queueMusic
 }//end class
