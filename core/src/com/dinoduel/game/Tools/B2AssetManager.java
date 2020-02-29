@@ -11,7 +11,7 @@ public class B2AssetManager {
     private final String map1 = "DinoDuel Basic Tilesets/map1.tmx";
     private final String skin = "Skin/8BitSkinTest.json";
     private final String skinAtlas = "Skin/8BitSkinTest.atlas";
-
+    private final String menuMusic = "Music/TheLittleBroth.mp3";
 
     public B2AssetManager() {
         AssetManager assetManager = new AssetManager();
@@ -27,4 +27,8 @@ public class B2AssetManager {
         assetManager.load(skin, Skin.class, params);
     }//end queueSkin
 
+    public void queueMusic() {
+        SkinLoader.SkinParameter params = new SkinLoader.SkinParameter(skinAtlas);
+        assetManager.load(skin, Skin.class, params);
+    }//end queueSkin
 }
