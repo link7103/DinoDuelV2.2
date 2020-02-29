@@ -48,48 +48,49 @@ public class OptionsScreen implements Screen {
 
         // music volume
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
-        volumeMusicSlider.setValue(game.getOptions().getMusicVolume());
+        volumeMusicSlider.setValue(game.getPreferences().getMusicVolume());
         volumeMusicSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                game.getOptions().setMusicVolume(volumeMusicSlider.getValue());
+                game.getPreferences().setMusicVolume(volumeMusicSlider.getValue());
                 // updateVolumeLabel();
+                System.out.println(game.getPreferences().getMusicVolume());
+
                 return false;
             }//end handle
         });
 
         // sound volume
         final Slider soundMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
-        soundMusicSlider.setValue(game.getOptions().getSoundVolume());
+        soundMusicSlider.setValue(game.getPreferences().getSoundVolume());
         soundMusicSlider.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
-                game.getOptions().setSoundVolume(soundMusicSlider.getValue());
-                // updateVolumeLabel();
+                game.getPreferences().setSoundVolume(soundMusicSlider.getValue());
                 return false;
             }//end handle
         });
 
         // music on/off
         final CheckBox musicCheckbox = new CheckBox(null, skin);
-        musicCheckbox.setChecked(game.getOptions().isMusicEnabled());
+        musicCheckbox.setChecked(game.getPreferences().isMusicEnabled());
         musicCheckbox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
                 boolean enabled = musicCheckbox.isChecked();
-                game.getOptions().setMusicEnabled(enabled);
+                game.getPreferences().setMusicEnabled(enabled);
                 return false;
             }//end handle
         });
 
         // sound on/off
         final CheckBox soundEffectsCheckbox = new CheckBox(null, skin);
-        soundEffectsCheckbox.setChecked(game.getOptions().isSoundEffectsEnabled());
+        soundEffectsCheckbox.setChecked(game.getPreferences().isSoundEffectsEnabled());
         soundEffectsCheckbox.addListener(new EventListener() {
             @Override
             public boolean handle(Event event) {
                 boolean enabled = soundEffectsCheckbox.isChecked();
-                game.getOptions().setSoundEffectsEnabled(enabled);
+                game.getPreferences().setSoundEffectsEnabled(enabled);
                 return false;
             }//end handle
         });
@@ -131,7 +132,7 @@ public class OptionsScreen implements Screen {
     @Override
     public void render(float delta) {
         // clear the screen ready for next set of images to be drawn
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClearColor(1f, 0f, 0f, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // tell our stage to do actions and draw itself

@@ -2,6 +2,7 @@ package com.dinoduel.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -14,13 +15,14 @@ import com.dinoduel.game.DinoDuel;
 
 
 public class MainMenuScreen extends AbstractScreen {
-    Stage stage;
+    private Stage stage;
 
     public MainMenuScreen(DinoDuel game) {
         super(game);
         /// create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+
     }//end constructor
 
     @Override
@@ -42,13 +44,16 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void show() {
+        //Asset Stuff
+        Skin skin = game.manager.assetManager.get("Skin/8BitSkinTest.json");
+        game.playingSong = game.manager.assetManager.get("Music/TheLittleBroth.mp3");
+        game.playingSong.play();
+        //game.getOptions().m
         // Create a table that fills the screen. Everything else will go inside this table.
         Table table = new Table();
         table.setFillParent(true);
         table.setDebug(true);
         stage.addActor(table);
-
-        Skin skin = game.manager.assetManager.get("Skin/8BitSkinTest.json");
 
         //create buttons
         TextButton newGame = new TextButton("Start\n Game ", skin);

@@ -1,16 +1,13 @@
 package com.dinoduel.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dinoduel.game.Screens.LoadingScreen;
-import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Tools.B2AssetManager;
-import com.dinoduel.game.Tools.GameOptions;
+import com.dinoduel.game.Tools.AppPreferences;
+
+import java.security.PublicKey;
 
 public class DinoDuel extends Game {
     public static int V_WIDTH = 320;
@@ -34,14 +31,17 @@ public class DinoDuel extends Game {
 
     public SpriteBatch batch;
     public B2AssetManager manager;
-    private GameOptions options;
+    private AppPreferences options;
+    public Music playingSong;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         manager = new B2AssetManager();
-        options = new GameOptions();
+        options = new AppPreferences();
         manager.queueSkin();
+        manager.queueMusic();
+        manager.assetManager.finishLoading();
         //setScreen((new PlayScreen(this)));
         setScreen(new LoadingScreen(this, "MainMenuScreen"));
     }//end create
@@ -49,6 +49,7 @@ public class DinoDuel extends Game {
     @Override
     public void render() {
         super.render();
+        playMusic();
     }//end render
 
     @Override
@@ -58,7 +59,17 @@ public class DinoDuel extends Game {
         this.getScreen().dispose();
     }//end dispose
 
-    public GameOptions getOptions() {
+    public AppPreferences getPreferences() {
         return this.options;
     }//end getOptions
+
+    public void playMusic() {
+        if (playingSong != null) {
+            if (getPreferences().isMusicEnabled()) {
+                playingSong.setVolume(getPreferences().getMusicVolume());
+            } else {
+                playingSong.setVolume(0);
+            }
+        }
+    }//end playMusic
 }//end class

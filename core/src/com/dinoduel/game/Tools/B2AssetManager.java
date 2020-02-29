@@ -2,6 +2,7 @@ package com.dinoduel.game.Tools;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.SkinLoader;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -15,7 +16,7 @@ public class B2AssetManager {
 
     public B2AssetManager() {
         AssetManager assetManager = new AssetManager();
-    }
+    }//end constructor
 
     public void queueMap() {
         assetManager.setLoader(TiledMap.class, new TmxMapLoader());
@@ -28,7 +29,6 @@ public class B2AssetManager {
     }//end queueSkin
 
     public void queueMusic() {
-        SkinLoader.SkinParameter params = new SkinLoader.SkinParameter(skinAtlas);
-        assetManager.load(skin, Skin.class, params);
-    }//end queueSkin
-}
+        assetManager.load(menuMusic, Music.class);
+    }//end queueMusic
+}//end class
