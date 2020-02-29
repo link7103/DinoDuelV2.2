@@ -49,10 +49,10 @@ public class CharcterSelectMenu extends AbstractScreen {
         //Creates the world
         world = new World(new Vector2(0, -10), true);
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
-        player1 = new DemoDinos(world, this, "douxSprites", 75, 400);
-        player2 = new DemoDinos(world, this, "mortSprites", 150, 400);
-        player3 = new DemoDinos(world, this, "nullSprites", 225, 400);
-        player4 = new DemoDinos(world, this, "nullSprites", 300, 400);
+        player1 = new DemoDinos(world, this, "douxSprites", 128, 600);
+        player2 = new DemoDinos(world, this, "mortSprites", 256, 600);
+        player3 = new DemoDinos(world, this, "nullSprites", 384, 600);
+        player4 = new DemoDinos(world, this, "nullSprites", 512, 600);
 
         selections = new int[]{1, 2, 0, 0};
         takenSelections = new ArrayList<>();
@@ -83,14 +83,16 @@ public class CharcterSelectMenu extends AbstractScreen {
 
         player1.draw(game.batch);
         player2.draw(game.batch);
-        game.batch.draw(arrowUp, 100, 200, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 300, 200, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 400, 200, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 500, 200, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 100, 0, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-
+        game.batch.draw(arrowUp, 128 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, 256 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, 384 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, 512 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 128 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 256 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 384 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 512 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.end();
-
+        System.out.println(stage.getWidth());
     }//end render
 
     public void update(float dt) { //Updates the screen every frame
@@ -107,21 +109,21 @@ public class CharcterSelectMenu extends AbstractScreen {
         // Create a table that fills the screen. Everything else will go inside this table.
         Table table = new Table();
         table.setFillParent(true);
-        table.setDebug(true);
+        table.left().top();
+        //table.setDebug(true);
         stage.addActor(table);
 
         Skin skin = game.manager.assetManager.get("Skin/8BitSkinTest.json");
 
         //create buttons
-        TextButton start = new TextButton(" Start ", skin);
-        TextButton back = new TextButton("Back", skin);
+        TextButton start = new TextButton(" Choose Map ", skin);
+        TextButton back = new TextButton(" Back ", skin);
 
         //add buttons to table
-        table.add(start).fillX().uniformX();
-        table.row().pad(10, 0, 10, 0);
-
-        table.add(back).fillX().uniformX();
-
+        table.row().pad(10, 10, 0, 0);
+        table.add(back).left();
+        table.row().expand(100, 50).pad(50);
+        table.add(start).top();
         // create button listeners
         back.addListener(new ChangeListener() {
             @Override
@@ -168,18 +170,18 @@ public class CharcterSelectMenu extends AbstractScreen {
         //Player 1
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             testUp(0);
-            player1 = setPlayer(selections[0], 75);
+            player1 = setPlayer(selections[0], 128);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
             testDown(0);
-            player1 = setPlayer(selections[0], 75);
+            player1 = setPlayer(selections[0], 128);
         }
         //Player 2
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             testUp(1);
-            player2 = setPlayer(selections[1], 150);
+            player2 = setPlayer(selections[1], 256);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             testDown(1);
-            player2 = setPlayer(selections[1], 150);
+            player2 = setPlayer(selections[1], 256);
         }
     }//end handleInput
 
@@ -241,7 +243,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         takenSelections.add(tempselection);
     }//end testDown
 
-    private DemoDinos setPlayer(int dinoNumber, int startingPos) {
+    private DemoDinos setPlayer(int dinoNumber, float startingPos) {
         String name = "";
         if (dinoNumber == 0) {
             name = "nullSprites";
@@ -254,7 +256,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         } else if (dinoNumber == 4) {
             name = "vitaSprites";
         }
-        return new DemoDinos(world, this, name, startingPos, 400);
+        return new DemoDinos(world, this, name, startingPos, 600);
     }//end setplayer
 
     public static String getDinoData(int playerNum) {
