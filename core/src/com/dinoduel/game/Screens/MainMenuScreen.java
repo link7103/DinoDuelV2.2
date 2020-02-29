@@ -48,8 +48,7 @@ public class MainMenuScreen extends AbstractScreen {
         table.setDebug(true);
         stage.addActor(table);
 
-        // temporary until we have asset manager in
-        Skin skin = new Skin(Gdx.files.internal("Skin/8BitSkinTest.json"));
+        Skin skin = game.manager.assetManager.get("Skin/8BitSkinTest.json");
 
         //create buttons
         TextButton newGame = new TextButton("Start\n Game ", skin);

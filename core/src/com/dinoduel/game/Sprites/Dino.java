@@ -75,11 +75,11 @@ public class Dino extends Sprite {
             dinoNumber = 0;
         } else if (name.equalsIgnoreCase("douxSprites")) {
             dinoNumber = 1;
-        }else if (name.equalsIgnoreCase("mortSprites")) {
+        } else if (name.equalsIgnoreCase("mortSprites")) {
             dinoNumber = 2;
-        }else if (name.equalsIgnoreCase("tardSprites")) {
+        } else if (name.equalsIgnoreCase("tardSprites")) {
             dinoNumber = 3;
-        }else if (name.equalsIgnoreCase("vitaSprites")) {
+        } else if (name.equalsIgnoreCase("vitaSprites")) {
             dinoNumber = 4;
         }
         this.world = world;

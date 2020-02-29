@@ -31,6 +31,7 @@ import com.dinoduel.game.Sprites.Weapons.Pistol;
 import com.dinoduel.game.Sprites.Weapons.Shotgun;
 import com.dinoduel.game.Sprites.Weapons.Sniper;
 import com.dinoduel.game.Sprites.Weapons.Weapon;
+import com.dinoduel.game.Tools.B2AssetManager;
 import com.dinoduel.game.Tools.B2WorldCreator;
 import com.dinoduel.game.Tools.WorldContactListener;
 
@@ -50,8 +51,6 @@ public class PlayScreen extends AbstractScreen {
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private ShapeRenderer shapeRenderer = new ShapeRenderer();
-    //Asset Manager
-    private AssetManager assetManager;
 
     //Box2d variables
     private World world;
@@ -113,11 +112,9 @@ public class PlayScreen extends AbstractScreen {
         //Creates the hud
         hud = new Hud(game.batch);
         //Renders the map
-        assetManager = new AssetManager();
-        assetManager.setLoader(TiledMap.class, new TmxMapLoader());
-        assetManager.load("DinoDuel Basic Tilesets/map1.tmx", TiledMap.class);
-        assetManager.finishLoading();
-        map = assetManager.get("DinoDuel Basic Tilesets/map1.tmx", TiledMap.class);
+        game.manager.queueMap();
+        game.manager.assetManager.finishLoading();
+        map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map1.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
@@ -596,9 +593,9 @@ public class PlayScreen extends AbstractScreen {
 
     public void createPlayers() {
         String p1 = CharcterSelectMenu.getDinoData(1);
-        String p2= CharcterSelectMenu.getDinoData(2);
-        String p3= CharcterSelectMenu.getDinoData(3);
-        String p4= CharcterSelectMenu.getDinoData(4);
+        String p2 = CharcterSelectMenu.getDinoData(2);
+        String p3 = CharcterSelectMenu.getDinoData(3);
+        String p4 = CharcterSelectMenu.getDinoData(4);
         player1 = new Dino(world, this, p1, new Vector2(0.5f, 0.2f));
         allPlayers.add(player1);
         player2 = new Dino(world, this, p2, new Vector2(2.5f, 1.5f));
@@ -633,7 +630,7 @@ public class PlayScreen extends AbstractScreen {
     @Override
     public void dispose() {
         map.dispose();
-        assetManager.dispose();
+        game.manager.assetManager.dispose();
         renderer.dispose();
         world.dispose();
         b2dr.dispose();

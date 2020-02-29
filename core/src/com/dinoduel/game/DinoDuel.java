@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.dinoduel.game.Screens.LoadingScreen;
 import com.dinoduel.game.Screens.PlayScreen;
+import com.dinoduel.game.Tools.B2AssetManager;
 import com.dinoduel.game.Tools.GameOptions;
 
 public class DinoDuel extends Game {
@@ -32,14 +33,15 @@ public class DinoDuel extends Game {
     public static final short MASK_SEMISOLID = CATEGORY_DINO | CATEGORY_BULLET | CATEGORY_WEAPON;
 
     public SpriteBatch batch;
-    public AssetManager manager;
+    public B2AssetManager manager;
     private GameOptions options;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
-        manager = new AssetManager();
+        manager = new B2AssetManager();
         options = new GameOptions();
+        manager.queueSkin();
         //setScreen((new PlayScreen(this)));
         setScreen(new LoadingScreen(this, "MainMenuScreen"));
     }//end create
@@ -52,7 +54,7 @@ public class DinoDuel extends Game {
     @Override
     public void dispose() {
         batch.dispose();
-        manager.dispose();
+        manager.assetManager.dispose();
         this.getScreen().dispose();
     }//end dispose
 

@@ -110,8 +110,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         table.setDebug(true);
         stage.addActor(table);
 
-        // temporary until we have asset manager in
-        Skin skin = new Skin(Gdx.files.internal("Skin/8BitSkinTest.json"));
+        Skin skin = game.manager.assetManager.get("Skin/8BitSkinTest.json");
 
         //create buttons
         TextButton start = new TextButton(" Start ", skin);
@@ -135,7 +134,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                if(!player1.getName().equals("nullSprites") &&!player2.getName().equals("nullSprites")) {
+                if (!player1.getName().equals("nullSprites") && !player2.getName().equals("nullSprites")) {
                     PlayScreen tempScreen = new PlayScreen(game);
                     game.setScreen(tempScreen);
                     stage.dispose();
@@ -260,7 +259,7 @@ public class CharcterSelectMenu extends AbstractScreen {
 
     public static String getDinoData(int playerNum) {
         if (playerNum == 2) {
-            return  player2.getName();
+            return player2.getName();
         } else if (playerNum == 3) {
             return player3.getName();
         } else if (playerNum == 4) {

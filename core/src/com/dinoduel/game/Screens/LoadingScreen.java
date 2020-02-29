@@ -40,15 +40,15 @@ public class LoadingScreen extends AbstractScreen {
     @Override
     public void show() {
         // Tell the manager to load assets for the loading screen
-        game.manager.load("data/loading.pack", TextureAtlas.class);
+        game.manager.assetManager.load("data/loading.pack", TextureAtlas.class);
         // Wait until they are finished loading
-        game.manager.finishLoading();
+        game.manager.assetManager.finishLoading();
 
         // Initialize the stage where we will place everything
         stage = new Stage();
 
         // Get our textureatlas from the manager
-        TextureAtlas atlas = game.manager.get("data/loading.pack", TextureAtlas.class);
+        TextureAtlas atlas = game.manager.assetManager.get("data/loading.pack", TextureAtlas.class);
 
         // Grab the regions from the atlas and create some images
         logo = new Image(atlas.findRegion("libgdx-logo"));
@@ -114,7 +114,7 @@ public class LoadingScreen extends AbstractScreen {
         // Clear the screen
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        if (game.manager.update()) { // Load some, will return true if done loading
+        if (game.manager.assetManager.update()) { // Load some, will return true if done loading
             if (Gdx.input.isTouched()) { // If the screen is touched after the game is done loading, go to the main menu screen
                 if (nextScreen.equalsIgnoreCase("MainMenuScreen")) {
                     game.setScreen(new MainMenuScreen(game));
@@ -125,7 +125,7 @@ public class LoadingScreen extends AbstractScreen {
         }
 
         // Interpolate the percentage to make it more smooth
-        percent = Interpolation.linear.apply(percent, game.manager.getProgress(), 0.1f);
+        percent = Interpolation.linear.apply(percent, game.manager.assetManager.getProgress(), 0.1f);
 
         // Update positions (and size) to match the percentage
         loadingBarHidden.setX(startX + endX * percent);
@@ -141,7 +141,7 @@ public class LoadingScreen extends AbstractScreen {
     @Override
     public void hide() {
         // Dispose the loading assets as we no longer need them
-        game.manager.unload("data/loading.pack");
+        game.manager.assetManager.unload("data/loading.pack");
         stage.dispose();
         this.dispose();
     }//end hide

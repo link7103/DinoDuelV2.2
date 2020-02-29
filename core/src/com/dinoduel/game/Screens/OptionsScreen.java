@@ -44,8 +44,7 @@ public class OptionsScreen implements Screen {
         //table.setDebug(true);
         stage.addActor(table);
 
-        // temporary until we have asset manager in
-        Skin skin = new Skin(Gdx.files.internal("Skin/8BitSkinTest.json"));
+        Skin skin = game.manager.assetManager.get("Skin/8BitSkinTest.json");
 
         // music volume
         final Slider volumeMusicSlider = new Slider(0f, 1f, 0.1f, false, skin);
