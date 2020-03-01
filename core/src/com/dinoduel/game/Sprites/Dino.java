@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class Dino extends Sprite {
     //States
-    public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING, KICKING, DEAD}
+    public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING, KICKING, DYING}
 
     public State currentState;
     public State previousState;
@@ -59,6 +59,8 @@ public class Dino extends Sprite {
     public boolean KEYRIGHT = false;
     public boolean KEYLEFT = false;
 
+    public boolean canMove;
+
     public Ladder currentLadder = null;
 
     private float standingHeight = 0;
@@ -66,6 +68,7 @@ public class Dino extends Sprite {
     private Vector2 startingPos;
     //Health
     public float health;
+    private boolean dead;
 
     public Dino(World world, PlayScreen screen, String name, Vector2 startingPos) {
         //Initialize Variables
@@ -154,6 +157,9 @@ public class Dino extends Sprite {
         if (weapon != null) {
             weapon.update(dt);
         }
+        if (!dead && health <= 0) {
+            defineDino(0);
+        }
     }//end update
 
     private TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
@@ -162,10 +168,15 @@ public class Dino extends Sprite {
 
         TextureRegion region;
         switch (currentState) {
-            case DEAD:
-                region = dinoDies.getKeyFrame(stateTimer, false);
-                if (dinoDies.isAnimationFinished(stateTimer)) {
-                    dies();
+
+            case DYING:
+                region = dinoDies.getKeyFrame(stateTimer);
+                if (!dead) {
+                    dying();
+                } else {
+                    if (dinoDies.isAnimationFinished(stateTimer )){
+                        dies();
+                    }
                 }
                 break;
             case KICKING:
@@ -208,9 +219,9 @@ public class Dino extends Sprite {
 
     private State getState() {
         //Sets different states
-        if (health <= 0) {
+          if (health <= 0) {
             health = 0;
-            return State.DEAD;
+            return State.DYING;
         } else if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
             return State.JUMPING;
@@ -225,7 +236,6 @@ public class Dino extends Sprite {
             defineDino(2);
 
         }
-
         if (climbing && previousState != State.CLIMBING) {
             defineDino(3);
             return State.CLIMBING;
@@ -248,6 +258,7 @@ public class Dino extends Sprite {
         } else {
             return State.STANDING;
         }
+
     }//end getState
 
     private void defineDino(int instruction) { //Side Sensors may need to be tweaked - (Head area?)
@@ -256,6 +267,7 @@ public class Dino extends Sprite {
 
         if (instruction == 0) {
             //starting position. (Pass in for multiple players?)
+            canMove = true;
             health = 1;
             bdef.position.set(startingPos);
             bdef.type = BodyDef.BodyType.DynamicBody;
@@ -441,11 +453,20 @@ public class Dino extends Sprite {
         kicking = true;
     }
 
-    private void dies() {
+    private void dying() {
         if (hasWeapon) {
             dropWeapon();
         }
+        canMove = false;
+        b2body.setGravityScale(0);
+        b2body.setLinearVelocity(0,0);
+        dead = true;
+    }//end dying
+
+    private void dies() {
         world.destroyBody(b2body);
         defineDino(0);
-    }//end dies
+        dead = false;
+    }//end
+
 }//end Dino

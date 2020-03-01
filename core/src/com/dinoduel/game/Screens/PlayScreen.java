@@ -265,162 +265,164 @@ public class PlayScreen extends AbstractScreen {
 
     private void handleInput(float dt) {
         //******************************Player1******************************
-        player1.KEYUP = false;
-        player1.KEYRIGHT = false;
-        player1.KEYDOWN = false;
-        player1.KEYLEFT = false;
-        if (player1.climbing) {
-            player1.b2body.setLinearVelocity(0, 0);
-        }
-        if (player1.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.UP) && player1.currentState != Dino.State.CLIMBING && player1.currentState != Dino.State.FALLING) {
-            player1.KEYUP = true;
-            player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
-
-        } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            player1.KEYUP = true;
-            if (player1.currentState == Dino.State.CLIMBING) {
-                player1.b2body.setLinearVelocity(0, 1f);
+        if (player1.canMove) {
+            player1.KEYUP = false;
+            player1.KEYRIGHT = false;
+            player1.KEYDOWN = false;
+            player1.KEYLEFT = false;
+            if (player1.climbing) {
+                player1.b2body.setLinearVelocity(0, 0);
             }
-        }
+            if (player1.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.UP) && player1.currentState != Dino.State.CLIMBING && player1.currentState != Dino.State.FALLING) {
+                player1.KEYUP = true;
+                player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
 
-        if (player1.climbing) {
-            if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                player1.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player1.b2body.getWorldCenter(), true);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                player1.KEYUP = true;
+                if (player1.currentState == Dino.State.CLIMBING) {
+                    player1.b2body.setLinearVelocity(0, 1f);
+                }
             }
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
-            player1.KEYRIGHT = true;
-            player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
-            if (player1.currentState == Dino.State.CLIMBING) {
-                player1.b2body.setLinearVelocity(1f, 0);
+            if (player1.climbing) {
+                if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    player1.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player1.b2body.getWorldCenter(), true);
+                }
             }
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2) {
-            player1.KEYLEFT = true;
-            player1.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player1.b2body.getWorldCenter(), true);
-            if (player1.currentState == Dino.State.CLIMBING) {
-                player1.b2body.setLinearVelocity(-1f, 0);
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
+                player1.KEYRIGHT = true;
+                player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
+                if (player1.currentState == Dino.State.CLIMBING) {
+                    player1.b2body.setLinearVelocity(1f, 0);
+                }
             }
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-
-            player1.KEYDOWN = true;
-            if (player1.currentState != Dino.State.CLIMBING)
-                player1.playerDucking = true;
-            else if (player1.climbing) {
-                player1.b2body.setLinearVelocity(0, -1f);
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2) {
+                player1.KEYLEFT = true;
+                player1.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player1.b2body.getWorldCenter(), true);
+                if (player1.currentState == Dino.State.CLIMBING) {
+                    player1.b2body.setLinearVelocity(-1f, 0);
+                }
             }
-        } else {
-            player1.playerDucking = false;
-        }
-        //calls the Pickup/Drop method
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT)) {
-            if (player1.hasWeapon) {
-                player1.dropWeapon();
+
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+
+                player1.KEYDOWN = true;
+                if (player1.currentState != Dino.State.CLIMBING)
+                    player1.playerDucking = true;
+                else if (player1.climbing) {
+                    player1.b2body.setLinearVelocity(0, -1f);
+                }
             } else {
-                player1.pickupWeapon(allWeapons);
+                player1.playerDucking = false;
+            }
+            //calls the Pickup/Drop method
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_RIGHT)) {
+                if (player1.hasWeapon) {
+                    player1.dropWeapon();
+                } else {
+                    player1.pickupWeapon(allWeapons);
+                }
+            }
+
+            //calls shoot method
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SLASH)) {
+                if (player1.hasWeapon) {
+                    player1.useWeapon();
+                } else {
+                    //kick implentation
+                    player1.kick();
+                }
+            }
+            //Stops Sliding
+            if (player1.b2body.getLinearVelocity().x > 0.05f && !player1.KEYRIGHT && !player1.KEYLEFT) {
+                player1.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player1.b2body.getWorldCenter(), true);
+            } else if (player1.b2body.getLinearVelocity().x < -0.05f && !player1.KEYLEFT && !player1.KEYRIGHT) {
+                player1.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player1.b2body.getWorldCenter(), true);
             }
         }
-
-        //calls shoot method
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SLASH)) {
-            if (player1.hasWeapon) {
-                player1.useWeapon();
-            } else {
-                //kick implentation
-                player1.kick();
-            }
-        }
-        //Stops Sliding
-        if (player1.b2body.getLinearVelocity().x > 0.05f && !player1.KEYRIGHT && !player1.KEYLEFT) {
-            player1.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player1.b2body.getWorldCenter(), true);
-        } else if (player1.b2body.getLinearVelocity().x < -0.05f && !player1.KEYLEFT && !player1.KEYRIGHT) {
-            player1.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player1.b2body.getWorldCenter(), true);
-        }
-
 
         //******************************Player2******************************
-        player2.KEYUP = false;
-        player2.KEYRIGHT = false;
-        player2.KEYDOWN = false;
-        player2.KEYLEFT = false;
+        if (player2.canMove) {
+            player2.KEYUP = false;
+            player2.KEYRIGHT = false;
+            player2.KEYDOWN = false;
+            player2.KEYLEFT = false;
 
-        if (player2.climbing && !Gdx.input.isKeyPressed(Input.Keys.W)) {
-            player2.b2body.setLinearVelocity(0, 0);
-        }
-
-        if (player2.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.W) && player2.currentState != Dino.State.CLIMBING && player2.currentState != Dino.State.FALLING) {
-            player2.KEYUP = true;
-            player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
-        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            player2.KEYUP = true;
-            if (player2.currentState == Dino.State.CLIMBING) {
-                player2.b2body.setLinearVelocity(0, 1f);
+            if (player2.climbing && !Gdx.input.isKeyPressed(Input.Keys.W)) {
+                player2.b2body.setLinearVelocity(0, 0);
             }
-        }
 
-        if (player2.climbing) {
-            if ((player2.b2body.getPosition().y * DinoDuel.PPM >= player2.currentLadder.bounds.y + player2.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.W)) {
-                player2.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player2.b2body.getWorldCenter(), true);
-
+            if (player2.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.W) && player2.currentState != Dino.State.CLIMBING && player2.currentState != Dino.State.FALLING) {
+                player2.KEYUP = true;
+                player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
+            } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+                player2.KEYUP = true;
+                if (player2.currentState == Dino.State.CLIMBING) {
+                    player2.b2body.setLinearVelocity(0, 1f);
+                }
             }
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.b2body.getLinearVelocity().x <= 2) {
-            player2.KEYRIGHT = true;
-            player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);
-            if (player2.currentState == Dino.State.CLIMBING) {
-                player2.b2body.setLinearVelocity(1f, 0);
-            }
-        }
+            if (player2.climbing) {
+                if ((player2.b2body.getPosition().y * DinoDuel.PPM >= player2.currentLadder.bounds.y + player2.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    player2.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player2.b2body.getWorldCenter(), true);
 
-        if (Gdx.input.isKeyPressed(Input.Keys.A) && player2.b2body.getLinearVelocity().x >= -2) {
-            player2.KEYLEFT = true;
-            player2.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player2.b2body.getWorldCenter(), true);
-            if (player2.currentState == Dino.State.CLIMBING) {
-                player2.b2body.setLinearVelocity(-1f, 0);
+                }
             }
-        }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            player2.KEYDOWN = true;
-            if (player2.currentState != Dino.State.CLIMBING)
-                player2.playerDucking = true;
-            else if (player2.climbing) {
-                player2.b2body.setLinearVelocity(0, -1f);
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.b2body.getLinearVelocity().x <= 2) {
+                player2.KEYRIGHT = true;
+                player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);
+                if (player2.currentState == Dino.State.CLIMBING) {
+                    player2.b2body.setLinearVelocity(1f, 0);
+                }
             }
-        } else {
-            player2.playerDucking = false;
-        }
-//calls the Pickup/Drop method
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
-            if (player2.hasWeapon) {
-                player2.dropWeapon();
+
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && player2.b2body.getLinearVelocity().x >= -2) {
+                player2.KEYLEFT = true;
+                player2.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player2.b2body.getWorldCenter(), true);
+                if (player2.currentState == Dino.State.CLIMBING) {
+                    player2.b2body.setLinearVelocity(-1f, 0);
+                }
+            }
+
+            if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+                player2.KEYDOWN = true;
+                if (player2.currentState != Dino.State.CLIMBING)
+                    player2.playerDucking = true;
+                else if (player2.climbing) {
+                    player2.b2body.setLinearVelocity(0, -1f);
+                }
             } else {
-                player2.pickupWeapon(allWeapons);
+                player2.playerDucking = false;
             }
-        }
+//calls the Pickup/Drop method
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)) {
+                if (player2.hasWeapon) {
+                    player2.dropWeapon();
+                } else {
+                    player2.pickupWeapon(allWeapons);
+                }
+            }
 
 //calls shoot method
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if (player2.hasWeapon) {
-                player2.useWeapon();
-            } else {
-                //kick implentation
-                player2.kick();
+            if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+                if (player2.hasWeapon) {
+                    player2.useWeapon();
+                } else {
+                    //kick implentation
+                    player2.kick();
+                }
+            }
+
+            //Stops Sliding
+            if (player2.b2body.getLinearVelocity().x > 0.05f && !player2.KEYRIGHT && !player2.KEYLEFT) {
+                player2.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player2.b2body.getWorldCenter(), true);
+            } else if (player2.b2body.getLinearVelocity().x < -0.05f && !player2.KEYLEFT && !player2.KEYRIGHT) {
+                player2.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player2.b2body.getWorldCenter(), true);
             }
         }
-
-        //Stops Sliding
-        if (player2.b2body.getLinearVelocity().x > 0.05f && !player2.KEYRIGHT && !player2.KEYLEFT) {
-            player2.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player2.b2body.getWorldCenter(), true);
-        } else if (player2.b2body.getLinearVelocity().x < -0.05f && !player2.KEYLEFT && !player2.KEYRIGHT) {
-            player2.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player2.b2body.getWorldCenter(), true);
-        }
-
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
         }
     }//end handleInput
