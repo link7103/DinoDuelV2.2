@@ -33,6 +33,7 @@ public class DinoDuel extends Game {
     public B2AssetManager manager;
     private AppPreferences options;
     public Music playingSong;
+    public Music playingSoundEffect;
 
     @Override
     public void create() {
@@ -50,6 +51,7 @@ public class DinoDuel extends Game {
     public void render() {
         super.render();
         playMusic();
+        playSoundEffect();
     }//end render
 
     @Override
@@ -72,4 +74,14 @@ public class DinoDuel extends Game {
             }
         }
     }//end playMusic
+
+    public void playSoundEffect() {
+        if (playingSoundEffect != null) {
+            if (getPreferences().isSoundEffectsEnabled()) {
+                playingSoundEffect.setVolume(getPreferences().getSoundVolume());
+            } else {
+                playingSoundEffect.setVolume(0);
+            }
+        }
+    }//end playSoundEffect
 }//end class

@@ -105,7 +105,6 @@ public class B2WorldCreator {
         //Ladders 14
         for (MapObject object : map.getLayers().get(14).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
-            System.out.println(rect.width + " "+ rect.x );
             Ladder newLadder = new Ladder(world, map, rect, screen);
             screen.allLadders.add(newLadder);
         }

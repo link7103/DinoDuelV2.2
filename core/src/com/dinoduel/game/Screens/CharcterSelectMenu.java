@@ -92,7 +92,6 @@ public class CharcterSelectMenu extends AbstractScreen {
         game.batch.draw(arrowDown, 384 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.draw(arrowDown, 512 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.end();
-        System.out.println(stage.getWidth());
     }//end render
 
     public void update(float dt) { //Updates the screen every frame

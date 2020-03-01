@@ -219,7 +219,6 @@ public class PlayScreen extends AbstractScreen {
             dino.climbing = false;
             dino.currentLadder = null;
             for (Ladder ladder : allLadders) {
-                //System.out.println("x "+ladder.bounds.x+ "dino x " + dino.b2body.getPosition().x);
                 if (ladder.bounds.contains(dino.b2body.getPosition().x * DinoDuel.PPM, dino.b2body.getPosition().y * DinoDuel.PPM - dino.getHeight() / 2)) {
                     if (dino.KEYUP || dino.KEYDOWN || dino.previousState == Dino.State.CLIMBING) {
                         dino.climbing = true;
@@ -491,9 +490,8 @@ public class PlayScreen extends AbstractScreen {
             }
         }
 
-        //GreyGunBox textBox = new GreyGunBox(32, 32, this);
+        //GreyGunBox
         for (GreyGunBox greyGunBox : allGreyGunBoxes) {
-            //System.out.println("should draw");
             greyGunBox.draw(game.batch);
 
         }
