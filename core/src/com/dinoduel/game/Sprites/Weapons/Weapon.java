@@ -45,7 +45,6 @@ public abstract class Weapon extends Sprite {
     float lastFireTime = 0;
     private float dropTime = 0;
     public boolean spinStop = false;
-    private boolean upsideDown = false;
 
     Weapon(float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("weapons"));
@@ -73,6 +72,10 @@ public abstract class Weapon extends Sprite {
 
 
         if (user != null) {
+
+
+
+
             spinStop = false;
             if (user.isRunningRight()) {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
@@ -88,7 +91,6 @@ public abstract class Weapon extends Sprite {
                 //System.out.println("stop check angle" + (3/4*3.14)%(3.14/2));
                 if ((wBody.getAngle() > (Math.PI/2) && wBody.getAngle() < (3*Math.PI/2) )|| (wBody.getAngle() < (-Math.PI/2) && wBody.getAngle() > (-3*Math.PI/2) )) {
                     wBody.setTransform(wBody.getPosition(), (float) Math.PI);
-                    upsideDown = true;
                 }else
                     wBody.setTransform(wBody.getPosition(), 0);
 
@@ -118,6 +120,8 @@ public abstract class Weapon extends Sprite {
             setPosition(wBody.getPosition().x - getWidth() / 2, wBody.getPosition().y - getHeight() / 2);
             setOriginCenter();
             rotate((float)((wBody.getAngle()-previousAngle) *180/Math.PI));
+
+
             previousAngle = wBody.getAngle();
         }
 
@@ -156,7 +160,10 @@ public abstract class Weapon extends Sprite {
     }//end defineWeapon
 
     public void setUser(Dino dino) {
+
+        spinStop = true;
         update(0);
+
 
         /*
         if (!wBody.isFixedRotation()) {
@@ -169,11 +176,10 @@ public abstract class Weapon extends Sprite {
             wBody.setFixedRotation(true);
         }
     */
+        setRotation(0);
+        previousAngle = 0;
 
-        if (upsideDown) {
-                rotate(180);
-                upsideDown = false;
-        }
+
 
 
             user = dino;
@@ -191,12 +197,8 @@ public abstract class Weapon extends Sprite {
     private void clearUser() {
         this.user = null;
 
-        /*if (upsideDown) {
-            rotate(180);
-            upsideDown = false;
-        }
 
-         */
+
     }//end clearUser
 
     public void dropped() {

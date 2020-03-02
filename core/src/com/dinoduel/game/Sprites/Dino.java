@@ -3,6 +3,7 @@ package com.dinoduel.game.Sprites;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -408,7 +409,19 @@ public class Dino extends Sprite {
         for (Weapon weapon : allWeapons) {
             if (!hasWeapon) {
                 //Checks to see if the x and y coordinate of the Dino is inside of the gun (+ of - a couple of pixels to be safe)
+                /*
                 if (((weapon.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) && weapon.getUser() == null) {
+                    hasWeapon = true;
+                    weapon.setUser(this);
+                    this.weapon = weapon;
+                    break;
+                }
+
+                 */
+
+                System.out.println("weapon"  + weapon.getBoundingRectangle().x + " y " + weapon.getBoundingRectangle().y + "width " + weapon.getBoundingRectangle().width + " height " + weapon.getBoundingRectangle().height);
+                System.out.println("body" + b2body.getPosition().x + " y" + b2body.getPosition().y  );
+                if (weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x-.04f, b2body.getPosition().y-.07f , .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x-.04f, b2body.getPosition().y+.03f , .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.DUCKRUNNING) && weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x-.08f, b2body.getPosition().y-.05f , .16f, .10f))))   {
                     hasWeapon = true;
                     weapon.setUser(this);
                     this.weapon = weapon;

@@ -63,7 +63,8 @@ public class WorldContactListener implements ContactListener {
             if (ground.getFilterData().categoryBits == DinoDuel.CATEGORY_SCENERY || ground.getFilterData().categoryBits == DinoDuel.CATEGORY_SEMISOLID || ground.getFilterData().categoryBits == DinoDuel.CATEGORY_GUNBOX) {
                 //System.out.println("with ground");
 
-                ((Weapon) (weapon.getUserData())).spinStop = true;
+                if (((Weapon) (weapon.getUserData())).getUser() == null)
+                    ((Weapon) (weapon.getUserData())).spinStop = true;
                 //System.out.println("Contact angle" + ((Weapon) (weapon.getUserData())).wBody.getAngle());
             }
         }
