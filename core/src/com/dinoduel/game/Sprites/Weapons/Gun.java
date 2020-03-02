@@ -1,6 +1,9 @@
 package com.dinoduel.game.Sprites.Weapons;
 
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.Screens.PlayScreen;
 
@@ -13,6 +16,7 @@ public abstract class Gun extends Weapon {
     float speedX;
     float duration;
     float bulletHeightOffset;
+    Animation<Texture> reload;
 
     Gun(float x, float y, World world, PlayScreen screen) {
         //adjust how this works - Currently loads one big section, change to loading individuals

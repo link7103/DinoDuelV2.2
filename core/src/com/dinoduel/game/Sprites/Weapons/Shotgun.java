@@ -1,7 +1,10 @@
 package com.dinoduel.game.Sprites.Weapons;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 
@@ -28,6 +31,15 @@ public class Shotgun extends Gun {
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
         setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
+
+
+        Array<Texture> frames = new Array<>();
+        for (int i = 0; i < 18; i++) {
+            frames.add(this.getTexture());
+            rotate(5);
+        }
+        reload = new Animation(0.1f, frames);
+        setRotation(0);
     }//end constructor
 
     @Override
