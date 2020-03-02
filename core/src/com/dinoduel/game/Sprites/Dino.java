@@ -141,7 +141,7 @@ public class Dino extends Sprite {
     }//end constructor
 
     public void update(float dt) { //Updates the sprite every frame
-        if (playerDucking && currentState != State.FALLING && currentState != State.JUMPING) {
+        if (playerDucking && currentState != State.FALLING && currentState != State.JUMPING && currentState != State.CLIMBING) {
             if (runningRight) {
                 setPosition(b2body.getPosition().x - 0.025f - getWidth() / 2, b2body.getPosition().y + 0.0125f - getHeight() / 2);
             } else {
@@ -313,7 +313,7 @@ public class Dino extends Sprite {
             world.destroyBody(b2body);
             bdef.position.set(currentPosition);
 
-            if (instruction == 1) {//Duck
+            if (instruction == 1&& currentLadder == null) {//Duck
                 //System.out.println(1);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
@@ -352,7 +352,7 @@ public class Dino extends Sprite {
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("side");
                  */
-            } else if (instruction == 2) {//Unduck
+            } else if (instruction == 2 ) {//Unduck
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
 
@@ -379,7 +379,7 @@ public class Dino extends Sprite {
                 b2body.createFixture(fdef).setUserData("head");
 
                 setSize(standingWidth, standingHeight);
-            } else if (instruction == 3) { //Climbing
+            } else if (instruction == 3 || (currentLadder!=null && instruction == 1)) { //Climbing
                 currentVelocity = new Vector2(0, 0);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
@@ -390,13 +390,12 @@ public class Dino extends Sprite {
                 fdef.filter.maskBits = DinoDuel.MASK_DINOCLIMBING;
 
                 PolygonShape headShape = new PolygonShape();
-                headShape.setAsBox(7 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
+                headShape.setAsBox(6 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
                 fdef.shape = headShape;
                 b2body.createFixture(fdef).setUserData(this);
 
-                CircleShape bodyShape = new CircleShape();
-                bodyShape.setRadius(4 / DinoDuel.PPM);
-                bodyShape.setPosition(new Vector2(0, -4f / DinoDuel.PPM));
+                PolygonShape bodyShape = new PolygonShape();
+                bodyShape.setAsBox(4 / DinoDuel.PPM, 7 / DinoDuel.PPM, new Vector2(+0, +1f / DinoDuel.PPM), 0);
                 fdef.shape = bodyShape;
                 b2body.createFixture(fdef).setUserData(this);
 

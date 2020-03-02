@@ -156,17 +156,31 @@ public abstract class Weapon extends Sprite {
     }//end defineWeapon
 
     public void setUser(Dino dino) {
+        update(0);
+
+        /*
+        if (!wBody.isFixedRotation()) {
+            if ((wBody.getAngle() > (Math.PI / 2) && wBody.getAngle() < (3 * Math.PI / 2)) || (wBody.getAngle() < (-Math.PI / 2) && wBody.getAngle() > (-3 * Math.PI / 2))) {
+                wBody.setTransform(wBody.getPosition(), (float) Math.PI);
+                upsideDown = true;
+            } else
+                wBody.setTransform(wBody.getPosition(), 0);
+
+            wBody.setFixedRotation(true);
+        }
+    */
 
         if (upsideDown) {
                 rotate(180);
                 upsideDown = false;
-            }
+        }
 
 
             user = dino;
             wBody.setAwake(false);
             world.destroyBody(wBody);
             wBody = null;
+
 
     }//end setUser
 
@@ -176,6 +190,7 @@ public abstract class Weapon extends Sprite {
 
     private void clearUser() {
         this.user = null;
+
         /*if (upsideDown) {
             rotate(180);
             upsideDown = false;
