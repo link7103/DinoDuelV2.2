@@ -165,17 +165,7 @@ public abstract class Weapon extends Sprite {
         update(0);
 
 
-        /*
-        if (!wBody.isFixedRotation()) {
-            if ((wBody.getAngle() > (Math.PI / 2) && wBody.getAngle() < (3 * Math.PI / 2)) || (wBody.getAngle() < (-Math.PI / 2) && wBody.getAngle() > (-3 * Math.PI / 2))) {
-                wBody.setTransform(wBody.getPosition(), (float) Math.PI);
-                upsideDown = true;
-            } else
-                wBody.setTransform(wBody.getPosition(), 0);
 
-            wBody.setFixedRotation(true);
-        }
-    */
         setRotation(0);
         previousAngle = 0;
 
