@@ -119,6 +119,7 @@ public class B2WorldCreator {
         }
 
         //Polygon layer 16
+        /*
         for (MapObject object : map.getLayers().get(16).getObjects().getByType(PolygonMapObject.class)
         ) {
             System.out.println("builds polygon");
@@ -141,5 +142,7 @@ public class B2WorldCreator {
             fixture.setUserData("ground");
         }
 
+
+         */
     }//end Constructor
 }//end class

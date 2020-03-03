@@ -50,7 +50,7 @@ public class PlayScreen extends AbstractScreen {
     //Map
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    //private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     //Box2d variables
     private World world;
@@ -75,6 +75,7 @@ public class PlayScreen extends AbstractScreen {
     private float spawnX;
     private float spawnY;
     private int spawnType = -1;
+    public boolean killScreen = false;
 
     public static PlayScreen screen;
     //Weapon list
@@ -116,7 +117,7 @@ public class PlayScreen extends AbstractScreen {
         //Renders the map
         game.manager.queueMap();
         game.manager.assetManager.finishLoading();
-        map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map3.tmx");
+        map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map1.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
@@ -305,7 +306,7 @@ public class PlayScreen extends AbstractScreen {
 
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
                 player1.KEYRIGHT = true;
-                player1.b2body.applyLinearImpulse(new Vector2(.1f, 0), player1.b2body.getWorldCenter(), true);
+                player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
                 if (player1.currentState == Dino.State.CLIMBING) {
                     player1.b2body.setLinearVelocity(1f, 0);
                 }
@@ -631,7 +632,6 @@ public class PlayScreen extends AbstractScreen {
         for (int i = 0; i < allLivingPlayers.size(); i++) {
             allPlayers.add(allLivingPlayers.get(i));
         }
-        CharcterSelectMenu.killScreen = true;
     }//end createPlayers
 
     @Override
