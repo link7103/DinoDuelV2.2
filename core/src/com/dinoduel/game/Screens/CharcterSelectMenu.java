@@ -20,7 +20,7 @@ import com.dinoduel.game.Sprites.DemoDinos;
 import java.util.ArrayList;
 
 public class CharcterSelectMenu extends AbstractScreen {
-    Stage stage;
+    private Stage stage;
     //Player
     private static DemoDinos player1;
     private static DemoDinos player2;
@@ -36,6 +36,7 @@ public class CharcterSelectMenu extends AbstractScreen {
     //Select Values
     private int[] selections;
     private ArrayList<Integer> takenSelections;
+    public static boolean killScreen = false;
 
     public CharcterSelectMenu(DinoDuel game) {
         super(game);
@@ -49,10 +50,10 @@ public class CharcterSelectMenu extends AbstractScreen {
         //Creates the world
         world = new World(new Vector2(0, -10), true);
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
-        player1 = new DemoDinos(world, this, "douxSprites", 128, 600);
-        player2 = new DemoDinos(world, this, "mortSprites", 256, 600);
-        player3 = new DemoDinos(world, this, "nullSprites", 384, 600);
-        player4 = new DemoDinos(world, this, "nullSprites", 512, 600);
+        player1 = new DemoDinos(this, "douxSprites", 128, 600);
+        player2 = new DemoDinos(this, "mortSprites", 256, 600);
+        player3 = new DemoDinos(this, "nullSprites", 384, 600);
+        player4 = new DemoDinos(this, "nullSprites", 512, 600);
 
         selections = new int[]{1, 2, 0, 0};
         takenSelections = new ArrayList<>();
@@ -77,12 +78,16 @@ public class CharcterSelectMenu extends AbstractScreen {
         // update(deltaTime);
         player1.update(deltaTime);
         player2.update(deltaTime);
+        player3.update(deltaTime);
+        player4.update(deltaTime);
         handleInput(deltaTime);
 
         game.batch.begin();
 
         player1.draw(game.batch);
         player2.draw(game.batch);
+        player3.draw(game.batch);
+        player4.draw(game.batch);
         game.batch.draw(arrowUp, 128 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.draw(arrowUp, 256 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.draw(arrowUp, 384 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
@@ -92,6 +97,9 @@ public class CharcterSelectMenu extends AbstractScreen {
         game.batch.draw(arrowDown, 384 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.draw(arrowDown, 512 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.end();
+        if (killScreen) {
+            dispose();
+        }
     }//end render
 
     public void update(float dt) { //Updates the screen every frame
@@ -128,7 +136,6 @@ public class CharcterSelectMenu extends AbstractScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new MainMenuScreen(game));
-                dispose();
             }//end changed
         });
 
@@ -138,7 +145,6 @@ public class CharcterSelectMenu extends AbstractScreen {
                 if (!player1.getName().equals("nullSprites") && !player2.getName().equals("nullSprites")) {
                     PlayScreen tempScreen = new PlayScreen(game);
                     game.setScreen(tempScreen);
-                    stage.dispose();
                 }
             }//end changed
         });
@@ -158,6 +164,7 @@ public class CharcterSelectMenu extends AbstractScreen {
 
     @Override
     public void dispose() {
+        this.dispose();
         stage.dispose();
     }//end dispose
 
@@ -255,7 +262,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         } else if (dinoNumber == 4) {
             name = "vitaSprites";
         }
-        return new DemoDinos(world, this, name, startingPos, 600);
+        return new DemoDinos(this, name, startingPos, 600);
     }//end setplayer
 
     public static String getDinoData(int playerNum) {
@@ -267,5 +274,5 @@ public class CharcterSelectMenu extends AbstractScreen {
             return player4.getName();
         }
         return player1.getName();
-    }//end getDino
+    }//end getDinoData
 }//end class

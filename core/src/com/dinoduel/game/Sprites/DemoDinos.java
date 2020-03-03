@@ -3,9 +3,9 @@ package com.dinoduel.game.Sprites;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.dinoduel.game.DinoDuel;
+import com.dinoduel.game.Screens.AbstractScreen;
 import com.dinoduel.game.Screens.CharcterSelectMenu;
 
 public class DemoDinos extends Sprite {
@@ -16,9 +16,6 @@ public class DemoDinos extends Sprite {
     public State previousState;
     private float stateTimer;
 
-    public World world;
-    //public Body b2body;
-
     //Animations and Textures
     private TextureRegion dinoIdle0;
     private Animation<TextureRegion> dinoIdle;
@@ -28,7 +25,7 @@ public class DemoDinos extends Sprite {
     private Animation<TextureRegion> dinoDuckRun;
     private String name;
 
-    public DemoDinos(World world, CharcterSelectMenu screen, String name, float startingPosX, float size) {
+    public DemoDinos(AbstractScreen screen, String name, float startingPosX, float size) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         this.name = name;
@@ -44,7 +41,6 @@ public class DemoDinos extends Sprite {
         } else if (name.equalsIgnoreCase("vitaSprites")) {
             dinoNumber = 4;
         }
-        this.world = world;
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;

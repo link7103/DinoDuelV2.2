@@ -57,10 +57,10 @@ public class PlayScreen extends AbstractScreen {
     private Box2DDebugRenderer b2dr;
 
     //Player
-    private Dino player1;
-    private Dino player2;
-    private Dino player3;
-    private Dino player4;
+    private static Dino player1;
+    private static Dino player2;
+    private static Dino player3;
+    private static Dino player4;
 
     //Player Sprites
     private TextureAtlas dinoAtlas;
@@ -87,8 +87,7 @@ public class PlayScreen extends AbstractScreen {
     public ArrayList<Ladder> allLadders = new ArrayList<>();
     //Player List
     public ArrayList<Dino> allLivingPlayers = new ArrayList<>();
-     public ArrayList<Dino> allPlayers = new ArrayList<>();
-
+    public static ArrayList<Dino> allPlayers = new ArrayList<>();
     //Grey box List
     public ArrayList<GreyGunBox> allGreyGunBoxes = new ArrayList<>();
 
@@ -98,6 +97,7 @@ public class PlayScreen extends AbstractScreen {
 
     //A Blank texture (Used for HealthBars)
     private Texture blank;
+    private long startTime;
 
     public PlayScreen(DinoDuel game) {
         super(game);
@@ -135,6 +135,7 @@ public class PlayScreen extends AbstractScreen {
         game.playingSong.stop();
         game.playingSong = game.manager.assetManager.get("Music/TheWhite.mp3");
         game.playingSong.play();
+        startTime = System.currentTimeMillis();
     }//end constructor
 
     public TextureAtlas getDinoAtlas() {
@@ -166,7 +167,8 @@ public class PlayScreen extends AbstractScreen {
 
         //Removes dead players
         for (int i = 0; i < allLivingPlayers.size(); i++) {
-            if (allLivingPlayers.get(i).getPermaDead()){
+            if (allLivingPlayers.get(i).getPermaDead()) {
+                allLivingPlayers.get(i).timeAlive = System.currentTimeMillis() - startTime;
                 allLivingPlayers.remove(i);
             }
         }
@@ -535,7 +537,7 @@ public class PlayScreen extends AbstractScreen {
 
         game.batch.end();
 
-        if(allLivingPlayers.size() == 1){
+        if (allLivingPlayers.size() == 1) {
             game.setScreen(new VictoryScreen(game));
             dispose();
         }
@@ -614,22 +616,22 @@ public class PlayScreen extends AbstractScreen {
         String p2 = CharcterSelectMenu.getDinoData(2);
         String p3 = CharcterSelectMenu.getDinoData(3);
         String p4 = CharcterSelectMenu.getDinoData(4);
-        player1 = new Dino(world, this, p1, new Vector2(0.5f, 0.2f),3);
+        player1 = new Dino(world, this, p1, new Vector2(0.5f, 0.2f), 3);
         allLivingPlayers.add(player1);
-        player2 = new Dino(world, this, p2, new Vector2(2.5f, 1.5f),3);
+        player2 = new Dino(world, this, p2, new Vector2(2.5f, 1.5f), 3);
         allLivingPlayers.add(player2);
         if (!p3.equalsIgnoreCase("nullSprites")) {
-            player3 = new Dino(world, this, p3, new Vector2(2.5f, 1.5f),3);
+            player3 = new Dino(world, this, p3, new Vector2(2.5f, 1.5f), 3);
             allLivingPlayers.add(player3);
         }
         if (!p4.equalsIgnoreCase("nullSprites")) {
             player4 = new Dino(world, this, p4, new Vector2(2.5f, 1.5f), 3);
             allLivingPlayers.add(player4);
         }
-
         for (int i = 0; i < allLivingPlayers.size(); i++) {
             allPlayers.add(allLivingPlayers.get(i));
         }
+        CharcterSelectMenu.killScreen = true;
     }//end createPlayers
 
     @Override
@@ -656,4 +658,15 @@ public class PlayScreen extends AbstractScreen {
         b2dr.dispose();
         hud.dispose();
     }//end dispose
+
+    public static String getDinoData(int playerNum) {
+        if (playerNum == 2) {
+            return player2.getName();
+        } else if (playerNum == 3) {
+            return player3.getName();
+        } else if (playerNum == 4) {
+            return player4.getName();
+        }
+        return player1.getName();
+    }//end getDinoData
 }//end class

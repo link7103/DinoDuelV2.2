@@ -74,12 +74,13 @@ public class Dino extends Sprite {
     private boolean permaDead = false;
     private boolean dead;
     //Stats
-    private float timeAlive;
-    private int kills;
+    public float timeAlive;
+    private String name;
 
     public Dino(World world, PlayScreen screen, String name, Vector2 startingPos, int lives) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
+        this.name = name;
         int dinoNumber = 0;
         if (name.equalsIgnoreCase("nullSprites")) {
             dinoNumber = 0;
@@ -162,7 +163,7 @@ public class Dino extends Sprite {
         }
         if (lives > 0) {
             setRegion(getFrame(dt));
-        }else{
+        } else {
             setRegion(dinoDead);
         }
 
@@ -497,4 +498,7 @@ public class Dino extends Sprite {
         return permaDead;
     }//end getPermaDead
 
+    public String getName() {
+        return name;
+    }//end getName
 }//end Dino
