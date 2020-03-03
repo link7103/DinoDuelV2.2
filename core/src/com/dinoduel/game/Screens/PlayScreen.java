@@ -50,7 +50,7 @@ public class PlayScreen extends AbstractScreen {
     //Map
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
-    private ShapeRenderer shapeRenderer = new ShapeRenderer();
+    //private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     //Box2d variables
     private World world;
@@ -75,6 +75,7 @@ public class PlayScreen extends AbstractScreen {
     private float spawnX;
     private float spawnY;
     private int spawnType = -1;
+    public boolean killScreen = false;
 
     public static PlayScreen screen;
     //Weapon list
@@ -631,7 +632,6 @@ public class PlayScreen extends AbstractScreen {
         for (int i = 0; i < allLivingPlayers.size(); i++) {
             allPlayers.add(allLivingPlayers.get(i));
         }
-        CharcterSelectMenu.killScreen = true;
     }//end createPlayers
 
     @Override

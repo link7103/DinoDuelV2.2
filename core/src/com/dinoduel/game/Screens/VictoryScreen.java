@@ -3,6 +3,7 @@ package com.dinoduel.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -13,22 +14,21 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Sprites.DemoDinos;
 
 import java.util.ArrayList;
 
 public class VictoryScreen extends AbstractScreen {
-    private boolean killScreen = false;
     private Stage stage;
     //Player
     private static DemoDinos player1;
     private static DemoDinos player2;
     private static DemoDinos player3;
     private static DemoDinos player4;
-    // private ArrayList<DemoDinos> allPlayers = new ArrayList<>();
-
     //Player Sprites
     private TextureAtlas dinoAtlas;
 
@@ -39,16 +39,33 @@ public class VictoryScreen extends AbstractScreen {
     //Select Values
     private int[] selections;
     private ArrayList<Integer> takenSelections;
+    public static boolean killScreen = false;
+    private OrthographicCamera gameCam;
+
 
     public VictoryScreen(DinoDuel game) {
         super(game);
+        gameCam = new OrthographicCamera();
+        gameCam.position.set(DinoDuel.V_WIDTH / DinoDuel.PPM, DinoDuel.V_HEIGHT / DinoDuel.PPM, 0);
         /// create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
+        //Arrows
+        arrowUp = new Texture("Arrows/upButton.png");
+        arrowDown = new Texture("Arrows/downButton.png");
+
         //Creates the world
         world = new World(new Vector2(0, -10), true);
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
-        createPlayers();
+        player1 = new DemoDinos(this, "douxSprites", 128, -10, 600);
+        player2 = new DemoDinos(this, "mortSprites", 256,-10, 600);
+        player3 = new DemoDinos(this, "nullSprites", 384,-10, 600);
+        player4 = new DemoDinos(this, "nullSprites", 512, -10,600);
+
+        selections = new int[]{1, 2, 0, 0};
+        takenSelections = new ArrayList<>();
+        takenSelections.add(1);
+        takenSelections.add(2);
     }//end constructor
 
     @Override
@@ -61,18 +78,31 @@ public class VictoryScreen extends AbstractScreen {
         // tell our stage to do actions and draw itself
         stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
         stage.draw();
+
+
         //seperates update logic from render
-        //update(deltaTime);
+        // update(deltaTime);
         player1.update(deltaTime);
         player2.update(deltaTime);
         player3.update(deltaTime);
         player4.update(deltaTime);
+        handleInput(deltaTime);
+        game.batch.setProjectionMatrix(gameCam.combined);
+        gameCam.update();
 
         game.batch.begin();
         player1.draw(game.batch);
         player2.draw(game.batch);
         player3.draw(game.batch);
         player4.draw(game.batch);
+        game.batch.draw(arrowUp, 128 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, 256 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, 384 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, 512 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 128 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 256 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 384 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 512 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.end();
         if (killScreen) {
             dispose();
@@ -85,7 +115,9 @@ public class VictoryScreen extends AbstractScreen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-
+        gameCam.viewportWidth = stage.getViewport().getScreenWidth();
+        gameCam.viewportHeight = stage.getViewport().getScreenHeight();
+        gameCam.update();
     }//end resize
 
     @Override
@@ -113,15 +145,15 @@ public class VictoryScreen extends AbstractScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new MainMenuScreen(game));
-                killScreen = true;
             }//end changed
         });
 
         start.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new CharcterSelectMenu(game));
-                killScreen = true;
+                if (!player1.getName().equals("nullSprites") && !player2.getName().equals("nullSprites")) {
+                    game.setScreen(new PlayScreen(game));
+                }
             }//end changed
         });
     }//end show
@@ -141,32 +173,113 @@ public class VictoryScreen extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
-        this.dispose();
     }//end dispose
 
     public TextureAtlas getDinoAtlas() {
         return dinoAtlas;
     }//end getDinoAtlas
 
-    public void createPlayers() {
-        String p1 = PlayScreen.getDinoData(1);
-        String p2 = PlayScreen.getDinoData(2);
-        String p3 = "nullSprites";
-        String p4 = "nullSprites";
-        if (PlayScreen.allPlayers.size() >= 3) {
-            p3 = PlayScreen.getDinoData(3);
+    private void handleInput(float dt) {
+        //Player 1
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            testUp(0);
+            player1 = setPlayer(selections[0], 128);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
+            testDown(0);
+            player1 = setPlayer(selections[0], 128);
         }
-        if (PlayScreen.allPlayers.size() == 4) {
-            p4 = PlayScreen.getDinoData(4);
+        //Player 2
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
+            testUp(1);
+            player2 = setPlayer(selections[1], 256);
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
+            testDown(1);
+            player2 = setPlayer(selections[1], 256);
         }
-        player1 = new DemoDinos(this, p1, 128, 600);
-        //allPlayers.add(player1);
-        player2 = new DemoDinos(this, p2, 256, 600);
-        // allPlayers.add(player2);
-        player3 = new DemoDinos(this, p3, 384, 600);
-        // allPlayers.add(player3);
-        player4 = new DemoDinos(this, p4, 512, 600);
-        // allPlayers.add(player4);
-    }//end createPlayers
+    }//end handleInput
 
+    private void testUp(int num) {
+        int tempselection = selections[num] + 1;
+        while (true) {
+            boolean canSwitch = false;
+            for (int i = 0; i < takenSelections.size(); i++) {
+                if (tempselection == takenSelections.get(i)) {
+                    tempselection++;
+                    canSwitch = false;
+                    break;
+                }
+                canSwitch = true;
+            }
+            if (tempselection > 4) {
+                tempselection = 0;
+                break;
+            } else if (canSwitch) {
+                break;
+            }
+        }
+        int previousSelection = selections[num];
+        for (int i = 0; i < takenSelections.size(); i++) {
+            if (previousSelection == takenSelections.get(i)) {
+                takenSelections.remove(i);
+            }
+        }
+        selections[num] = tempselection;
+        takenSelections.add(tempselection);
+    }//end testUp
+
+    private void testDown(int num) {
+        int tempselection = selections[num] - 1;
+        while (true) {
+            boolean canSwitch = false;
+            for (int i = 0; i < takenSelections.size(); i++) {
+                if (tempselection == takenSelections.get(i)) {
+                    tempselection--;
+                    canSwitch = false;
+                    break;
+                }
+                canSwitch = true;
+            }
+            if (tempselection < 0) {
+                tempselection = 4;
+                break;
+            } else if (canSwitch || tempselection == 0) {
+                break;
+            }
+        }
+        int previousSelection = selections[num];
+        for (int i = 0; i < takenSelections.size(); i++) {
+            if (previousSelection == takenSelections.get(i)) {
+                takenSelections.remove(i);
+            }
+        }
+        selections[num] = tempselection;
+        takenSelections.add(tempselection);
+    }//end testDown
+
+    private DemoDinos setPlayer(int dinoNumber, float startingPos) {
+        String name = "";
+        if (dinoNumber == 0) {
+            name = "nullSprites";
+        } else if (dinoNumber == 1) {
+            name = "douxSprites";
+        } else if (dinoNumber == 2) {
+            name = "mortSprites";
+        } else if (dinoNumber == 3) {
+            name = "tardSprites";
+        } else if (dinoNumber == 4) {
+            name = "vitaSprites";
+        }
+        return new DemoDinos(this, name, startingPos,-10, 600);
+    }//end setplayer
+
+    public static String getDinoData(int playerNum) {
+        if (playerNum == 2) {
+            return player2.getName();
+        } else if (playerNum == 3) {
+            return player3.getName();
+        } else if (playerNum == 4) {
+            return player4.getName();
+        }
+        return player1.getName();
+    }//end getDinoData
 }//end class

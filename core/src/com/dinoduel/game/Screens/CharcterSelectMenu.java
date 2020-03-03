@@ -3,6 +3,7 @@ package com.dinoduel.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
@@ -37,8 +38,10 @@ public class CharcterSelectMenu extends AbstractScreen {
     private int[] selections;
     private ArrayList<Integer> takenSelections;
     public static boolean killScreen = false;
+    private OrthographicCamera gameCam;
 
     public CharcterSelectMenu(DinoDuel game) {
+
         super(game);
         /// create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
@@ -50,16 +53,16 @@ public class CharcterSelectMenu extends AbstractScreen {
         //Creates the world
         world = new World(new Vector2(0, -10), true);
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
-        player1 = new DemoDinos(this, "douxSprites", 128, 600);
-        player2 = new DemoDinos(this, "mortSprites", 256, 600);
-        player3 = new DemoDinos(this, "nullSprites", 384, 600);
-        player4 = new DemoDinos(this, "nullSprites", 512, 600);
-
+        player1 = new DemoDinos(this, "douxSprites", -240, -180, 700);
+        player2 = new DemoDinos(this, "mortSprites", -80, -180,700);
+        player3 = new DemoDinos(this, "nullSprites", 80, -180,700);
+        player4 = new DemoDinos(this, "nullSprites", 240, -180,700);
         selections = new int[]{1, 2, 0, 0};
         takenSelections = new ArrayList<>();
         takenSelections.add(1);
         takenSelections.add(2);
-
+        gameCam = new OrthographicCamera();
+        gameCam.position.set(DinoDuel.V_WIDTH / DinoDuel.PPM, DinoDuel.V_HEIGHT / DinoDuel.PPM, 0);
     }//end constructor
 
     @Override
@@ -81,23 +84,25 @@ public class CharcterSelectMenu extends AbstractScreen {
         player3.update(deltaTime);
         player4.update(deltaTime);
         handleInput(deltaTime);
-
+        game.batch.setProjectionMatrix(gameCam.combined);
+        gameCam.update();
         game.batch.begin();
 
         player1.draw(game.batch);
         player2.draw(game.batch);
         player3.draw(game.batch);
         player4.draw(game.batch);
-        game.batch.draw(arrowUp, 128 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 256 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 384 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 512 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 128 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 256 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 384 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 512 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, -240 - arrowUp.getWidth() * 3 / 2, 0 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, -80 - arrowUp.getWidth() * 3 / 2, 0 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, 80 - arrowUp.getWidth() * 3 / 2, 0 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowUp, 240 - arrowUp.getWidth() * 3 / 2, 0 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, -240 - arrowUp.getWidth() * 3 / 2, -200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, -80 - arrowUp.getWidth() * 3 / 2, -200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 80 - arrowUp.getWidth() * 3 / 2, -200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
+        game.batch.draw(arrowDown, 240 - arrowUp.getWidth() * 3 / 2, -200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.end();
         if (killScreen) {
+            System.out.println(killScreen);
             dispose();
         }
     }//end render
@@ -108,7 +113,9 @@ public class CharcterSelectMenu extends AbstractScreen {
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-
+        gameCam.viewportWidth = stage.getViewport().getScreenWidth();
+        gameCam.viewportHeight = stage.getViewport().getScreenHeight();
+        gameCam.update();
     }//end resize
 
     @Override
@@ -164,7 +171,6 @@ public class CharcterSelectMenu extends AbstractScreen {
 
     @Override
     public void dispose() {
-        this.dispose();
         stage.dispose();
     }//end dispose
 
@@ -176,18 +182,18 @@ public class CharcterSelectMenu extends AbstractScreen {
         //Player 1
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
             testUp(0);
-            player1 = setPlayer(selections[0], 128);
+            player1 = setPlayer(selections[0], -240);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
             testDown(0);
-            player1 = setPlayer(selections[0], 128);
+            player1 = setPlayer(selections[0], -240);
         }
         //Player 2
         if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
             testUp(1);
-            player2 = setPlayer(selections[1], 256);
+            player2 = setPlayer(selections[1], -80);
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
             testDown(1);
-            player2 = setPlayer(selections[1], 256);
+            player2 = setPlayer(selections[1], -80);
         }
     }//end handleInput
 
@@ -249,7 +255,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         takenSelections.add(tempselection);
     }//end testDown
 
-    private DemoDinos setPlayer(int dinoNumber, float startingPos) {
+    private DemoDinos setPlayer(int dinoNumber, float startingPosX) {
         String name = "";
         if (dinoNumber == 0) {
             name = "nullSprites";
@@ -262,7 +268,7 @@ public class CharcterSelectMenu extends AbstractScreen {
         } else if (dinoNumber == 4) {
             name = "vitaSprites";
         }
-        return new DemoDinos(this, name, startingPos, 600);
+        return new DemoDinos(this, name, startingPosX,-180, 700);
     }//end setplayer
 
     public static String getDinoData(int playerNum) {

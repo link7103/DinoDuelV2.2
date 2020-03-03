@@ -25,7 +25,7 @@ public class DemoDinos extends Sprite {
     private Animation<TextureRegion> dinoDuckRun;
     private String name;
 
-    public DemoDinos(AbstractScreen screen, String name, float startingPosX, float size) {
+    public DemoDinos(AbstractScreen screen, String name, float startingPosX, float startingPosY, float size) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         this.name = name;
@@ -44,8 +44,8 @@ public class DemoDinos extends Sprite {
         currentState = State.STANDING;
         previousState = State.STANDING;
         stateTimer = 0;
-        float temp = startingPosX;
-        startingPosX = temp - 64;
+        float tempX = startingPosX;
+        startingPosX = tempX - 80;
         //Sets up the various animations - will need to adjust the y value for subsequent players
         Array<TextureRegion> frames = new Array<TextureRegion>();
         for (int i = 0; i < 3; i++) {
@@ -75,7 +75,7 @@ public class DemoDinos extends Sprite {
         //Finishes setting up the dino and sets its sprite.
         dinoIdle0 = new TextureRegion(getTexture(), 0, dinoNumber * 24, 24, 24);
         dinoDuck = new TextureRegion(getTexture(), 17 * 24, dinoNumber * 24, 24, 24);
-        setBounds(startingPosX, 55, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
+        setBounds(startingPosX, startingPosY, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
         setRegion(dinoIdle0);
         setSize(getWidth() * size, getHeight() * size);
     }//end constructor
