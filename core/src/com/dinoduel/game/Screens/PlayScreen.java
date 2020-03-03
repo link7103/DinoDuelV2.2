@@ -116,7 +116,7 @@ public class PlayScreen extends AbstractScreen {
         //Renders the map
         game.manager.queueMap();
         game.manager.assetManager.finishLoading();
-        map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map1.tmx");
+        map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map3.tmx");
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
