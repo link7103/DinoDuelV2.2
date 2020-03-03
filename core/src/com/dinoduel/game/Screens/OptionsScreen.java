@@ -132,7 +132,7 @@ public class OptionsScreen implements Screen {
     @Override
     public void render(float delta) {
         // clear the screen ready for next set of images to be drawn
-        Gdx.gl.glClearColor(1f, 0f, 0f, 0);
+        Gdx.gl.glClearColor(255, 255, 255, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // tell our stage to do actions and draw itself
