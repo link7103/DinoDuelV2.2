@@ -271,7 +271,7 @@ public class VictoryScreen extends AbstractScreen {
         }
         return new DemoDinos(this, name, startingPos,-10, 600);
     }//end setplayer
-
+//FIX THIS SHIT
     public static String getDinoData(int playerNum) {
         if (playerNum == 2) {
             return player2.getName();
