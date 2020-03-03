@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 public class B2AssetManager {
     public final AssetManager assetManager = new AssetManager();
-    private final String map1 = "DinoDuel Basic Tilesets/map3.tmx";
+    private final String map1 = "DinoDuel Basic Tilesets/map1.tmx";
     private final String skin = "Skin/8BitSkinTest.json";
     private final String skinAtlas = "Skin/8BitSkinTest.atlas";
     private final String menuMusic = "Music/TheLittleBroth.mp3";
