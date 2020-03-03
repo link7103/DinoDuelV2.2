@@ -67,6 +67,7 @@ public class DinoDuel extends Game {
 
     public void playMusic() {
         if (playingSong != null) {
+            playingSong.setLooping(true);
             if (getPreferences().isMusicEnabled()) {
                 playingSong.setVolume(getPreferences().getMusicVolume());
             } else {

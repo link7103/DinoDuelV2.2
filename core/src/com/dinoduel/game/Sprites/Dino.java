@@ -33,6 +33,7 @@ public class Dino extends Sprite {
 
     //Animations and Textures
     private TextureRegion dinoIdle0;
+    private TextureRegion dinoDead;
     private Animation<TextureRegion> dinoIdle;
     private TextureRegion dinoDuck;
     private Animation<TextureRegion> dinoRun;
@@ -69,9 +70,14 @@ public class Dino extends Sprite {
     private Vector2 startingPos;
     //Health
     public float health;
+    private int lives;
+    private boolean permaDead = false;
     private boolean dead;
+    //Stats
+    private float timeAlive;
+    private int kills;
 
-    public Dino(World world, PlayScreen screen, String name, Vector2 startingPos) {
+    public Dino(World world, PlayScreen screen, String name, Vector2 startingPos, int lives) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         int dinoNumber = 0;
@@ -92,6 +98,7 @@ public class Dino extends Sprite {
         stateTimer = 0;
         runningRight = true;
         health = 1;
+        this.lives = lives;
         this.startingPos = startingPos;
         //Sets up the various animations - will need to adjust the y value for subsequent players
         Array<TextureRegion> frames = new Array<TextureRegion>();
@@ -134,6 +141,7 @@ public class Dino extends Sprite {
         defineDino(0);
         dinoIdle0 = new TextureRegion(getTexture(), 0, dinoNumber * 24, 24, 24);
         dinoDuck = new TextureRegion(getTexture(), 17 * 24, dinoNumber * 24, 24, 24);
+        dinoDead = new TextureRegion(getTexture(), 0, dinoNumber * 24, 1, 1);
         setBounds(0, 0, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
         setRegion(dinoIdle0);
 
@@ -152,14 +160,14 @@ public class Dino extends Sprite {
         } else {
             setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
         }
-
-        setRegion(getFrame(dt));
+        if (lives > 0) {
+            setRegion(getFrame(dt));
+        }else{
+            setRegion(dinoDead);
+        }
 
         if (weapon != null) {
             weapon.update(dt);
-        }
-        if (!dead && health <= 0) {
-            defineDino(0);
         }
     }//end update
 
@@ -169,13 +177,12 @@ public class Dino extends Sprite {
 
         TextureRegion region;
         switch (currentState) {
-
             case DYING:
                 region = dinoDies.getKeyFrame(stateTimer);
                 if (!dead) {
                     dying();
                 } else {
-                    if (dinoDies.isAnimationFinished(stateTimer )){
+                    if (dinoDies.isAnimationFinished(stateTimer)) {
                         dies();
                     }
                 }
@@ -220,7 +227,7 @@ public class Dino extends Sprite {
 
     private State getState() {
         //Sets different states
-          if (health <= 0) {
+        if (health <= 0) {
             health = 0;
             return State.DYING;
         } else if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
@@ -314,7 +321,7 @@ public class Dino extends Sprite {
             world.destroyBody(b2body);
             bdef.position.set(currentPosition);
 
-            if (instruction == 1&& currentLadder == null) {//Duck
+            if (instruction == 1 && currentLadder == null) {//Duck
                 //System.out.println(1);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
@@ -353,7 +360,7 @@ public class Dino extends Sprite {
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("side");
                  */
-            } else if (instruction == 2 ) {//Unduck
+            } else if (instruction == 2) {//Unduck
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
 
@@ -380,7 +387,7 @@ public class Dino extends Sprite {
                 b2body.createFixture(fdef).setUserData("head");
 
                 setSize(standingWidth, standingHeight);
-            } else if (instruction == 3 || (currentLadder!=null && instruction == 1)) { //Climbing
+            } else if (instruction == 3 || (currentLadder != null && instruction == 1)) { //Climbing
                 currentVelocity = new Vector2(0, 0);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 b2body = world.createBody(bdef);
@@ -419,9 +426,9 @@ public class Dino extends Sprite {
 
                  */
 
-                System.out.println("weapon"  + weapon.getBoundingRectangle().x + " y " + weapon.getBoundingRectangle().y + "width " + weapon.getBoundingRectangle().width + " height " + weapon.getBoundingRectangle().height);
-                System.out.println("body" + b2body.getPosition().x + " y" + b2body.getPosition().y  );
-                if (weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x-.04f, b2body.getPosition().y-.07f , .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x-.04f, b2body.getPosition().y+.03f , .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.DUCKRUNNING) && weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x-.08f, b2body.getPosition().y-.05f , .16f, .10f))))   {
+                System.out.println("weapon" + weapon.getBoundingRectangle().x + " y " + weapon.getBoundingRectangle().y + "width " + weapon.getBoundingRectangle().width + " height " + weapon.getBoundingRectangle().height);
+                System.out.println("body" + b2body.getPosition().x + " y" + b2body.getPosition().y);
+                if (weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .04f, b2body.getPosition().y - .07f, .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .04f, b2body.getPosition().y + .03f, .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.DUCKRUNNING) && weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .08f, b2body.getPosition().y - .05f, .16f, .10f)))) {
                     hasWeapon = true;
                     weapon.setUser(this);
                     this.weapon = weapon;
@@ -471,14 +478,23 @@ public class Dino extends Sprite {
         }
         canMove = false;
         b2body.setGravityScale(0);
-        b2body.setLinearVelocity(0,0);
+        b2body.setLinearVelocity(0, 0);
         dead = true;
     }//end dying
 
     private void dies() {
+        lives--;
         world.destroyBody(b2body);
-        defineDino(0);
         dead = false;
-    }//end
+        if (lives > 0) {
+            defineDino(0);
+        } else {
+            permaDead = true;
+        }
+    }//end dies
+
+    public boolean getPermaDead() {
+        return permaDead;
+    }//end getPermaDead
 
 }//end Dino

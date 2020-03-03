@@ -82,24 +82,23 @@ public class Bullet extends Sprite {
 
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(12f / 10f / DinoDuel.PPM, 6f/ 10f / DinoDuel.PPM);
+        shape.setAsBox(12f / 10f / DinoDuel.PPM, 6f / 10f / DinoDuel.PPM);
         fdef.shape = shape;
         fdef.isSensor = true;
 
         fdef.filter.categoryBits = DinoDuel.CATEGORY_BULLET;
         fdef.filter.maskBits = DinoDuel.MASK_BULLET;
         fixture = bBody.createFixture(fdef);
-        bBody.setLinearVelocity(new Vector2(speedX+user.b2body.getLinearVelocity().x, speedY));
+        bBody.setLinearVelocity(new Vector2(speedX + user.b2body.getLinearVelocity().x, speedY));
         bBody.setBullet(true);
     }//end defineBullet
 
-
-
     public void update(float dt) {
         buildTime += dt;
-        if (buildTime < duration)
+        if (buildTime < duration) {
             setPosition(bBody.getPosition().x - getWidth() / 2, bBody.getPosition().y - getHeight() / 2 + heightOffset);
-        else
+        } else {
             flag = true;
+        }
     }//end Update
 }//end class

@@ -86,7 +86,9 @@ public class PlayScreen extends AbstractScreen {
     //Ladder List
     public ArrayList<Ladder> allLadders = new ArrayList<>();
     //Player List
-    public ArrayList<Dino> allPlayers = new ArrayList<>();
+    public ArrayList<Dino> allLivingPlayers = new ArrayList<>();
+     public ArrayList<Dino> allPlayers = new ArrayList<>();
+
     //Grey box List
     public ArrayList<GreyGunBox> allGreyGunBoxes = new ArrayList<>();
 
@@ -159,6 +161,16 @@ public class PlayScreen extends AbstractScreen {
         //handle user input first
         handleInput(dt);
 
+        //takes 1 step in the physics simulation ( 60 times per second)
+        world.step(1 / 60f, 6, 2);
+
+        //Removes dead players
+        for (int i = 0; i < allLivingPlayers.size(); i++) {
+            if (allLivingPlayers.get(i).getPermaDead()){
+                allLivingPlayers.remove(i);
+            }
+        }
+
         //destroys bullets that have collided
         for (int i = 0; i < allBullets.size(); i++) {
             if (allBullets.get(i).flag) {
@@ -179,8 +191,6 @@ public class PlayScreen extends AbstractScreen {
                 screen.allWeapons.remove(allWeapons.get(i));
             }
         }
-        //takes 1 step in the physics simulation ( 60 times per second)
-        world.step(1 / 60f, 6, 2);
 
         //determined if gunboxes can spawn guns
         //spawns weapons if told to
@@ -215,7 +225,7 @@ public class PlayScreen extends AbstractScreen {
         }
 
         //Tests for players on a ladder
-        for (Dino dino : allPlayers) {
+        for (Dino dino : allLivingPlayers) {
             dino.climbing = false;
             dino.currentLadder = null;
             for (Ladder ladder : allLadders) {
@@ -247,16 +257,17 @@ public class PlayScreen extends AbstractScreen {
             else
                 updateWeapon.update = false;
         }
-
+        //updates bullets
         for (Bullet updateBullet : allBullets) {
             updateBullet.update(dt);
 
         }
-
+        //updates gunboxes
         for (InteractiveTileObject updateBox : allBoxes
         ) {
             updateBox.update(dt);
         }
+        //sets the camera position
         setCameraPosition();
         gameCam.update();
         //tells it to only render what the camera can see
@@ -508,7 +519,7 @@ public class PlayScreen extends AbstractScreen {
          */
 
         //Draws the health bars above each dino
-        for (Dino dino : allPlayers) {
+        for (Dino dino : allLivingPlayers) {
             game.batch.setColor(Color.BLACK);
             game.batch.draw(blank, dino.b2body.getPosition().x - 0.075f, dino.b2body.getPosition().y + 0.094f, 0.16f, 0.04f);
             if (dino.health > 0.6f)
@@ -523,6 +534,11 @@ public class PlayScreen extends AbstractScreen {
 
 
         game.batch.end();
+
+        if(allLivingPlayers.size() == 1){
+            game.setScreen(new VictoryScreen(game));
+            dispose();
+        }
     }//end render
 
     private void setCameraPosition() {
@@ -598,17 +614,21 @@ public class PlayScreen extends AbstractScreen {
         String p2 = CharcterSelectMenu.getDinoData(2);
         String p3 = CharcterSelectMenu.getDinoData(3);
         String p4 = CharcterSelectMenu.getDinoData(4);
-        player1 = new Dino(world, this, p1, new Vector2(0.5f, 0.2f));
-        allPlayers.add(player1);
-        player2 = new Dino(world, this, p2, new Vector2(2.5f, 1.5f));
-        allPlayers.add(player2);
+        player1 = new Dino(world, this, p1, new Vector2(0.5f, 0.2f),3);
+        allLivingPlayers.add(player1);
+        player2 = new Dino(world, this, p2, new Vector2(2.5f, 1.5f),3);
+        allLivingPlayers.add(player2);
         if (!p3.equalsIgnoreCase("nullSprites")) {
-            player3 = new Dino(world, this, p3, new Vector2(2.5f, 1.5f));
-            allPlayers.add(player3);
+            player3 = new Dino(world, this, p3, new Vector2(2.5f, 1.5f),3);
+            allLivingPlayers.add(player3);
         }
         if (!p4.equalsIgnoreCase("nullSprites")) {
-            player4 = new Dino(world, this, p4, new Vector2(2.5f, 1.5f));
-            allPlayers.add(player4);
+            player4 = new Dino(world, this, p4, new Vector2(2.5f, 1.5f), 3);
+            allLivingPlayers.add(player4);
+        }
+
+        for (int i = 0; i < allLivingPlayers.size(); i++) {
+            allPlayers.add(allLivingPlayers.get(i));
         }
     }//end createPlayers
 
@@ -632,8 +652,6 @@ public class PlayScreen extends AbstractScreen {
     @Override
     public void dispose() {
         map.dispose();
-        game.manager.assetManager.dispose();
-        renderer.dispose();
         world.dispose();
         b2dr.dispose();
         hud.dispose();
