@@ -305,7 +305,7 @@ public class PlayScreen extends AbstractScreen {
 
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
                 player1.KEYRIGHT = true;
-                player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
+                player1.b2body.applyLinearImpulse(new Vector2(.1f, 0), player1.b2body.getWorldCenter(), true);
                 if (player1.currentState == Dino.State.CLIMBING) {
                     player1.b2body.setLinearVelocity(1f, 0);
                 }

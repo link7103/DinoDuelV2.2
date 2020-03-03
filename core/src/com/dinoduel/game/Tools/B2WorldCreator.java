@@ -1,8 +1,11 @@
 package com.dinoduel.game.Tools;
 
+import com.badlogic.gdx.graphics.g3d.particles.values.MeshSpawnShapeValue;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -113,6 +116,29 @@ public class B2WorldCreator {
         for (MapObject object : map.getLayers().get(15).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             new SemiSolid(world, map, rect, screen);
+        }
+
+        //Polygon layer 16
+        for (MapObject object : map.getLayers().get(16).getObjects().getByType(PolygonMapObject.class)
+        ) {
+            System.out.println("builds polygon");
+            Polygon poly = ((PolygonMapObject) object).getPolygon();
+
+            bDef.type = BodyDef.BodyType.StaticBody;
+            bDef.position.set((poly.getX()) / DinoDuel.PPM, (poly.getY()) / DinoDuel.PPM);
+
+            body = world.createBody(bDef);
+            float[] scaledVertices = new float[poly.getVertices().length];
+            for (int i = 0; i < poly.getVertices().length; i++) {
+                scaledVertices[i] = poly.getVertices()[i]/DinoDuel.PPM;
+            }
+
+            shape.set(scaledVertices);
+            fDef.shape = shape;
+            fDef.filter.categoryBits = DinoDuel.CATEGORY_SCENERY;
+            fDef.filter.maskBits = DinoDuel.MASK_SCENERY;
+            fixture = body.createFixture(fDef);
+            fixture.setUserData("ground");
         }
 
     }//end Constructor
