@@ -3,9 +3,11 @@ package com.dinoduel.game.Tools;
 import com.badlogic.gdx.graphics.g3d.particles.values.MeshSpawnShapeValue;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -118,12 +120,12 @@ public class B2WorldCreator {
             new SemiSolid(world, map, rect, screen);
         }
 
-        //Polygon layer 16
+        //Polyline layer 16
         /*
         for (MapObject object : map.getLayers().get(16).getObjects().getByType(PolygonMapObject.class)
         ) {
             System.out.println("builds polygon");
-            Polygon poly = ((PolygonMapObject) object).getPolygon();
+            Polygon poly = ((PolylineMapObject) object).getPolyline();
 
             bDef.type = BodyDef.BodyType.StaticBody;
             bDef.position.set((poly.getX()) / DinoDuel.PPM, (poly.getY()) / DinoDuel.PPM);
@@ -144,5 +146,7 @@ public class B2WorldCreator {
 
 
          */
+
+
     }//end Constructor
 }//end class
