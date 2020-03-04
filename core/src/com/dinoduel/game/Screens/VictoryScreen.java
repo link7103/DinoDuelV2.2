@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.bullet.collision._btMprSimplex_t;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -31,14 +32,7 @@ public class VictoryScreen extends AbstractScreen {
     private static DemoDinos player4;
     //Player Sprites
     private TextureAtlas dinoAtlas;
-
-    private World world;
-    //Arrows
-    private Texture arrowUp;
-    private Texture arrowDown;
-    //Select Values
-    private int[] selections;
-    private ArrayList<Integer> takenSelections;
+    public static ArrayList<DemoDinos> allPlayers = new ArrayList<>();
     public static boolean killScreen = false;
     private OrthographicCamera gameCam;
 
@@ -50,22 +44,17 @@ public class VictoryScreen extends AbstractScreen {
         /// create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
         Gdx.input.setInputProcessor(stage);
-        //Arrows
-        arrowUp = new Texture("Arrows/upButton.png");
-        arrowDown = new Texture("Arrows/downButton.png");
 
-        //Creates the world
-        world = new World(new Vector2(0, -10), true);
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
-        player1 = new DemoDinos(this, "douxSprites", 128, -10, 600);
-        player2 = new DemoDinos(this, "mortSprites", 256,-10, 600);
-        player3 = new DemoDinos(this, "nullSprites", 384,-10, 600);
-        player4 = new DemoDinos(this, "nullSprites", 512, -10,600);
+        createPlayers();
+        float temp = allPlayers.get(0).timeALive;
+        for (int i = 0; i < allPlayers.size(); i++) {
+            if (allPlayers.get(i).timeALive > temp) {
+                temp = allPlayers.get(i).timeALive;
+            }
+        }
+//
 
-        selections = new int[]{1, 2, 0, 0};
-        takenSelections = new ArrayList<>();
-        takenSelections.add(1);
-        takenSelections.add(2);
     }//end constructor
 
     @Override
@@ -86,7 +75,6 @@ public class VictoryScreen extends AbstractScreen {
         player2.update(deltaTime);
         player3.update(deltaTime);
         player4.update(deltaTime);
-        handleInput(deltaTime);
         game.batch.setProjectionMatrix(gameCam.combined);
         gameCam.update();
 
@@ -95,14 +83,6 @@ public class VictoryScreen extends AbstractScreen {
         player2.draw(game.batch);
         player3.draw(game.batch);
         player4.draw(game.batch);
-        game.batch.draw(arrowUp, 128 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 256 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 384 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowUp, 512 - arrowUp.getWidth() * 3 / 2, 200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 128 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 256 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 384 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
-        game.batch.draw(arrowDown, 512 - arrowUp.getWidth() * 3 / 2, 50 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.end();
         if (killScreen) {
             dispose();
@@ -179,99 +159,6 @@ public class VictoryScreen extends AbstractScreen {
         return dinoAtlas;
     }//end getDinoAtlas
 
-    private void handleInput(float dt) {
-        //Player 1
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            testUp(0);
-            player1 = setPlayer(selections[0], 128);
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)) {
-            testDown(0);
-            player1 = setPlayer(selections[0], 128);
-        }
-        //Player 2
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) {
-            testUp(1);
-            player2 = setPlayer(selections[1], 256);
-        } else if (Gdx.input.isKeyJustPressed(Input.Keys.S)) {
-            testDown(1);
-            player2 = setPlayer(selections[1], 256);
-        }
-    }//end handleInput
-
-    private void testUp(int num) {
-        int tempselection = selections[num] + 1;
-        while (true) {
-            boolean canSwitch = false;
-            for (int i = 0; i < takenSelections.size(); i++) {
-                if (tempselection == takenSelections.get(i)) {
-                    tempselection++;
-                    canSwitch = false;
-                    break;
-                }
-                canSwitch = true;
-            }
-            if (tempselection > 4) {
-                tempselection = 0;
-                break;
-            } else if (canSwitch) {
-                break;
-            }
-        }
-        int previousSelection = selections[num];
-        for (int i = 0; i < takenSelections.size(); i++) {
-            if (previousSelection == takenSelections.get(i)) {
-                takenSelections.remove(i);
-            }
-        }
-        selections[num] = tempselection;
-        takenSelections.add(tempselection);
-    }//end testUp
-
-    private void testDown(int num) {
-        int tempselection = selections[num] - 1;
-        while (true) {
-            boolean canSwitch = false;
-            for (int i = 0; i < takenSelections.size(); i++) {
-                if (tempselection == takenSelections.get(i)) {
-                    tempselection--;
-                    canSwitch = false;
-                    break;
-                }
-                canSwitch = true;
-            }
-            if (tempselection < 0) {
-                tempselection = 4;
-                break;
-            } else if (canSwitch || tempselection == 0) {
-                break;
-            }
-        }
-        int previousSelection = selections[num];
-        for (int i = 0; i < takenSelections.size(); i++) {
-            if (previousSelection == takenSelections.get(i)) {
-                takenSelections.remove(i);
-            }
-        }
-        selections[num] = tempselection;
-        takenSelections.add(tempselection);
-    }//end testDown
-
-    private DemoDinos setPlayer(int dinoNumber, float startingPos) {
-        String name = "";
-        if (dinoNumber == 0) {
-            name = "nullSprites";
-        } else if (dinoNumber == 1) {
-            name = "douxSprites";
-        } else if (dinoNumber == 2) {
-            name = "mortSprites";
-        } else if (dinoNumber == 3) {
-            name = "tardSprites";
-        } else if (dinoNumber == 4) {
-            name = "vitaSprites";
-        }
-        return new DemoDinos(this, name, startingPos,-10, 600);
-    }//end setplayer
-//FIX THIS SHIT
     public static String getDinoData(int playerNum) {
         if (playerNum == 2) {
             return player2.getName();
@@ -282,4 +169,32 @@ public class VictoryScreen extends AbstractScreen {
         }
         return player1.getName();
     }//end getDinoData
+
+    public void createPlayers() {
+        String p1 = PlayScreen.getDinoName(1);
+        float p1Time = PlayScreen.getDinoTime(1);
+        String p2 = PlayScreen.getDinoName(2);
+        float p2Time = PlayScreen.getDinoTime(2);
+        String p3 = "nullSprites";
+        float p3Time = 0;
+        String p4 = "nullSprites";
+        float p4Time = 0;
+        if (PlayScreen.allPlayers.size() >= 3) {
+            p3 = PlayScreen.getDinoName(3);
+            p3Time = PlayScreen.getDinoTime(3);
+        }
+        if (PlayScreen.allPlayers.size() == 4) {
+            p4 = PlayScreen.getDinoName(4);
+            p4Time = PlayScreen.getDinoTime(4);
+        }
+        player1 = new DemoDinos(this, p1, -200, 10, 600, p1Time);
+        allPlayers.add(player1);
+        player2 = new DemoDinos(this, p2, -200, 10, 600, p2Time);
+        allPlayers.add(player2);
+        player3 = new DemoDinos(this, p3, -200, 10, 600, p3Time);
+        allPlayers.add(player3);
+        player4 = new DemoDinos(this, p4, -200, 10, 600, p4Time);
+        allPlayers.add(player4);
+    }//end createPlayers
+
 }//end class

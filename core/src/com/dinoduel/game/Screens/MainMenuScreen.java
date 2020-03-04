@@ -46,7 +46,7 @@ public class MainMenuScreen extends AbstractScreen {
     public void show() {
         //Asset Stuff
         Skin skin = game.manager.assetManager.get("Skin/8BitSkinTest.json");
-        game.playingSong = game.manager.assetManager.get("Music/TheLittleBroth.mp3");
+        game.playingSong = game.manager.assetManager.get("Music/TheBlackFrame.mp3");
         game.playingSong.play();
         //game.getOptions().m
         // Create a table that fills the screen. Everything else will go inside this table.
@@ -107,5 +107,6 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
+        super.dispose();
     }//end dispose
 }//end class

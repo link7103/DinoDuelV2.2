@@ -12,8 +12,9 @@ public class B2AssetManager {
     private final String map1 = "DinoDuel Basic Tilesets/map3.tmx";
     private final String skin = "Skin/8BitSkinTest.json";
     private final String skinAtlas = "Skin/8BitSkinTest.atlas";
-    private final String menuMusic = "Music/TheLittleBroth.mp3";
+    private final String menuMusic = "Music/TheBlackFrame.mp3";
     private final String map1Music = "Music/TheWhite.mp3";
+    public final String[] sFX = {"Sounds/BulletHit.wav", "Sounds/DeathSound.wav", "Sounds/MenuSelect.wav", "Sounds/NoAmmo.wav", "Sounds/Shot.wav"};
 
 
     public B2AssetManager() {
@@ -34,4 +35,10 @@ public class B2AssetManager {
         assetManager.load(menuMusic, Music.class);
         assetManager.load(map1Music, Music.class);
     }//end queueMusic
+
+    public void queueSFX() {
+        for (String effect:sFX) {
+            assetManager.load(effect, Music.class);
+        }
+    }
 }//end class

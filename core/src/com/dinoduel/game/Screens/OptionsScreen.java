@@ -54,8 +54,6 @@ public class OptionsScreen implements Screen {
             public boolean handle(Event event) {
                 game.getPreferences().setMusicVolume(volumeMusicSlider.getValue());
                 // updateVolumeLabel();
-                System.out.println(game.getPreferences().getMusicVolume());
-
                 return false;
             }//end handle
         });

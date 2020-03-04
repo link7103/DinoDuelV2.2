@@ -143,6 +143,6 @@ public class LoadingScreen extends AbstractScreen {
         // Dispose the loading assets as we no longer need them
         game.manager.assetManager.unload("data/loading.pack");
         stage.dispose();
-        this.dispose();
+        super.dispose();
     }//end hide
 }//end class

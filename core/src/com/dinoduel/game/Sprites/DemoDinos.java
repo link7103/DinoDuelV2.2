@@ -24,11 +24,13 @@ public class DemoDinos extends Sprite {
     private Animation<TextureRegion> dinoJump;
     private Animation<TextureRegion> dinoDuckRun;
     private String name;
+    public float timeALive;
 
-    public DemoDinos(AbstractScreen screen, String name, float startingPosX, float startingPosY, float size) {
+    public DemoDinos(AbstractScreen screen, String name, float startingPosX, float startingPosY, float size, float timeAlive) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         this.name = name;
+        this.timeALive = timeAlive;
         int dinoNumber = 0;
         if (name.equalsIgnoreCase("nullSprites")) {
             dinoNumber = 0;

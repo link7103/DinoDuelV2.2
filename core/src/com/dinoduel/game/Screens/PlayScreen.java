@@ -41,7 +41,7 @@ import static java.lang.StrictMath.abs;
 
 public class PlayScreen extends AbstractScreen {
     //Main Game
-    private DinoDuel game;
+    public DinoDuel game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
@@ -118,6 +118,7 @@ public class PlayScreen extends AbstractScreen {
         game.manager.queueMap();
         game.manager.assetManager.finishLoading();
         map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map3.tmx");
+
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);
@@ -657,9 +658,10 @@ public class PlayScreen extends AbstractScreen {
         world.dispose();
         b2dr.dispose();
         hud.dispose();
+        super.dispose();
     }//end dispose
 
-    public static String getDinoData(int playerNum) {
+    public static String getDinoName(int playerNum) {
         if (playerNum == 2) {
             return player2.getName();
         } else if (playerNum == 3) {
@@ -668,5 +670,16 @@ public class PlayScreen extends AbstractScreen {
             return player4.getName();
         }
         return player1.getName();
-    }//end getDinoData
+    }//end getDinoName
+
+    public static float getDinoTime(int playerNum) {
+        if (playerNum == 2) {
+            return player2.timeAlive;
+        } else if (playerNum == 3) {
+            return player3.timeAlive;
+        } else if (playerNum == 4) {
+            return player4.timeAlive;
+        }
+        return player1.timeAlive;
+    }//end getDinoTime
 }//end class

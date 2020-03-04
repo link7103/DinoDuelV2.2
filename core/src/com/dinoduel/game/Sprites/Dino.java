@@ -77,10 +77,13 @@ public class Dino extends Sprite {
     public float timeAlive;
     private String name;
 
+    private PlayScreen screen;
+
     public Dino(World world, PlayScreen screen, String name, Vector2 startingPos, int lives) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         this.name = name;
+        this.screen = screen;
         int dinoNumber = 0;
         if (name.equalsIgnoreCase("nullSprites")) {
             dinoNumber = 0;
@@ -427,8 +430,6 @@ public class Dino extends Sprite {
 
                  */
 
-                System.out.println("weapon" + weapon.getBoundingRectangle().x + " y " + weapon.getBoundingRectangle().y + "width " + weapon.getBoundingRectangle().width + " height " + weapon.getBoundingRectangle().height);
-                System.out.println("body" + b2body.getPosition().x + " y" + b2body.getPosition().y);
                 if (weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .04f, b2body.getPosition().y - .07f, .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .04f, b2body.getPosition().y + .03f, .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.DUCKRUNNING) && weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .08f, b2body.getPosition().y - .05f, .16f, .10f)))) {
                     hasWeapon = true;
                     weapon.setUser(this);
@@ -484,6 +485,8 @@ public class Dino extends Sprite {
     }//end dying
 
     private void dies() {
+        screen.game.playingSoundEffect = screen.game.manager.assetManager.get(screen.game.manager.sFX[0]);
+        screen.game.playingSoundEffect.play();
         lives--;
         world.destroyBody(b2body);
         dead = false;
