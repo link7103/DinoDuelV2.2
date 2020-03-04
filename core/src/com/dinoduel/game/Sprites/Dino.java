@@ -77,10 +77,13 @@ public class Dino extends Sprite {
     public float timeAlive;
     private String name;
 
+    private PlayScreen screen;
+
     public Dino(World world, PlayScreen screen, String name, Vector2 startingPos, int lives) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         this.name = name;
+        this.screen = screen;
         int dinoNumber = 0;
         if (name.equalsIgnoreCase("nullSprites")) {
             dinoNumber = 0;
@@ -484,6 +487,8 @@ public class Dino extends Sprite {
     }//end dying
 
     private void dies() {
+        screen.game.playingSoundEffect = screen.game.manager.assetManager.get(screen.game.manager.sFX[0]);
+        screen.game.playingSoundEffect.play();
         lives--;
         world.destroyBody(b2body);
         dead = false;

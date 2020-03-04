@@ -30,6 +30,8 @@ public abstract class Gun extends Weapon {
             if (ammo > 0) {
                 if (mag > 0) {
                     //fire
+                    screen.game.playingSoundEffect = screen.game.manager.assetManager.get(screen.game.manager.sFX[4]);
+                    screen.game.playingSoundEffect.play();
                     if (user.isRunningRight()) {
                         if (speedX < 0)
                             speedX *= -1;
@@ -52,10 +54,13 @@ public abstract class Gun extends Weapon {
                     lastFireTime = buildTime;
                 } else {
                     //reload
+
                     mag = magCap;
                     lastFireTime = buildTime;
                 }
             } else {
+                screen.game.playingSoundEffect = screen.game.manager.assetManager.get(screen.game.manager.sFX[3]);
+                screen.game.playingSoundEffect.play();
                 empty = true;
             }
         }

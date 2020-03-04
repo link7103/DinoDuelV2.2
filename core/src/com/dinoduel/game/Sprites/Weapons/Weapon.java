@@ -173,9 +173,11 @@ public abstract class Weapon extends Sprite {
 
 
             user = dino;
-            wBody.setAwake(false);
-            world.destroyBody(wBody);
-            wBody = null;
+            if (wBody!=null) {
+                wBody.setAwake(false);
+                world.destroyBody(wBody);
+                wBody = null;
+            }
 
 
     }//end setUser
