@@ -176,9 +176,9 @@ public class VictoryScreen extends AbstractScreen {
         String p2 = PlayScreen.getDinoName(2);
         float p2Time = PlayScreen.getDinoTime(2);
         String p3 = "nullSprites";
-        float p3Time = PlayScreen.getDinoTime(3);
+        float p3Time = 0;
         String p4 = "nullSprites";
-        float p4Time = PlayScreen.getDinoTime(4);
+        float p4Time = 0;
         if (PlayScreen.allPlayers.size() >= 3) {
             p3 = PlayScreen.getDinoName(3);
             p3Time = PlayScreen.getDinoTime(3);
