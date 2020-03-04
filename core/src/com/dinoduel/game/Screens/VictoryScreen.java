@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.bullet.collision._btMprSimplex_t;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -31,7 +32,7 @@ public class VictoryScreen extends AbstractScreen {
     private static DemoDinos player4;
     //Player Sprites
     private TextureAtlas dinoAtlas;
-
+    public static ArrayList<DemoDinos> allPlayers = new ArrayList<>();
     public static boolean killScreen = false;
     private OrthographicCamera gameCam;
 
@@ -46,6 +47,9 @@ public class VictoryScreen extends AbstractScreen {
 
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
         createPlayers();
+        for (int i = 0; i < allPlayers.size(); i++) {
+
+        }
     }//end constructor
 
     @Override
@@ -165,7 +169,6 @@ public class VictoryScreen extends AbstractScreen {
         }
         return new DemoDinos(this, name, startingPos,-10, 600);
     }//end setplayer
-//FIX THIS SHIT
     public static String getDinoData(int playerNum) {
         if (playerNum == 2) {
             return player2.getName();
@@ -189,13 +192,12 @@ public class VictoryScreen extends AbstractScreen {
             p4 = PlayScreen.getDinoData(4);
         }
         player1 = new DemoDinos(this, p1, -200,10, 600);
-        //allPlayers.add(player1);
+        allPlayers.add(player1);
         player2 = new DemoDinos(this, p2, -200,10, 600);
-        // allPlayers.add(player2);
+        allPlayers.add(player2);
         player3 = new DemoDinos(this, p3, -200,10, 600);
-        // allPlayers.add(player3);
+        allPlayers.add(player3);
         player4 = new DemoDinos(this, p4, -200,10,600);
-        // allPlayers.add(player4);
+        allPlayers.add(player4);
     }//end createPlayers
-
 }//end class

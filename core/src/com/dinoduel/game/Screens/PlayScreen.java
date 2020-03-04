@@ -658,6 +658,7 @@ public class PlayScreen extends AbstractScreen {
         world.dispose();
         b2dr.dispose();
         hud.dispose();
+        super.dispose();
     }//end dispose
 
     public static String getDinoData(int playerNum) {

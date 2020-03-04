@@ -84,8 +84,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C./Users/l.bonkowski/DinoDuel2.2/libs/tween-engine-api-sources.jar:unspecified@jar" level="project" />
-    <orderEntry type="library" name="Gradle: __local_aars__:C./Users/l.bonkowski/DinoDuel2.2/libs/tween-engine-api.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C./Users/m.davies7/StudioProjects/DinoDuelV2.2/libs/tween-engine-api-sources.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" name="Gradle: __local_aars__:C./Users/m.davies7/StudioProjects/DinoDuelV2.2/libs/tween-engine-api.jar:unspecified@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-controllers-android:1.9.10@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.gdx:gdx-backend-android:1.9.10@jar" level="project" />
     <orderEntry type="library" name="Gradle: com.badlogicgames.box2dlights:box2dlights:1.4@jar" level="project" />
