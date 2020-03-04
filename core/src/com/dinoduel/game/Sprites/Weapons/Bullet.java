@@ -66,6 +66,9 @@ public class Bullet extends Sprite {
         //add code so that when hit, decrease by damage
         //additional feature, accuracy, random number generated multiplied by accuracy multiplier
         //System.out.println("hit ");
+        screen.game.playingSong = screen.game.manager.assetManager.get(screen.game.manager.sFX[1]);
+        screen.game.playingSong.play();
+
         float hitNum = 10 - (gun.accuracy * (float) Math.random());
         if (hitNum < gun.accuracy) {
             //System.out.println("success");

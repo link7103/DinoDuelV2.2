@@ -41,7 +41,7 @@ import static java.lang.StrictMath.abs;
 
 public class PlayScreen extends AbstractScreen {
     //Main Game
-    private DinoDuel game;
+    public DinoDuel game;
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
@@ -118,6 +118,7 @@ public class PlayScreen extends AbstractScreen {
         game.manager.queueMap();
         game.manager.assetManager.finishLoading();
         map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map1.tmx");
+
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
         gameCam.position.set(gamePort.getWorldWidth() / 2, gamePort.getWorldHeight() / 2, 0);

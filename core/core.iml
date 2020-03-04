@@ -38,5 +38,6 @@
     <orderEntry type="library" exported="" name="Gradle: universal-tween-engine-6.3.3" level="project" />
     <orderEntry type="library" exported="" name="Gradle: tween-engine-api-sources" level="project" />
     <orderEntry type="library" exported="" name="Gradle: tween-engine-api" level="project" />
+    <orderEntry type="library" exported="" name="Gradle: core.core-1.0" level="project" />
   </component>
 </module>

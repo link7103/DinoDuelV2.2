@@ -42,6 +42,7 @@ public class DinoDuel extends Game {
         options = new AppPreferences();
         manager.queueSkin();
         manager.queueMusic();
+        manager.queueSFX();
         manager.assetManager.finishLoading();
         //setScreen((new PlayScreen(this)));
         setScreen(new LoadingScreen(this, "MainMenuScreen"));
