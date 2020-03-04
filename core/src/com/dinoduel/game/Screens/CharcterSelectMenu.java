@@ -53,10 +53,10 @@ public class CharcterSelectMenu extends AbstractScreen {
         //Creates the world
         world = new World(new Vector2(0, -10), true);
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
-        player1 = new DemoDinos(this, "douxSprites", -240, -180, 700);
-        player2 = new DemoDinos(this, "mortSprites", -80, -180,700);
-        player3 = new DemoDinos(this, "nullSprites", 80, -180,700);
-        player4 = new DemoDinos(this, "nullSprites", 240, -180,700);
+        player1 = new DemoDinos(this, "douxSprites", -240, -180, 700, 0);
+        player2 = new DemoDinos(this, "mortSprites", -80, -180,700,0);
+        player3 = new DemoDinos(this, "nullSprites", 80, -180,700,0);
+        player4 = new DemoDinos(this, "nullSprites", 240, -180,700,0);
         selections = new int[]{1, 2, 0, 0};
         takenSelections = new ArrayList<>();
         takenSelections.add(1);
@@ -172,6 +172,7 @@ public class CharcterSelectMenu extends AbstractScreen {
     @Override
     public void dispose() {
         stage.dispose();
+        super.dispose();
     }//end dispose
 
     public TextureAtlas getDinoAtlas() {
@@ -268,17 +269,17 @@ public class CharcterSelectMenu extends AbstractScreen {
         } else if (dinoNumber == 4) {
             name = "vitaSprites";
         }
-        return new DemoDinos(this, name, startingPosX,-180, 700);
+        return new DemoDinos(this, name, startingPosX,-180, 700,0);
     }//end setplayer
 
     public static String getDinoData(int playerNum) {
         if (playerNum == 2) {
-            return player2.getName();
-        } else if (playerNum == 3) {
-            return player3.getName();
-        } else if (playerNum == 4) {
-            return player4.getName();
-        }
+        return player2.getName();
+    } else if (playerNum == 3) {
+        return player3.getName();
+    } else if (playerNum == 4) {
+        return player4.getName();
+    }
         return player1.getName();
-    }//end getDinoData
+}//end getDinoData
 }//end class

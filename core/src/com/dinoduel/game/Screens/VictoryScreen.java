@@ -47,9 +47,14 @@ public class VictoryScreen extends AbstractScreen {
 
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
         createPlayers();
+        float temp = allPlayers.get(0).timeALive;
         for (int i = 0; i < allPlayers.size(); i++) {
-
+            if (allPlayers.get(i).timeALive > temp) {
+                temp = allPlayers.get(i).timeALive;
+            }
         }
+
+
     }//end constructor
 
     @Override
@@ -154,21 +159,6 @@ public class VictoryScreen extends AbstractScreen {
         return dinoAtlas;
     }//end getDinoAtlas
 
-    private DemoDinos setPlayer(int dinoNumber, float startingPos) {
-        String name = "";
-        if (dinoNumber == 0) {
-            name = "nullSprites";
-        } else if (dinoNumber == 1) {
-            name = "douxSprites";
-        } else if (dinoNumber == 2) {
-            name = "mortSprites";
-        } else if (dinoNumber == 3) {
-            name = "tardSprites";
-        } else if (dinoNumber == 4) {
-            name = "vitaSprites";
-        }
-        return new DemoDinos(this, name, startingPos,-10, 600);
-    }//end setplayer
     public static String getDinoData(int playerNum) {
         if (playerNum == 2) {
             return player2.getName();
@@ -181,23 +171,30 @@ public class VictoryScreen extends AbstractScreen {
     }//end getDinoData
 
     public void createPlayers() {
-        String p1 = PlayScreen.getDinoData(1);
-        String p2 = PlayScreen.getDinoData(2);
+        String p1 = PlayScreen.getDinoName(1);
+        float p1Time = PlayScreen.getDinoTime(1);
+        String p2 = PlayScreen.getDinoName(2);
+        float p2Time = PlayScreen.getDinoTime(2);
         String p3 = "nullSprites";
+        float p3Time = PlayScreen.getDinoTime(3);
         String p4 = "nullSprites";
+        float p4Time = PlayScreen.getDinoTime(4);
         if (PlayScreen.allPlayers.size() >= 3) {
-            p3 = PlayScreen.getDinoData(3);
+            p3 = PlayScreen.getDinoName(3);
+            p3Time = PlayScreen.getDinoTime(3);
         }
         if (PlayScreen.allPlayers.size() == 4) {
-            p4 = PlayScreen.getDinoData(4);
+            p4 = PlayScreen.getDinoName(4);
+            p4Time = PlayScreen.getDinoTime(4);
         }
-        player1 = new DemoDinos(this, p1, -200,10, 600);
+        player1 = new DemoDinos(this, p1, -200, 10, 600, p1Time);
         allPlayers.add(player1);
-        player2 = new DemoDinos(this, p2, -200,10, 600);
+        player2 = new DemoDinos(this, p2, -200, 10, 600, p2Time);
         allPlayers.add(player2);
-        player3 = new DemoDinos(this, p3, -200,10, 600);
+        player3 = new DemoDinos(this, p3, -200, 10, 600, p3Time);
         allPlayers.add(player3);
-        player4 = new DemoDinos(this, p4, -200,10,600);
+        player4 = new DemoDinos(this, p4, -200, 10, 600, p4Time);
         allPlayers.add(player4);
     }//end createPlayers
+
 }//end class

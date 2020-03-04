@@ -104,6 +104,7 @@ public class PauseMenu  extends AbstractScreen {
         @Override
         public void dispose() {
             stage.dispose();
+            super.dispose();
         }//end dispose
     }//end class
 

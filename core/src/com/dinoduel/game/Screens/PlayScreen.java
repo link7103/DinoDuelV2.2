@@ -661,7 +661,7 @@ public class PlayScreen extends AbstractScreen {
         super.dispose();
     }//end dispose
 
-    public static String getDinoData(int playerNum) {
+    public static String getDinoName(int playerNum) {
         if (playerNum == 2) {
             return player2.getName();
         } else if (playerNum == 3) {
@@ -670,5 +670,16 @@ public class PlayScreen extends AbstractScreen {
             return player4.getName();
         }
         return player1.getName();
-    }//end getDinoData
+    }//end getDinoName
+
+    public static float getDinoTime(int playerNum) {
+        if (playerNum == 2) {
+            return player2.timeAlive;
+        } else if (playerNum == 3) {
+            return player3.timeAlive;
+        } else if (playerNum == 4) {
+            return player4.timeAlive;
+        }
+        return player1.timeAlive;
+    }//end getDinoTime
 }//end class
