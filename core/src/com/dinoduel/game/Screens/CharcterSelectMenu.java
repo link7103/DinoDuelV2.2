@@ -102,7 +102,6 @@ public class CharcterSelectMenu extends AbstractScreen {
         game.batch.draw(arrowDown, 240 - arrowUp.getWidth() * 3 / 2, -200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.end();
         if (killScreen) {
-            System.out.println(killScreen);
             dispose();
         }
     }//end render

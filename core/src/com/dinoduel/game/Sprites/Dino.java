@@ -430,8 +430,6 @@ public class Dino extends Sprite {
 
                  */
 
-                System.out.println("weapon" + weapon.getBoundingRectangle().x + " y " + weapon.getBoundingRectangle().y + "width " + weapon.getBoundingRectangle().width + " height " + weapon.getBoundingRectangle().height);
-                System.out.println("body" + b2body.getPosition().x + " y" + b2body.getPosition().y);
                 if (weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .04f, b2body.getPosition().y - .07f, .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .04f, b2body.getPosition().y + .03f, .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.DUCKRUNNING) && weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .08f, b2body.getPosition().y - .05f, .16f, .10f)))) {
                     hasWeapon = true;
                     weapon.setUser(this);

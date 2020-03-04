@@ -70,7 +70,6 @@ public class Bullet extends Sprite {
 
         float hitNum = 10 - (gun.accuracy * (float) Math.random());
         if (hitNum < gun.accuracy) {
-            System.out.println("success");
             screen.game.playingSoundEffect = screen.game.manager.assetManager.get(screen.game.manager.sFX[0]);
             screen.game.playingSoundEffect.play();
             target.health -= (float) (0.1 * damage);
@@ -84,7 +83,6 @@ public class Bullet extends Sprite {
         bdef.type = BodyDef.BodyType.DynamicBody;
         bBody = world.createBody(bdef);
         bBody.setGravityScale(0);
-
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
         shape.setAsBox(12f / 10f / DinoDuel.PPM, 6f / 10f / DinoDuel.PPM);
