@@ -25,12 +25,14 @@ public class DemoDinos extends Sprite {
     private Animation<TextureRegion> dinoDuckRun;
     private String name;
     public float timeALive;
+    private int placement;
 
     public DemoDinos(AbstractScreen screen, String name, float startingPosX, float startingPosY, float size, float timeAlive) {
         //Initialize Variables
         super(screen.getDinoAtlas().findRegion(name));
         this.name = name;
         this.timeALive = timeAlive;
+        placement = 0;
         int dinoNumber = 0;
         if (name.equalsIgnoreCase("nullSprites")) {
             dinoNumber = 0;
@@ -122,6 +124,15 @@ public class DemoDinos extends Sprite {
     public String getName() {
         return name;
     }//end getName
+
+    public void setPlacement(int num) {
+        placement =  num;
+    }//end setPlacement
+
+    public int getPlacement() {
+        return placement;
+    }//end getPlacement
+
 }//end Dino
 
 

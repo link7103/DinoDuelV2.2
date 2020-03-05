@@ -47,20 +47,11 @@ public class VictoryScreen extends AbstractScreen {
 
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
         createPlayers();
-        for (int i = 0; i < allPlayers.size(); i++) {
-            System.out.println(allPlayers.get(i).timeALive);
-        }
-bubbleSort(allPlayers, allPlayers.size());
-        System.out.println();
-        for (int i = 0; i < allPlayers.size(); i++) {
-            System.out.println(allPlayers.get(i).timeALive);
-        }
 
     }//end constructor
 
     @Override
     public void render(float deltaTime) {
-
         // clear the screen ready for next set of images to be drawn
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -187,34 +178,66 @@ bubbleSort(allPlayers, allPlayers.size());
             p4 = PlayScreen.getDinoName(4);
             p4Time = PlayScreen.getDinoTime(4);
         }
-        player1 = new DemoDinos(this, p1, -200, 10, 600, p1Time);
+        player1 = new DemoDinos(this, p1, 0, 0, 700, p1Time);
         allPlayers.add(player1);
-        player2 = new DemoDinos(this, p2, -200, 10, 600, p2Time);
+        player2 = new DemoDinos(this, p2, 0, 0, 700, p2Time);
         allPlayers.add(player2);
-        player3 = new DemoDinos(this, p3, -200, 10, 600, p3Time);
+        player3 = new DemoDinos(this, p3, 0, 0, 700, p3Time);
         allPlayers.add(player3);
-        player4 = new DemoDinos(this, p4, -200, 10, 600, p4Time);
+        player4 = new DemoDinos(this, p4, 0, 0, 700, p4Time);
         allPlayers.add(player4);
-    }//end createPlayers
+        PlayScreen.allPlayers.clear();
 
-    static void bubbleSort(ArrayList<DemoDinos> allPlayers, int n) {
-        // Base case
-        if (n == 1)
-            return;
+        //FIXME Improve how this functions (There has to be a better way
+        //Give the players placements based on their time alive
+        int firstPlace = 0;
+        for (int i = 0; i < allPlayers.size(); i++) {
+            if (allPlayers.get(i).timeALive > allPlayers.get(firstPlace).timeALive) {
+                firstPlace = i;
+            }
+        }
+        allPlayers.get(firstPlace).setPlacement(1);
+        allPlayers.remove(firstPlace);
 
-        // One pass of bubble sort. After
-        // this pass, the largest element
-        // is moved (or bubbled) to end.
-        for (int i = 0; i < n - 1; i++)
-            if (allPlayers.get(i).timeALive > allPlayers.get(i + 1).timeALive) {
-                // swap arr[i], arr[i+1]
-                 DemoDinos temp = allPlayers.get(i);
-                allPlayers.set(i, allPlayers.get(i+1));
-                allPlayers.set(i+1, temp);
+        int secondPlace = 0;
+        for (int i = 0; i < allPlayers.size(); i++) {
+            if (allPlayers.get(i).timeALive > allPlayers.get(secondPlace).timeALive) {
+                secondPlace = i;
+            }
+        }
+        allPlayers.get(secondPlace).setPlacement(2);
+        allPlayers.remove(secondPlace);
+
+        int thirdPlace = 0;
+        for (int i = 0; i < allPlayers.size(); i++) {
+            if (allPlayers.get(i).timeALive > allPlayers.get(thirdPlace).timeALive) {
+                thirdPlace = i;
+            }
+        }
+        allPlayers.get(thirdPlace).setPlacement(3);
+        allPlayers.remove(thirdPlace);
+
+        //Fourth
+        allPlayers.get(0).setPlacement(4);
+        allPlayers.remove(0);
+        //Re Adds The players
+        allPlayers.add(player1);
+        allPlayers.add(player2);
+        allPlayers.add(player3);
+        allPlayers.add(player4);
+
+        for (int i = 0; i < allPlayers.size(); i++) {
+            if (allPlayers.get(i).getPlacement() == 1) {
+                allPlayers.get(i).setPosition(-80, -10);
+            }
+            else if(allPlayers.get(i).getPlacement() == 2) {
+                allPlayers.get(i).setPosition(+80, -60);
+            }else if (allPlayers.get(i).getPlacement() == 3) {
+                allPlayers.get(i).setPosition(-240, -110);
+            } else {
+                allPlayers.get(i).setPosition(240, -160);
             }
 
-        // Largest element is fixed,
-        // recur for remaining array
-        bubbleSort(allPlayers, n - 1);
-    }
+        }
+    }//end createPlayers
 }//end class

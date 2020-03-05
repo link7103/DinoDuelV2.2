@@ -631,6 +631,7 @@ public class PlayScreen extends AbstractScreen {
         if (!p3.equalsIgnoreCase("nullSprites")) {
             player3 = new Dino(world, this, p3, new Vector2(2.5f, 1.5f), 3);
             allLivingPlayers.add(player3);
+            System.out.println("here");
         }
         if (!p4.equalsIgnoreCase("nullSprites")) {
             player4 = new Dino(world, this, p4, new Vector2(2.5f, 1.5f), 3);
