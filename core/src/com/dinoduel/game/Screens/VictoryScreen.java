@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -47,13 +48,14 @@ public class VictoryScreen extends AbstractScreen {
 
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
         createPlayers();
-        float temp = allPlayers.get(0).timeALive;
         for (int i = 0; i < allPlayers.size(); i++) {
-            if (allPlayers.get(i).timeALive > temp) {
-                temp = allPlayers.get(i).timeALive;
-            }
+            System.out.println(allPlayers.get(i).timeALive);
         }
-//
+bubbleSort(allPlayers, allPlayers.size());
+        System.out.println();
+        for (int i = 0; i < allPlayers.size(); i++) {
+            System.out.println(allPlayers.get(i).timeALive);
+        }
 
     }//end constructor
 
@@ -197,4 +199,24 @@ public class VictoryScreen extends AbstractScreen {
         allPlayers.add(player4);
     }//end createPlayers
 
+    static void bubbleSort(ArrayList<DemoDinos> allPlayers, int n) {
+        // Base case
+        if (n == 1)
+            return;
+
+        // One pass of bubble sort. After
+        // this pass, the largest element
+        // is moved (or bubbled) to end.
+        for (int i = 0; i < n - 1; i++)
+            if (allPlayers.get(i).timeALive > allPlayers.get(i + 1).timeALive) {
+                // swap arr[i], arr[i+1]
+                 DemoDinos temp = allPlayers.get(i);
+                allPlayers.set(i, allPlayers.get(i+1));
+                allPlayers.set(i+1, temp);
+            }
+
+        // Largest element is fixed,
+        // recur for remaining array
+        bubbleSort(allPlayers, n - 1);
+    }
 }//end class

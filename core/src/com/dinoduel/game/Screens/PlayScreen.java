@@ -3,6 +3,8 @@ package com.dinoduel.game.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -538,9 +540,14 @@ public class PlayScreen extends AbstractScreen {
 
 
         game.batch.end();
-
+        for (Controller c : Controllers.getControllers()) {
+            System.out.println(c.getName());
+        }
         if (allLivingPlayers.size() == 1) {
+            allLivingPlayers.get(0).timeAlive = System.currentTimeMillis() - startTime;
             game.setScreen(new VictoryScreen(game));
+            game.playingSoundEffect.stop();
+            game.playingSong.stop();
             dispose();
         }
     }//end render
