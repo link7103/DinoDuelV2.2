@@ -2,7 +2,10 @@ package com.dinoduel.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.Controllers;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import com.dinoduel.game.Screens.LoadingScreen;
 import com.dinoduel.game.Tools.B2AssetManager;
 import com.dinoduel.game.Tools.AppPreferences;

@@ -4,7 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.controllers.Controller;
+import com.badlogic.gdx.controllers.ControllerAdapter;
 import com.badlogic.gdx.controllers.Controllers;
+import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,6 +20,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
@@ -36,6 +39,7 @@ import com.dinoduel.game.Sprites.Weapons.Weapon;
 import com.dinoduel.game.Tools.B2AssetManager;
 import com.dinoduel.game.Tools.B2WorldCreator;
 import com.dinoduel.game.Tools.WorldContactListener;
+import com.dinoduel.game.Tools.XBox;
 
 import java.util.ArrayList;
 
@@ -92,6 +96,11 @@ public class PlayScreen extends AbstractScreen {
     public static ArrayList<Dino> allPlayers = new ArrayList<>();
     //Grey box List
     public ArrayList<GreyGunBox> allGreyGunBoxes = new ArrayList<>();
+//Controllers
+ Array<Controller> controllers = Controllers.getControllers();
+
+    Controller p1Controller = null;
+
 
     private enum State {Running, Paused}
 
@@ -139,6 +148,18 @@ public class PlayScreen extends AbstractScreen {
         game.playingSong = game.manager.assetManager.get("Music/TheWhite.mp3");
         game.playingSong.play();
         startTime = System.currentTimeMillis();
+
+        if (controllers.size == 0) {
+            System.out.println("NO Controllers");
+        } else {
+            for (Controller c : controllers) {
+                if (c.getName().contains("Xbox") || c.getName().contains("MAGIC")) {
+                    p1Controller = c;
+                }
+            }
+
+        }
+
     }//end constructor
 
     public TextureAtlas getDinoAtlas() {
@@ -441,6 +462,38 @@ public class PlayScreen extends AbstractScreen {
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
         }
+
+        //*****************************TESTING CONTROLLER*************************************
+        p1Controller.addListener(new ControllerAdapter() {
+            @Override
+            public boolean buttonDown(Controller controller, int buttonIndex) {
+                return false;
+            }
+            @Override
+            public boolean buttonUp(Controller controller, int buttonIndex) {
+                if(buttonIndex == XBox.BUTTON_A) {
+                    //jump
+                    System.out.println("JUMP");
+                }
+                return false;
+            }
+            @Override
+            public boolean axisMoved(Controller controller, int axisIndex, float value) {
+                if(axisIndex == XBox.AXIS_LX) {
+                    //speedx = value;
+                    System.out.println(value);
+                } else if(axisIndex == XBox.AXIS_LY) {
+                   // speedy = value;
+                    System.out.println(value);
+                }
+                return false;
+            }
+            @Override
+            public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
+                return false;
+            }
+        });
+
     }//end handleInput
 
     @Override
@@ -539,9 +592,7 @@ public class PlayScreen extends AbstractScreen {
 
 
         game.batch.end();
-        for (Controller c : Controllers.getControllers()) {
-            System.out.println(c.getName());
-        }
+
         if (allLivingPlayers.size() == 1) {
             allLivingPlayers.get(0).timeAlive = System.currentTimeMillis() - startTime + 1;
             game.setScreen(new VictoryScreen(game));
@@ -630,7 +681,6 @@ public class PlayScreen extends AbstractScreen {
         if (!p3.equalsIgnoreCase("nullSprites")) {
             player3 = new Dino(world, this, p3, new Vector2(2.5f, 1.5f), 3);
             allLivingPlayers.add(player3);
-            System.out.println("here");
         }
         if (!p4.equalsIgnoreCase("nullSprites")) {
             player4 = new Dino(world, this, p4, new Vector2(2.5f, 1.5f), 3);
