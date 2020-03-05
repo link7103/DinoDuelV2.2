@@ -37,7 +37,6 @@ public class CharcterSelectMenu extends AbstractScreen {
     //Select Values
     private int[] selections;
     private ArrayList<Integer> takenSelections;
-    public static boolean killScreen = false;
     private OrthographicCamera gameCam;
 
     public CharcterSelectMenu(DinoDuel game) {
@@ -101,9 +100,6 @@ public class CharcterSelectMenu extends AbstractScreen {
         game.batch.draw(arrowDown, 80 - arrowUp.getWidth() * 3 / 2, -200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.draw(arrowDown, 240 - arrowUp.getWidth() * 3 / 2, -200 - arrowUp.getHeight() * 3 / 2, arrowUp.getWidth() * 3, arrowUp.getHeight() * 3);
         game.batch.end();
-        if (killScreen) {
-            dispose();
-        }
     }//end render
 
     public void update(float dt) { //Updates the screen every frame

@@ -74,7 +74,7 @@ public class Dino extends Sprite {
     private boolean permaDead = false;
     private boolean dead;
     //Stats
-    public float timeAlive;
+    public long timeAlive;
     private String name;
 
     private PlayScreen screen;

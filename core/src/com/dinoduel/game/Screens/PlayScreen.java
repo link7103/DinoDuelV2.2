@@ -77,7 +77,6 @@ public class PlayScreen extends AbstractScreen {
     private float spawnX;
     private float spawnY;
     private int spawnType = -1;
-    public boolean killScreen = false;
 
     public static PlayScreen screen;
     //Weapon list
@@ -544,7 +543,7 @@ public class PlayScreen extends AbstractScreen {
             System.out.println(c.getName());
         }
         if (allLivingPlayers.size() == 1) {
-            allLivingPlayers.get(0).timeAlive = System.currentTimeMillis() - startTime;
+            allLivingPlayers.get(0).timeAlive = System.currentTimeMillis() - startTime + 1;
             game.setScreen(new VictoryScreen(game));
             game.playingSoundEffect.stop();
             game.playingSong.stop();

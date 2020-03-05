@@ -34,7 +34,6 @@ public class VictoryScreen extends AbstractScreen {
     //Player Sprites
     private TextureAtlas dinoAtlas;
     public static ArrayList<DemoDinos> allPlayers = new ArrayList<>();
-    public static boolean killScreen = false;
     private OrthographicCamera gameCam;
 
 
@@ -86,9 +85,7 @@ bubbleSort(allPlayers, allPlayers.size());
         player3.draw(game.batch);
         player4.draw(game.batch);
         game.batch.end();
-        if (killScreen) {
-            dispose();
-        }
+
     }//end render
 
     public void update(float dt) { //Updates the screen every frame
@@ -155,6 +152,7 @@ bubbleSort(allPlayers, allPlayers.size());
     @Override
     public void dispose() {
         stage.dispose();
+        super.dispose();
     }//end dispose
 
     public TextureAtlas getDinoAtlas() {
