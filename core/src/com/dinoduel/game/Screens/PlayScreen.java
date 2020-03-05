@@ -118,7 +118,7 @@ public class PlayScreen extends AbstractScreen {
         //Renders the map
         game.manager.queueMap();
         game.manager.assetManager.finishLoading();
-        map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map3.tmx");
+        map = game.manager.assetManager.get("DinoDuel Basic Tilesets/map1.tmx");
 
 
         renderer = new OrthogonalTiledMapRenderer(map, 1 / DinoDuel.PPM);
@@ -558,7 +558,6 @@ public class PlayScreen extends AbstractScreen {
 
         float xRatio = DinoDuel.V_WIDTH / DinoDuel.PPM / abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
         float yRatio = DinoDuel.V_HEIGHT / DinoDuel.PPM / abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
-
         if (xRatio < yRatio) {
             float tempX = abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
             if (DinoDuel.V_WIDTH / DinoDuel.PPM > tempX) {
