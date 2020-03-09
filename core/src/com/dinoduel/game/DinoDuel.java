@@ -1,6 +1,7 @@
 package com.dinoduel.game;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.controllers.Controller;
 import com.badlogic.gdx.controllers.Controllers;
@@ -13,8 +14,8 @@ import com.dinoduel.game.Tools.AppPreferences;
 import java.security.PublicKey;
 
 public class DinoDuel extends Game {
-    public static int V_WIDTH = 320;
-    public static int V_HEIGHT = 260;
+    public static int V_WIDTH;
+    public static int V_HEIGHT;
     public static final float PPM = 100;
 
     public static final short CATEGORY_WEAPON = 2;
@@ -48,6 +49,8 @@ public class DinoDuel extends Game {
         manager.queueSFX();
         manager.assetManager.finishLoading();
         //setScreen((new PlayScreen(this)));
+        V_WIDTH = Gdx.graphics.getWidth();
+       V_HEIGHT = Gdx.graphics.getHeight();
         setScreen(new LoadingScreen(this, "MainMenuScreen"));
     }//end create
 

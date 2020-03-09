@@ -96,10 +96,12 @@ public class PlayScreen extends AbstractScreen {
     public static ArrayList<Dino> allPlayers = new ArrayList<>();
     //Grey box List
     public ArrayList<GreyGunBox> allGreyGunBoxes = new ArrayList<>();
-//Controllers
- Array<Controller> controllers = Controllers.getControllers();
+    //Controllers
+    Array<Controller> controllers = Controllers.getControllers();
 
     Controller p1Controller = null;
+    private float p1Speedx;
+    private float p1Speedy;
 
 
     private enum State {Running, Paused}
@@ -121,7 +123,7 @@ public class PlayScreen extends AbstractScreen {
         //Camera that follows the players
         gameCam = new OrthographicCamera();
         //Fits the proper aspect ratio
-        gamePort = new FillViewport(DinoDuel.V_WIDTH / DinoDuel.PPM, DinoDuel.V_HEIGHT / DinoDuel.PPM, gameCam);
+        gamePort = new FillViewport(DinoDuel.V_WIDTH /2 / DinoDuel.PPM, DinoDuel.V_HEIGHT /2 / DinoDuel.PPM, gameCam);
         //Creates the hud
         hud = new Hud(game.batch);
         //Renders the map
@@ -148,7 +150,8 @@ public class PlayScreen extends AbstractScreen {
         game.playingSong = game.manager.assetManager.get("Music/TheWhite.mp3");
         game.playingSong.play();
         startTime = System.currentTimeMillis();
-
+        //Fixme Controller Support
+        /*
         if (controllers.size == 0) {
             System.out.println("NO Controllers");
         } else {
@@ -157,9 +160,8 @@ public class PlayScreen extends AbstractScreen {
                     p1Controller = c;
                 }
             }
-
         }
-
+         */
     }//end constructor
 
     public TextureAtlas getDinoAtlas() {
@@ -379,7 +381,8 @@ public class PlayScreen extends AbstractScreen {
                 player1.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player1.b2body.getWorldCenter(), true);
             }
         }
-
+        //Fixme Controller Support
+//player1.b2body.applyLinearImpulse(new Vector2(p1Speedx, p1Speedy), player1.b2body.getWorldCenter(), true);
         //******************************Player2******************************
         if (player2.canMove) {
             player2.KEYUP = false;
@@ -463,37 +466,42 @@ public class PlayScreen extends AbstractScreen {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
         }
 
+        //Fixme Controller Support
         //*****************************TESTING CONTROLLER*************************************
+        /*
         p1Controller.addListener(new ControllerAdapter() {
             @Override
             public boolean buttonDown(Controller controller, int buttonIndex) {
                 return false;
             }
+
             @Override
             public boolean buttonUp(Controller controller, int buttonIndex) {
-                if(buttonIndex == XBox.BUTTON_A) {
+                if (buttonIndex == XBox.BUTTON_A) {
                     //jump
                     System.out.println("JUMP");
                 }
                 return false;
             }
+
             @Override
             public boolean axisMoved(Controller controller, int axisIndex, float value) {
-                if(axisIndex == XBox.AXIS_LX) {
-                    //speedx = value;
+                if (axisIndex == XBox.AXIS_LX) {
+                    p1Speedx = value;
                     System.out.println(value);
-                } else if(axisIndex == XBox.AXIS_LY) {
-                   // speedy = value;
+                } else if (axisIndex == XBox.AXIS_LY) {
+                     p1Speedy= value;
                     System.out.println(value);
                 }
                 return false;
             }
+
             @Override
             public boolean povMoved(Controller controller, int povIndex, PovDirection value) {
                 return false;
             }
         });
-
+         */
     }//end handleInput
 
     @Override
@@ -607,26 +615,26 @@ public class PlayScreen extends AbstractScreen {
         gameCam.position.x = (player1.b2body.getPosition().x + player2.b2body.getPosition().x) / 2;
         gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
 
-        float xRatio = DinoDuel.V_WIDTH / DinoDuel.PPM / abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
-        float yRatio = DinoDuel.V_HEIGHT / DinoDuel.PPM / abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
+        float xRatio = DinoDuel.V_WIDTH /2 / DinoDuel.PPM / abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
+        float yRatio = DinoDuel.V_HEIGHT /2/ DinoDuel.PPM / abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
         if (xRatio < yRatio) {
             float tempX = abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
-            if (DinoDuel.V_WIDTH / DinoDuel.PPM > tempX) {
-                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM + 1f;
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM + 1f;
+            if (DinoDuel.V_WIDTH/2 / DinoDuel.PPM > tempX) {
+                gameCam.viewportWidth = DinoDuel.V_WIDTH/2 / DinoDuel.PPM + 1f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM + 1f;
 
             } else {
                 gameCam.viewportWidth = tempX + 1f;
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM / xRatio + 1f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM / xRatio + 1f;
             }
         } else {
             float tempY = abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
-            if (DinoDuel.V_HEIGHT / DinoDuel.PPM > tempY) {
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT / DinoDuel.PPM + 1f;
-                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM + 1f;
+            if (DinoDuel.V_HEIGHT/2 / DinoDuel.PPM > tempY) {
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM + 1f;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH/2 / DinoDuel.PPM + 1f;
             } else {
                 gameCam.viewportHeight = tempY + 1f;
-                gameCam.viewportWidth = DinoDuel.V_WIDTH / DinoDuel.PPM / yRatio + 1;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH/2 / DinoDuel.PPM / yRatio + 1;
             }
         }
 
@@ -710,6 +718,7 @@ public class PlayScreen extends AbstractScreen {
 
     @Override
     public void dispose() {
+        game.batch.setColor(new Color(1, 1, 1, 1));
         map.dispose();
         world.dispose();
         b2dr.dispose();

@@ -42,7 +42,8 @@ public class VictoryScreen extends AbstractScreen {
         gameCam = new OrthographicCamera();
         gameCam.position.set(DinoDuel.V_WIDTH / DinoDuel.PPM, DinoDuel.V_HEIGHT / DinoDuel.PPM, 0);
         /// create stage and set it as input processor
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FillViewport(DinoDuel.V_WIDTH, DinoDuel.V_HEIGHT));
+
         Gdx.input.setInputProcessor(stage);
 
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");

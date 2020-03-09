@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Sprites.DemoDinos;
@@ -43,7 +45,7 @@ public class CharcterSelectMenu extends AbstractScreen {
 
         super(game);
         /// create stage and set it as input processor
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FillViewport(DinoDuel.V_WIDTH, DinoDuel.V_HEIGHT));
         Gdx.input.setInputProcessor(stage);
         //Arrows
         arrowUp = new Texture("Arrows/upButton.png");

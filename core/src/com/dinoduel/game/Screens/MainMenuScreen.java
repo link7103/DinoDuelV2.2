@@ -1,26 +1,32 @@
 package com.dinoduel.game.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.dinoduel.game.DinoDuel;
 
 
 public class MainMenuScreen extends AbstractScreen {
     private Stage stage;
+    private int scale;
 
     public MainMenuScreen(DinoDuel game) {
         super(game);
         /// create stage and set it as input processor
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FillViewport(DinoDuel.V_WIDTH, DinoDuel.V_HEIGHT));
         Gdx.input.setInputProcessor(stage);
 
     }//end constructor
@@ -38,8 +44,11 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void resize(int width, int height) {
+        // if (width / stage.getViewport().getScreenWidth() > stage.getViewport().getScreenHeight() / height) {
+        scale = width / stage.getViewport().getScreenWidth();
+        System.out.println(scale);
+        //}
         stage.getViewport().update(width, height, true);
-
     }//end resize
 
     @Override
