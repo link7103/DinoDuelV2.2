@@ -97,7 +97,7 @@ public class PlayScreen extends AbstractScreen {
     //Grey box List
     public ArrayList<GreyGunBox> allGreyGunBoxes = new ArrayList<>();
     //Controllers
-    Array<Controller> controllers = Controllers.getControllers();
+    //Array<Controller> controllers = Controllers.getControllers();
 
     Controller p1Controller = null;
     private float p1Speedx;

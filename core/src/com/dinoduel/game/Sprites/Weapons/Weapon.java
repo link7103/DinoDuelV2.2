@@ -1,5 +1,6 @@
 package com.dinoduel.game.Sprites.Weapons;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -17,9 +18,15 @@ public abstract class Weapon extends Sprite {
     protected World world;
     public Body wBody;
     TextureRegion img;
+    protected boolean reloading = false;
+    protected Animation<TextureRegion> reload;
 
     double damage;
     protected PlayScreen screen;
+
+    public Dino.State currentState;
+    public Dino.State previousState;
+    private float stateTimer;
 
     boolean empty = false;
     public boolean flag = false;
@@ -45,6 +52,7 @@ public abstract class Weapon extends Sprite {
     float lastFireTime = 0;
     private float dropTime = 0;
     public boolean spinStop = false;
+    int reloadCount = -1;
 
     Weapon(float x, float y, World world, PlayScreen screen) {
         super(screen.getweaponAtlas().findRegion("weapons"));
@@ -52,15 +60,42 @@ public abstract class Weapon extends Sprite {
         this.y = y;
         this.world = world;
         this.screen = screen;
+        stateTimer = 0;
     }//end Constructor
 
-    private TextureRegion getFrame() {
+    private TextureRegion getFrame(float dt) {
         TextureRegion region = img;
+        if(reloading) {
+            System.out.println("Should be changing region");
+            reloading = false;
+            reloadCount = 0;
+        } else if (reloadCount >=0) {
+            if (reloadCount < 90) {
+                rotate(1);
+                reloadCount++;
+            } else if ( reloadCount < 140) {
+                translateY(1f/DinoDuel.PPM);
+                reloadCount++;
+            } else if (reloadCount < 190) {
+                translateY(-1f/DinoDuel.PPM);
+                reloadCount++;
+            } else if (reloadCount<280) {
+                rotate(-1);
+                reloadCount++;
+            } else {
+                reloadCount = -1;
+            }
+
+        }
+
         if (!user.isRunningRight() && !region.isFlipX()) {
             region.flip(true, false);
         } else if (user.isRunningRight() && region.isFlipX()) {
             region.flip(true, false);
         }
+
+        stateTimer = currentState == previousState ? stateTimer + dt : 0;
+        previousState = currentState;
         return region;
     }//end getFrame
 
@@ -84,7 +119,7 @@ public abstract class Weapon extends Sprite {
             } else {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
             }
-            setRegion(getFrame());
+            setRegion(getFrame(dt));
 
         } else {
             if (spinStop) {
@@ -160,25 +195,22 @@ public abstract class Weapon extends Sprite {
     }//end defineWeapon
 
     public void setUser(Dino dino) {
-
-        spinStop = true;
-        update(0);
-
-
-
-        setRotation(0);
-        previousAngle = 0;
+        if (user == null) {
+            spinStop = true;
+            update(0);
 
 
+            setRotation(0);
+            previousAngle = 0;
 
 
             user = dino;
-            if (wBody!=null) {
+            if (wBody != null) {
                 wBody.setAwake(false);
                 world.destroyBody(wBody);
                 wBody = null;
             }
-
+        }
 
     }//end setUser
 
@@ -235,4 +267,6 @@ public abstract class Weapon extends Sprite {
         this.update(0);
 
     }//end dropped
+
+    abstract void setReload();
 }//end class

@@ -2,11 +2,14 @@ package com.dinoduel.game.Sprites.Weapons;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
+
+import java.util.ArrayList;
 
 public class Shotgun extends Gun {
 
@@ -33,13 +36,8 @@ public class Shotgun extends Gun {
         setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
 
 
-        Array<Texture> frames = new Array<>();
-        for (int i = 0; i < 18; i++) {
-            frames.add(this.getTexture());
-            rotate(5);
-        }
-        reload = new Animation(0.1f, frames);
-        setRotation(0);
+        setReload();
+
     }//end constructor
 
     @Override
@@ -85,6 +83,7 @@ public class Shotgun extends Gun {
                     lastFireTime = buildTime;
                 } else {
                     //reload
+                    reloading = true;
                     mag = magCap;
                     lastFireTime = buildTime;
                 }
@@ -97,5 +96,30 @@ public class Shotgun extends Gun {
     public String getName() {
         return "Shotgun";
     }//end getName
+
+    @Override
+    void setReload() {
+        Sprite temp = new Sprite(img);
+        ArrayList<TextureRegion> frames = new ArrayList<>();
+        frames.add(new TextureRegion(temp.getTexture()));
+        for (int i = 0; i < 18; i++) {
+            temp.rotate(5);
+            frames.add(new TextureRegion(temp.getTexture()));
+        }
+        for (int i = 0; i < 5; i++) {
+            temp.translateY(1);
+            frames.add(new TextureRegion(temp.getTexture()));
+        }
+        for (int i = 0; i < 5; i++) {
+            temp.translateY(-1);
+            frames.add(new TextureRegion(temp.getTexture()));
+        }
+        for (int i = 0; i < 18; i++) {
+            temp.rotate(-5);
+            frames.add(new TextureRegion(temp.getTexture()));
+        }
+        reload = new Animation(0.1f, frames);
+
+    }
 }//end class
 
