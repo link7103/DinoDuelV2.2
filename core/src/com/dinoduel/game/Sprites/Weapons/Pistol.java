@@ -35,6 +35,50 @@ public class Pistol extends Gun {
 
     }//end constructor
 
+    @Override
+    protected TextureRegion getFrame(float dt) {
+        TextureRegion region = img;
+        float neg;
+        if (user.isRunningRight()) {
+            neg = 1;
+        } else {
+            neg = -1;
+        }
+        if (!user.isRunningRight() && !region.isFlipX()) {
+            region.flip(true, false);
+        } else if (user.isRunningRight() && region.isFlipX()) {
+            region.flip(true, false);
+        }
+
+        if(reloading) {
+            System.out.println("Should be changing region");
+            reloading = false;
+            reloadCount = 0;
+        } else if (reloadCount >=0) {
+            System.out.println(dt);
+            if (reloadCount < 45) {
+                rotate(neg * -1);
+                reloadCount++;
+            } else if ( reloadCount < 95) {
+                reloadCount++;
+
+            } else if (reloadCount < 145) {
+                reloadCount++;
+            } else if (reloadCount<190) {
+                rotate(1*neg);
+                reloadCount++;
+            } else {
+                reloadCount = -1;
+            }
+
+        }
+
+
+
+
+        return region;
+    }//end getFrame
+
     public String getName() {
         return "Pistol";
     }//end getName

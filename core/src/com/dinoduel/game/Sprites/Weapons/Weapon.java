@@ -63,24 +63,37 @@ public abstract class Weapon extends Sprite {
         stateTimer = 0;
     }//end Constructor
 
-    private TextureRegion getFrame(float dt) {
+    protected TextureRegion getFrame(float dt) {
         TextureRegion region = img;
+        float neg;
+        if (user.isRunningRight()) {
+             neg = 1;
+        } else {
+             neg = -1;
+        }
+        if (!user.isRunningRight() && !region.isFlipX()) {
+            region.flip(true, false);
+        } else if (user.isRunningRight() && region.isFlipX()) {
+            region.flip(true, false);
+        }
+
         if(reloading) {
             System.out.println("Should be changing region");
             reloading = false;
             reloadCount = 0;
         } else if (reloadCount >=0) {
+            System.out.println(dt);
             if (reloadCount < 90) {
-                rotate(1);
+                rotate(neg * 1);
                 reloadCount++;
             } else if ( reloadCount < 140) {
-                translateY(1f/DinoDuel.PPM);
+                translateY(-1f*neg/DinoDuel.PPM);
                 reloadCount++;
             } else if (reloadCount < 190) {
-                translateY(-1f/DinoDuel.PPM);
+                translateY(neg*1f/DinoDuel.PPM);
                 reloadCount++;
             } else if (reloadCount<280) {
-                rotate(-1);
+                rotate(-1*neg);
                 reloadCount++;
             } else {
                 reloadCount = -1;
@@ -88,11 +101,7 @@ public abstract class Weapon extends Sprite {
 
         }
 
-        if (!user.isRunningRight() && !region.isFlipX()) {
-            region.flip(true, false);
-        } else if (user.isRunningRight() && region.isFlipX()) {
-            region.flip(true, false);
-        }
+
 
         stateTimer = currentState == previousState ? stateTimer + dt : 0;
         previousState = currentState;
@@ -119,7 +128,7 @@ public abstract class Weapon extends Sprite {
             } else {
                 setPosition(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
             }
-            setRegion(getFrame(dt));
+            setRegion(this.getFrame(dt));
 
         } else {
             if (spinStop) {

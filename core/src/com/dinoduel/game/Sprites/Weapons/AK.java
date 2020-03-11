@@ -32,6 +32,51 @@ public class AK extends Gun {
         setReload();
     }//end Consrtuctor
 
+    @Override
+    protected TextureRegion getFrame(float dt) {
+        TextureRegion region = img;
+        float neg;
+        if (user.isRunningRight()) {
+            neg = 1;
+        } else {
+            neg = -1;
+        }
+        if (!user.isRunningRight() && !region.isFlipX()) {
+            region.flip(true, false);
+        } else if (user.isRunningRight() && region.isFlipX()) {
+            region.flip(true, false);
+        }
+
+        if(reloading) {
+            System.out.println("Should be changing region");
+            reloading = false;
+            reloadCount = 0;
+        } else if (reloadCount >=0) {
+            System.out.println(dt);
+            if (reloadCount < 90) {
+                translateX(neg*2f/DinoDuel.PPM);
+                reloadCount++;
+            } else if ( reloadCount < 140) {
+                rotate(-.5f*neg);
+                reloadCount++;
+            } else if (reloadCount < 190) {
+                rotate(.5f*neg);
+                reloadCount++;
+            } else if (reloadCount<280) {
+                translateX(-2f*neg/DinoDuel.PPM);
+                reloadCount++;
+            } else {
+                reloadCount = -1;
+            }
+
+        }
+
+
+
+
+        return region;
+    }//end getFrame
+
     public String getName() {
         return "AK";
     }//end getName
