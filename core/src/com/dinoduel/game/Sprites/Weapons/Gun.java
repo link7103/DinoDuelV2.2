@@ -30,9 +30,14 @@ public abstract class Gun extends Weapon {
     public abstract String getName();
 
     public void useWeapon() {
-        if (buildTime - lastFireTime > firerate) {
+        if (mag ==0 && reloadCount ==-1) {
+            //reload
+            reloading = true;
+            mag = magCap;
+            lastFireTime = buildTime;
+        } else if (buildTime - lastFireTime > firerate && reloadCount == -1) {
             if (ammo > 0) {
-                if (mag > 0) {
+
                     //fire
                     screen.game.playingSoundEffect = screen.game.manager.assetManager.get(screen.game.manager.sFX[4]);
                     screen.game.playingSoundEffect.play();
@@ -56,12 +61,7 @@ public abstract class Gun extends Weapon {
                     mag--;
                     ammo--;
                     lastFireTime = buildTime;
-                } else {
-                    //reload
-                    reloading = true;
-                    mag = magCap;
-                    lastFireTime = buildTime;
-                }
+
             } else {
                 screen.game.playingSoundEffect = screen.game.manager.assetManager.get(screen.game.manager.sFX[3]);
                 screen.game.playingSoundEffect.play();

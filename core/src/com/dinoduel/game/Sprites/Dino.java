@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.EdgeShape;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
@@ -21,6 +20,14 @@ import java.util.ArrayList;
 
 
 public class Dino extends Sprite {
+    public Body getB2body() {
+        return b2body;
+    }
+
+    public void setB2body(Body b2body) {
+        this.b2body = b2body;
+    }
+
     //States
     public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING, KICKING, DYING}
 
@@ -29,7 +36,7 @@ public class Dino extends Sprite {
     private float stateTimer;
 
     public World world;
-    public Body b2body;
+    private Body b2body;
 
     //Animations and Textures
     private TextureRegion dinoIdle0;
@@ -156,13 +163,13 @@ public class Dino extends Sprite {
     public void update(float dt) { //Updates the sprite every frame
         if (playerDucking && currentState != State.FALLING && currentState != State.JUMPING && currentState != State.CLIMBING) {
             if (runningRight) {
-                setPosition(b2body.getPosition().x - 0.025f - getWidth() / 2, b2body.getPosition().y + 0.0125f - getHeight() / 2);
+                setPosition(getB2body().getPosition().x - 0.025f - getWidth() / 2, getB2body().getPosition().y + 0.0125f - getHeight() / 2);
             } else {
-                setPosition(b2body.getPosition().x + 0.025f - getWidth() / 2, b2body.getPosition().y + 0.0125f - getHeight() / 2);
+                setPosition(getB2body().getPosition().x + 0.025f - getWidth() / 2, getB2body().getPosition().y + 0.0125f - getHeight() / 2);
 
             }
         } else {
-            setPosition(b2body.getPosition().x - getWidth() / 2, b2body.getPosition().y - getHeight() / 2);
+            setPosition(getB2body().getPosition().x - getWidth() / 2, getB2body().getPosition().y - getHeight() / 2);
         }
         if (lives > 0) {
             setRegion(getFrame(dt));
@@ -216,10 +223,10 @@ public class Dino extends Sprite {
                 region = dinoIdle.getKeyFrame(stateTimer, true);
                 break;
         }
-        if ((b2body.getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
+        if ((getB2body().getLinearVelocity().x < 0 || !runningRight) && !region.isFlipX()) {
             region.flip(true, false);
             runningRight = false;
-        } else if ((b2body.getLinearVelocity().x > 0 || runningRight) && region.isFlipX()) {
+        } else if ((getB2body().getLinearVelocity().x > 0 || runningRight) && region.isFlipX()) {
             region.flip(true, false);
             runningRight = true;
         }
@@ -234,14 +241,17 @@ public class Dino extends Sprite {
         if (health <= 0) {
             health = 0;
             return State.DYING;
-        } else if (b2body.getLinearVelocity().y > 0 && previousState == State.DUCKING) {
+        } else if (kicking) {
+            kicking = false;
+            return State.KICKING;
+        } else if (getB2body().getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
             return State.JUMPING;
-        } else if (b2body.getLinearVelocity().y < 0 && !playerDucking && previousState == State.DUCKFALLING) {
+        } else if (getB2body().getLinearVelocity().y < 0 && !playerDucking && previousState == State.DUCKFALLING) {
             defineDino(2);
 
             return State.FALLING;
-        } else if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && b2body.getLinearVelocity().y == 0)) {
+        } else if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && getB2body().getLinearVelocity().y == 0)) {
             defineDino(1);
 
         } else if ((!playerDucking && (previousState == State.DUCKING || previousState == State.DUCKRUNNING)) || (previousState == State.CLIMBING && !climbing)) {
@@ -253,13 +263,13 @@ public class Dino extends Sprite {
             return State.CLIMBING;
         } else if (climbing) {
             return State.CLIMBING;
-        } else if (b2body.getLinearVelocity().y > 0 || (b2body.getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
+        } else if (getB2body().getLinearVelocity().y > 0 || (getB2body().getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
             return State.JUMPING;
-        } else if (b2body.getLinearVelocity().y < 0 && (previousState == State.DUCKING || previousState == State.DUCKRUNNING || previousState == State.DUCKFALLING)) {
+        } else if (getB2body().getLinearVelocity().y < 0 && (previousState == State.DUCKING || previousState == State.DUCKRUNNING || previousState == State.DUCKFALLING)) {
             return State.DUCKFALLING;
-        } else if (b2body.getLinearVelocity().y < 0) {
+        } else if (getB2body().getLinearVelocity().y < 0) {
             return State.FALLING;
-        } else if (b2body.getLinearVelocity().x != 0) {
+        } else if (getB2body().getLinearVelocity().x != 0) {
             if (playerDucking) {
                 return State.DUCKRUNNING;
             } else {
@@ -283,7 +293,7 @@ public class Dino extends Sprite {
             health = 1;
             bdef.position.set(startingPos);
             bdef.type = BodyDef.BodyType.DynamicBody;
-            b2body = world.createBody(bdef);
+            setB2body(world.createBody(bdef));
 
             FixtureDef fdef = new FixtureDef();
             fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
@@ -292,19 +302,19 @@ public class Dino extends Sprite {
             PolygonShape headShape = new PolygonShape();
             headShape.setAsBox(6 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
             fdef.shape = headShape;
-            b2body.createFixture(fdef).setUserData(this);
+            getB2body().createFixture(fdef).setUserData(this);
 
             PolygonShape bodyShape = new PolygonShape();
             bodyShape.setAsBox(4 / DinoDuel.PPM, 7 / DinoDuel.PPM, new Vector2(+0, +1f / DinoDuel.PPM), 0);
             fdef.shape = bodyShape;
-            b2body.createFixture(fdef).setUserData(this);
+            getB2body().createFixture(fdef).setUserData(this);
 
             //Head Sensor
             EdgeShape head = new EdgeShape();
             head.set(new Vector2(-3 / DinoDuel.PPM, 7.8f / DinoDuel.PPM), new Vector2(3 / DinoDuel.PPM, 7.8f / DinoDuel.PPM));
             fdef.shape = head;
             fdef.isSensor = true;
-            b2body.createFixture(fdef).setUserData("head");
+            getB2body().createFixture(fdef).setUserData("head");
 
             //Side Sensors
             /*EdgeShape right = new EdgeShape();
@@ -320,15 +330,15 @@ public class Dino extends Sprite {
             b2body.createFixture(fdef).setUserData("side");
              */
         } else {
-            Vector2 currentPosition = b2body.getPosition();
-            Vector2 currentVelocity = b2body.getLinearVelocity();
-            world.destroyBody(b2body);
+            Vector2 currentPosition = getB2body().getPosition();
+            Vector2 currentVelocity = getB2body().getLinearVelocity();
+            world.destroyBody(getB2body());
             bdef.position.set(currentPosition);
 
             if (instruction == 1 && currentLadder == null) {//Duck
                 //System.out.println(1);
                 bdef.type = BodyDef.BodyType.DynamicBody;
-                b2body = world.createBody(bdef);
+                setB2body(world.createBody(bdef));
 
                 FixtureDef fdef = new FixtureDef();
                 PolygonShape shape = new PolygonShape();
@@ -338,8 +348,8 @@ public class Dino extends Sprite {
                 fdef.shape = shape;
                 fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
                 fdef.filter.maskBits = DinoDuel.MASK_DINO;
-                b2body.createFixture(fdef);
-                b2body.createFixture(fdef).setUserData(this);
+                getB2body().createFixture(fdef);
+                getB2body().createFixture(fdef).setUserData(this);
 
 
                 //setSize(getWidth()*(6f/8f), getHeight()*(2f/3f));
@@ -350,7 +360,7 @@ public class Dino extends Sprite {
                 head.set(new Vector2(-8 / DinoDuel.PPM, 5 / DinoDuel.PPM), new Vector2(8 / DinoDuel.PPM, 5 / DinoDuel.PPM));
                 fdef.shape = head;
                 fdef.isSensor = true;
-                b2body.createFixture(fdef).setUserData("head");
+                getB2body().createFixture(fdef).setUserData("head");
                 //side sensors
                 /*EdgeShape right = new EdgeShape();
                 right.set(new Vector2(8 / DinoDuel.PPM, -6.65f / DinoDuel.PPM), new Vector2(8 / DinoDuel.PPM,  6.65f / DinoDuel.PPM));
@@ -366,7 +376,7 @@ public class Dino extends Sprite {
                  */
             } else if (instruction == 2) {//Unduck
                 bdef.type = BodyDef.BodyType.DynamicBody;
-                b2body = world.createBody(bdef);
+                setB2body(world.createBody(bdef));
 
                 FixtureDef fdef = new FixtureDef();
                 fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
@@ -375,12 +385,12 @@ public class Dino extends Sprite {
                 PolygonShape headShape = new PolygonShape();
                 headShape.setAsBox(6 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
                 fdef.shape = headShape;
-                b2body.createFixture(fdef).setUserData(this);
+                getB2body().createFixture(fdef).setUserData(this);
 
                 PolygonShape bodyShape = new PolygonShape();
                 bodyShape.setAsBox(4 / DinoDuel.PPM, 7 / DinoDuel.PPM, new Vector2(+0, +1f / DinoDuel.PPM), 0);
                 fdef.shape = bodyShape;
-                b2body.createFixture(fdef).setUserData(this);
+                getB2body().createFixture(fdef).setUserData(this);
 
 
                 //head sensor
@@ -388,14 +398,14 @@ public class Dino extends Sprite {
                 head.set(new Vector2(-3 / DinoDuel.PPM, 7.8f / DinoDuel.PPM), new Vector2(3 / DinoDuel.PPM, 7.8f / DinoDuel.PPM));
                 fdef.shape = head;
                 fdef.isSensor = true;
-                b2body.createFixture(fdef).setUserData("head");
+                getB2body().createFixture(fdef).setUserData("head");
 
                 setSize(standingWidth, standingHeight);
             } else if (instruction == 3 || (currentLadder != null && instruction == 1)) { //Climbing
                 currentVelocity = new Vector2(0, 0);
                 bdef.type = BodyDef.BodyType.DynamicBody;
-                b2body = world.createBody(bdef);
-                b2body.setGravityScale(0);
+                setB2body(world.createBody(bdef));
+                getB2body().setGravityScale(0);
 
                 FixtureDef fdef = new FixtureDef();
                 fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
@@ -404,15 +414,15 @@ public class Dino extends Sprite {
                 PolygonShape headShape = new PolygonShape();
                 headShape.setAsBox(6 / DinoDuel.PPM, 3 / DinoDuel.PPM, new Vector2(+0, 5f / DinoDuel.PPM), 0);
                 fdef.shape = headShape;
-                b2body.createFixture(fdef).setUserData(this);
+                getB2body().createFixture(fdef).setUserData(this);
 
                 PolygonShape bodyShape = new PolygonShape();
                 bodyShape.setAsBox(4 / DinoDuel.PPM, 7 / DinoDuel.PPM, new Vector2(+0, +1f / DinoDuel.PPM), 0);
                 fdef.shape = bodyShape;
-                b2body.createFixture(fdef).setUserData(this);
+                getB2body().createFixture(fdef).setUserData(this);
 
             }
-            b2body.setLinearVelocity(currentVelocity);
+            getB2body().setLinearVelocity(currentVelocity);
         }
     }//end defineDino
 
@@ -430,7 +440,7 @@ public class Dino extends Sprite {
 
                  */
 
-                if (weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .04f, b2body.getPosition().y - .07f, .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .04f, b2body.getPosition().y + .03f, .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.DUCKRUNNING) && weapon.getBoundingRectangle().overlaps(new Rectangle(b2body.getPosition().x - .08f, b2body.getPosition().y - .05f, .16f, .10f)))) {
+                if (weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .04f, getB2body().getPosition().y - .07f, .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .04f, getB2body().getPosition().y + .03f, .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.DUCKRUNNING) && weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .08f, getB2body().getPosition().y - .05f, .16f, .10f)))) {
                     hasWeapon = true;
                     weapon.setUser(this);
                     this.weapon = weapon;
@@ -463,15 +473,36 @@ public class Dino extends Sprite {
     }
 
     public float getYVel() {
-        return b2body.getLinearVelocity().y;
+        return getB2body().getLinearVelocity().y;
     }
 
     public void climbing() {
 
     }
 
-    public void kick() {
+    public void kick(ArrayList<Dino> allPlayers) {
         kicking = true;
+        for (Dino player: allPlayers
+             ) {
+            if (player != this) {
+                if (player.playerDucking) {
+                    if (new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .08f, player.getB2body().getPosition().y - .08f, .16f, .10f))  ) {
+                        player.headKicked();
+                    }
+                } else {
+                    System.out.println("This y" + b2body.getPosition().y);
+                    System.out.println("their y" + player.getB2body().getPosition().y);
+
+                    if ((new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .06f, player.getB2body().getPosition().y + .03f, .12f, .06f))) && this.b2body.getPosition().y>player.getB2body().getPosition().y+0.01f){
+                        player.headKicked();
+                        System.out.println("head hit");
+                    } else if (new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .06f, player.getB2body().getPosition().y - .07f, .12f, .14f))  ) {
+                        player.kicked();
+                    }
+                }
+            }
+        }
+
     }
 
     private void dying() {
@@ -479,8 +510,8 @@ public class Dino extends Sprite {
             dropWeapon();
         }
         canMove = false;
-        b2body.setGravityScale(0);
-        b2body.setLinearVelocity(0, 0);
+        getB2body().setGravityScale(0);
+        getB2body().setLinearVelocity(0, 0);
         dead = true;
     }//end dying
 
@@ -488,7 +519,7 @@ public class Dino extends Sprite {
         screen.game.playingSoundEffect = screen.game.manager.assetManager.get(screen.game.manager.sFX[0]);
         screen.game.playingSoundEffect.play();
         lives--;
-        world.destroyBody(b2body);
+        world.destroyBody(getB2body());
         dead = false;
         if (lives > 0) {
             defineDino(0);
@@ -504,4 +535,12 @@ public class Dino extends Sprite {
     public String getName() {
         return name;
     }//end getName
+
+    public void kicked() {
+        health-=.11f;
+    }
+
+    public void headKicked(){
+        health-=.21f;
+    }
 }//end Dino

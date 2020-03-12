@@ -53,17 +53,18 @@ public class AK extends Gun {
             reloadCount = 0;
         } else if (reloadCount >=0) {
             System.out.println(dt);
-            if (reloadCount < 90) {
-                translateX(neg*2f/DinoDuel.PPM);
-                reloadCount++;
-            } else if ( reloadCount < 140) {
+            if (reloadCount < 50) {
                 rotate(-.5f*neg);
+
                 reloadCount++;
-            } else if (reloadCount < 190) {
+            } else if ( reloadCount < 100) {
                 rotate(.5f*neg);
                 reloadCount++;
+            } else if (reloadCount < 190) {
+                translateX(neg*1f/DinoDuel.PPM);
+                reloadCount++;
             } else if (reloadCount<280) {
-                translateX(-2f*neg/DinoDuel.PPM);
+                translateX(-1f*neg/DinoDuel.PPM);
                 reloadCount++;
             } else {
                 reloadCount = -1;

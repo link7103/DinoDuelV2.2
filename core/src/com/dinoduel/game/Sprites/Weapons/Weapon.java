@@ -83,17 +83,17 @@ public abstract class Weapon extends Sprite {
             reloadCount = 0;
         } else if (reloadCount >=0) {
             System.out.println(dt);
-            if (reloadCount < 90) {
-                rotate(neg * 1);
+            if (reloadCount < 180) {
+                rotate(neg * .5f);
                 reloadCount++;
-            } else if ( reloadCount < 140) {
+            } else if ( reloadCount < 280) {
                 translateY(-1f*neg/DinoDuel.PPM);
                 reloadCount++;
-            } else if (reloadCount < 190) {
+            } else if (reloadCount < 380) {
                 translateY(neg*1f/DinoDuel.PPM);
                 reloadCount++;
-            } else if (reloadCount<280) {
-                rotate(-1*neg);
+            } else if (reloadCount<560) {
+                rotate(-.5f*neg);
                 reloadCount++;
             } else {
                 reloadCount = -1;
@@ -122,11 +122,11 @@ public abstract class Weapon extends Sprite {
 
             spinStop = false;
             if (user.isRunningRight()) {
-                setPosition(user.b2body.getPosition().x - getWidth() / 2 + heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
+                setPosition(user.getB2body().getPosition().x - getWidth() / 2 + heldXOffset, user.getB2body().getPosition().y - getHeight() / 2 + heldYOffset);
 
 
             } else {
-                setPosition(user.b2body.getPosition().x - getWidth() / 2 - heldXOffset, user.b2body.getPosition().y - getHeight() / 2 + heldYOffset);
+                setPosition(user.getB2body().getPosition().x - getWidth() / 2 - heldXOffset, user.getB2body().getPosition().y - getHeight() / 2 + heldYOffset);
             }
             setRegion(this.getFrame(dt));
 
@@ -237,7 +237,7 @@ public abstract class Weapon extends Sprite {
     public void dropped() {
         //recreates fixture
         BodyDef bdef = new BodyDef();
-        bdef.position.set(user.b2body.getPosition().x, user.b2body.getPosition().y);
+        bdef.position.set(user.getB2body().getPosition().x, user.getB2body().getPosition().y);
         bdef.type = BodyDef.BodyType.DynamicBody;
         wBody = world.createBody(bdef);
 
@@ -252,11 +252,11 @@ public abstract class Weapon extends Sprite {
         fixture = wBody.createFixture(fdef);
         fixture.setUserData(this);
 
-        wBody.setLinearVelocity(user.b2body.getLinearVelocity());
+        wBody.setLinearVelocity(user.getB2body().getLinearVelocity());
         wBody.setFixedRotation(false);
         //System.out.println("start angle" + wBody.getAngle());
 
-        if (user.b2body.getLinearVelocity().equals(new Vector2(0,0))) {
+        if (user.getB2body().getLinearVelocity().equals(new Vector2(0,0))) {
             wBody.setAngularVelocity(0);
         } else if (user.isRunningRight()) {
             //wBody.applyAngularImpulse(-4000f, true);

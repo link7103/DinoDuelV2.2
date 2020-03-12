@@ -42,7 +42,7 @@ public class Shotgun extends Gun {
 
     @Override
     public void useWeapon() {
-        if (buildTime - lastFireTime > firerate) {
+        if (buildTime - lastFireTime > firerate && reloadCount == -1) {
             if (ammo > 0) {
                 if (mag > 0) {
                     //fire

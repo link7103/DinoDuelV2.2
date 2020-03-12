@@ -2,30 +2,22 @@ package com.dinoduel.game.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.ControllerAdapter;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Scenes.Hud;
-import com.dinoduel.game.Sprites.DemoDinos;
 import com.dinoduel.game.Sprites.Dino;
 import com.dinoduel.game.Sprites.GunBox.GreyGunBox;
 import com.dinoduel.game.Sprites.InteractiveTileObject;
@@ -36,10 +28,8 @@ import com.dinoduel.game.Sprites.Weapons.Pistol;
 import com.dinoduel.game.Sprites.Weapons.Shotgun;
 import com.dinoduel.game.Sprites.Weapons.Sniper;
 import com.dinoduel.game.Sprites.Weapons.Weapon;
-import com.dinoduel.game.Tools.B2AssetManager;
 import com.dinoduel.game.Tools.B2WorldCreator;
 import com.dinoduel.game.Tools.WorldContactListener;
-import com.dinoduel.game.Tools.XBox;
 
 import java.util.ArrayList;
 
@@ -257,7 +247,7 @@ public class PlayScreen extends AbstractScreen {
             dino.climbing = false;
             dino.currentLadder = null;
             for (Ladder ladder : allLadders) {
-                if (ladder.bounds.contains(dino.b2body.getPosition().x * DinoDuel.PPM, dino.b2body.getPosition().y * DinoDuel.PPM - dino.getHeight() / 2)) {
+                if (ladder.bounds.contains(dino.getB2body().getPosition().x * DinoDuel.PPM, dino.getB2body().getPosition().y * DinoDuel.PPM - dino.getHeight() / 2)) {
                     if (dino.KEYUP || dino.KEYDOWN || dino.previousState == Dino.State.CLIMBING) {
                         dino.climbing = true;
                         dino.currentLadder = ladder;
@@ -310,38 +300,38 @@ public class PlayScreen extends AbstractScreen {
             player1.KEYDOWN = false;
             player1.KEYLEFT = false;
             if (player1.climbing) {
-                player1.b2body.setLinearVelocity(0, 0);
+                player1.getB2body().setLinearVelocity(0, 0);
             }
             if (player1.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.UP) && player1.currentState != Dino.State.CLIMBING && player1.currentState != Dino.State.FALLING) {
                 player1.KEYUP = true;
-                player1.b2body.applyLinearImpulse(new Vector2(0, 4f), player1.b2body.getWorldCenter(), true);
+                player1.getB2body().applyLinearImpulse(new Vector2(0, 4f), player1.getB2body().getWorldCenter(), true);
 
             } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 player1.KEYUP = true;
                 if (player1.currentState == Dino.State.CLIMBING) {
-                    player1.b2body.setLinearVelocity(0, 1f);
+                    player1.getB2body().setLinearVelocity(0, 1f);
                 }
             }
 
             if (player1.climbing) {
-                if ((player1.b2body.getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                    player1.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player1.b2body.getWorldCenter(), true);
+                if ((player1.getB2body().getPosition().y * DinoDuel.PPM >= player1.currentLadder.bounds.y + player1.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    player1.getB2body().applyLinearImpulse(new Vector2(0, 1.5f), player1.getB2body().getWorldCenter(), true);
                 }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.b2body.getLinearVelocity().x <= 2) {
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.getB2body().getLinearVelocity().x <= 2) {
                 player1.KEYRIGHT = true;
-                player1.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player1.b2body.getWorldCenter(), true);
+                player1.getB2body().applyLinearImpulse(new Vector2(0.1f, 0), player1.getB2body().getWorldCenter(), true);
                 if (player1.currentState == Dino.State.CLIMBING) {
-                    player1.b2body.setLinearVelocity(1f, 0);
+                    player1.getB2body().setLinearVelocity(1f, 0);
                 }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.b2body.getLinearVelocity().x >= -2) {
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.getB2body().getLinearVelocity().x >= -2) {
                 player1.KEYLEFT = true;
-                player1.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player1.b2body.getWorldCenter(), true);
+                player1.getB2body().applyLinearImpulse(new Vector2(-0.1f, 0), player1.getB2body().getWorldCenter(), true);
                 if (player1.currentState == Dino.State.CLIMBING) {
-                    player1.b2body.setLinearVelocity(-1f, 0);
+                    player1.getB2body().setLinearVelocity(-1f, 0);
                 }
             }
 
@@ -351,7 +341,7 @@ public class PlayScreen extends AbstractScreen {
                 if (player1.currentState != Dino.State.CLIMBING)
                     player1.playerDucking = true;
                 else if (player1.climbing) {
-                    player1.b2body.setLinearVelocity(0, -1f);
+                    player1.getB2body().setLinearVelocity(0, -1f);
                 }
             } else {
                 player1.playerDucking = false;
@@ -369,16 +359,16 @@ public class PlayScreen extends AbstractScreen {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SLASH)) {
                 if (player1.hasWeapon) {
                     player1.useWeapon();
-                } else {
+                } else if (!player1.playerDucking){
                     //kick implentation
-                    player1.kick();
+                    player1.kick(allLivingPlayers);
                 }
             }
             //Stops Sliding
-            if (player1.b2body.getLinearVelocity().x > 0.05f && !player1.KEYRIGHT && !player1.KEYLEFT) {
-                player1.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player1.b2body.getWorldCenter(), true);
-            } else if (player1.b2body.getLinearVelocity().x < -0.05f && !player1.KEYLEFT && !player1.KEYRIGHT) {
-                player1.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player1.b2body.getWorldCenter(), true);
+            if (player1.getB2body().getLinearVelocity().x > 0.05f && !player1.KEYRIGHT && !player1.KEYLEFT) {
+                player1.getB2body().applyLinearImpulse(new Vector2(-0.05f, 0), player1.getB2body().getWorldCenter(), true);
+            } else if (player1.getB2body().getLinearVelocity().x < -0.05f && !player1.KEYLEFT && !player1.KEYRIGHT) {
+                player1.getB2body().applyLinearImpulse(new Vector2(0.05f, 0), player1.getB2body().getWorldCenter(), true);
             }
         }
         //Fixme Controller Support
@@ -391,39 +381,39 @@ public class PlayScreen extends AbstractScreen {
             player2.KEYLEFT = false;
 
             if (player2.climbing && !Gdx.input.isKeyPressed(Input.Keys.W)) {
-                player2.b2body.setLinearVelocity(0, 0);
+                player2.getB2body().setLinearVelocity(0, 0);
             }
 
             if (player2.currentState != Dino.State.JUMPING && Gdx.input.isKeyJustPressed(Input.Keys.W) && player2.currentState != Dino.State.CLIMBING && player2.currentState != Dino.State.FALLING) {
                 player2.KEYUP = true;
-                player2.b2body.applyLinearImpulse(new Vector2(0, 4f), player2.b2body.getWorldCenter(), true);
+                player2.getB2body().applyLinearImpulse(new Vector2(0, 4f), player2.getB2body().getWorldCenter(), true);
             } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
                 player2.KEYUP = true;
                 if (player2.currentState == Dino.State.CLIMBING) {
-                    player2.b2body.setLinearVelocity(0, 1f);
+                    player2.getB2body().setLinearVelocity(0, 1f);
                 }
             }
 
             if (player2.climbing) {
-                if ((player2.b2body.getPosition().y * DinoDuel.PPM >= player2.currentLadder.bounds.y + player2.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.W)) {
-                    player2.b2body.applyLinearImpulse(new Vector2(0, 1.5f), player2.b2body.getWorldCenter(), true);
+                if ((player2.getB2body().getPosition().y * DinoDuel.PPM >= player2.currentLadder.bounds.y + player2.currentLadder.bounds.height - 3f) && Gdx.input.isKeyPressed(Input.Keys.W)) {
+                    player2.getB2body().applyLinearImpulse(new Vector2(0, 1.5f), player2.getB2body().getWorldCenter(), true);
 
                 }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.b2body.getLinearVelocity().x <= 2) {
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && player2.getB2body().getLinearVelocity().x <= 2) {
                 player2.KEYRIGHT = true;
-                player2.b2body.applyLinearImpulse(new Vector2(0.1f, 0), player2.b2body.getWorldCenter(), true);
+                player2.getB2body().applyLinearImpulse(new Vector2(0.1f, 0), player2.getB2body().getWorldCenter(), true);
                 if (player2.currentState == Dino.State.CLIMBING) {
-                    player2.b2body.setLinearVelocity(1f, 0);
+                    player2.getB2body().setLinearVelocity(1f, 0);
                 }
             }
 
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && player2.b2body.getLinearVelocity().x >= -2) {
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && player2.getB2body().getLinearVelocity().x >= -2) {
                 player2.KEYLEFT = true;
-                player2.b2body.applyLinearImpulse(new Vector2(-0.1f, 0), player2.b2body.getWorldCenter(), true);
+                player2.getB2body().applyLinearImpulse(new Vector2(-0.1f, 0), player2.getB2body().getWorldCenter(), true);
                 if (player2.currentState == Dino.State.CLIMBING) {
-                    player2.b2body.setLinearVelocity(-1f, 0);
+                    player2.getB2body().setLinearVelocity(-1f, 0);
                 }
             }
 
@@ -432,7 +422,7 @@ public class PlayScreen extends AbstractScreen {
                 if (player2.currentState != Dino.State.CLIMBING)
                     player2.playerDucking = true;
                 else if (player2.climbing) {
-                    player2.b2body.setLinearVelocity(0, -1f);
+                    player2.getB2body().setLinearVelocity(0, -1f);
                 }
             } else {
                 player2.playerDucking = false;
@@ -450,17 +440,17 @@ public class PlayScreen extends AbstractScreen {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                 if (player2.hasWeapon) {
                     player2.useWeapon();
-                } else {
+                } else if (!player2.playerDucking) {
                     //kick implentation
-                    player2.kick();
+                    player2.kick(allLivingPlayers);
                 }
             }
 
             //Stops Sliding
-            if (player2.b2body.getLinearVelocity().x > 0.05f && !player2.KEYRIGHT && !player2.KEYLEFT) {
-                player2.b2body.applyLinearImpulse(new Vector2(-0.05f, 0), player2.b2body.getWorldCenter(), true);
-            } else if (player2.b2body.getLinearVelocity().x < -0.05f && !player2.KEYLEFT && !player2.KEYRIGHT) {
-                player2.b2body.applyLinearImpulse(new Vector2(0.05f, 0), player2.b2body.getWorldCenter(), true);
+            if (player2.getB2body().getLinearVelocity().x > 0.05f && !player2.KEYRIGHT && !player2.KEYLEFT) {
+                player2.getB2body().applyLinearImpulse(new Vector2(-0.05f, 0), player2.getB2body().getWorldCenter(), true);
+            } else if (player2.getB2body().getLinearVelocity().x < -0.05f && !player2.KEYLEFT && !player2.KEYRIGHT) {
+                player2.getB2body().applyLinearImpulse(new Vector2(0.05f, 0), player2.getB2body().getWorldCenter(), true);
             }
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -587,7 +577,7 @@ public class PlayScreen extends AbstractScreen {
         //Draws the health bars above each dino
         for (Dino dino : allLivingPlayers) {
             game.batch.setColor(Color.BLACK);
-            game.batch.draw(blank, dino.b2body.getPosition().x - 0.075f, dino.b2body.getPosition().y + 0.094f, 0.16f, 0.04f);
+            game.batch.draw(blank, dino.getB2body().getPosition().x - 0.075f, dino.getB2body().getPosition().y + 0.094f, 0.16f, 0.04f);
             if (dino.health > 0.6f)
                 game.batch.setColor(Color.GREEN);
             else if (dino.health > 0.2f)
@@ -595,7 +585,7 @@ public class PlayScreen extends AbstractScreen {
             else
                 game.batch.setColor(Color.RED);
 
-            game.batch.draw(blank, dino.b2body.getPosition().x - 0.07f, dino.b2body.getPosition().y + 0.1f, 0.15f * dino.health, 0.03f);
+            game.batch.draw(blank, dino.getB2body().getPosition().x - 0.07f, dino.getB2body().getPosition().y + 0.1f, 0.15f * dino.health, 0.03f);
         }
 
 
@@ -612,13 +602,13 @@ public class PlayScreen extends AbstractScreen {
 
     private void setCameraPosition() {
 //attach the gamecam to the the middle x and y coordinate
-        gameCam.position.x = (player1.b2body.getPosition().x + player2.b2body.getPosition().x) / 2;
-        gameCam.position.y = (player1.b2body.getPosition().y + player1.b2body.getPosition().y) / 2;
+        gameCam.position.x = (player1.getB2body().getPosition().x + player2.getB2body().getPosition().x) / 2;
+        gameCam.position.y = (player1.getB2body().getPosition().y + player1.getB2body().getPosition().y) / 2;
 
-        float xRatio = DinoDuel.V_WIDTH /2 / DinoDuel.PPM / abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
-        float yRatio = DinoDuel.V_HEIGHT /2/ DinoDuel.PPM / abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
+        float xRatio = DinoDuel.V_WIDTH /2 / DinoDuel.PPM / abs(player1.getB2body().getPosition().x - player2.getB2body().getPosition().x);
+        float yRatio = DinoDuel.V_HEIGHT /2/ DinoDuel.PPM / abs(player1.getB2body().getPosition().y - player2.getB2body().getPosition().y);
         if (xRatio < yRatio) {
-            float tempX = abs(player1.b2body.getPosition().x - player2.b2body.getPosition().x);
+            float tempX = abs(player1.getB2body().getPosition().x - player2.getB2body().getPosition().x);
             if (DinoDuel.V_WIDTH/2 / DinoDuel.PPM > tempX) {
                 gameCam.viewportWidth = DinoDuel.V_WIDTH/2 / DinoDuel.PPM + 1f;
                 gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM + 1f;
@@ -628,7 +618,7 @@ public class PlayScreen extends AbstractScreen {
                 gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM / xRatio + 1f;
             }
         } else {
-            float tempY = abs(player1.b2body.getPosition().y - player2.b2body.getPosition().y);
+            float tempY = abs(player1.getB2body().getPosition().y - player2.getB2body().getPosition().y);
             if (DinoDuel.V_HEIGHT/2 / DinoDuel.PPM > tempY) {
                 gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM + 1f;
                 gameCam.viewportWidth = DinoDuel.V_WIDTH/2 / DinoDuel.PPM + 1f;
