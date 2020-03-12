@@ -236,6 +236,11 @@ public abstract class Weapon extends Sprite {
 
     public void dropped() {
         //recreates fixture
+        if(reloadCount !=-1) {
+            setRotation(0);
+            reloadCount = -1;
+        }
+
         BodyDef bdef = new BodyDef();
         bdef.position.set(user.getB2body().getPosition().x, user.getB2body().getPosition().y);
         bdef.type = BodyDef.BodyType.DynamicBody;
