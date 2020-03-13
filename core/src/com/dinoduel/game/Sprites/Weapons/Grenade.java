@@ -13,7 +13,8 @@ public class Grenade extends Explosive {
         ySize = 66;
         heldXOffset = 0.05f;
         heldYOffset = -0.03f;
-
+        radius = 10f/DinoDuel.PPM;
+        timer = 5;
 
 
 
@@ -31,6 +32,6 @@ public class Grenade extends Explosive {
         setRegion(img);
         setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
 
-    }//end Consrtuctor
+    }//end Constructor
 
 }
