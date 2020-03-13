@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="42" height="16" tilewidth="16" tileheight="16" nextobjectid="38">
+ <tileset firstgid="1" name="Basic Tiles" tilewidth="16" tileheight="16" tilecount="136" columns="17">
+  <image source="BasicTiles.png" trans="ff00ff" width="272" height="128"/>
+ </tileset>
+ <tileset firstgid="137" name="crates" tilewidth="16" tileheight="16" tilecount="8" columns="8">
+  <image source="crates.png" trans="ff00ff" width="128" height="16"/>
+ </tileset>
+ <layer name="background" width="42" height="16">
+  <data encoding="base64" compression="zlib">
+   eJyrYGBgqBjFo3gUj+JRPIpHMQZOGgRuGHUn/XDiEHHncMAAr8U6oQ==
+  </data>
+ </layer>
+ <layer name="bushes" width="42" height="16">
+  <data encoding="base64" compression="zlib">
+   eJztlV0KwkAMhFPffK1v/vRIWnsBtV6gVe+PCZtglHbXlWAjODCUwDJ8Dd0pwO+oQzdqPqHPE7FoFeiZmlt4cNUQuG/fhhpQiV6ouYfAuodnZm+6soXRwy7HdIHA6pnxLx+ibmiSp6ZXqmeX6Dl7lZFL70/dY7UD4nz9R2it0Rt29Uae8EmuVT9SR8T6NpeT+Hp+WvZ4zXmUPbTTTzhbsOekvC16N5KpOVOSOymckmvxjVLeAX2McOZk6YxYrmfdASZYHho=
+  </data>
+ </layer>
+ <layer name="timergunbox" width="42" height="16">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRQCvQhYaHM+jCwR4FAw9G42MUDDYAAOPwA8c=
+  </data>
+ </layer>
+ <layer name="graphics" width="42" height="16">
+  <data encoding="base64" compression="zlib">
+   eJyTZWBgkB0CWI5h8AMZhlF3UhOMupO6YNSd1AXEunMCEHcDcQ8Q99LURdgBPcOzD4ndT6Le4RbvUkDMCcXSNHURdoDuzk4sakBuRK9ryXErJX7FF54wc3G1C4i1C5c5pLgV2Z1lUFoBSY6c9gtyuOHzpywD9rCF6UN3JweauYMVAwDCxRLo
+  </data>
+ </layer>
+ <layer name="plantsnstuff" width="42" height="16">
+  <data encoding="base64" compression="zlib">
+   eJztz0cKwlAURuEHtqEQbBtQ4wZsE0EFSzZgG8oD21AE29o9gwiPkKtO5Cp64IMUkvwx5l8CSaSQRkZ3TmwecsijgCJKqovkyqigCh813TlidTTQRAtt3TliAwwxwhiB7hyxCaaYYY6F7hyxFdbYYIud7hyxI04444Kr7pyPqYteqK+85d390r9qdoi5ln3huU4omo3cWz543jrHbvsn33HP7++35ru6AdX5EWs=
+  </data>
+ </layer>
+ <objectgroup name="ground">
+  <object id="3" x="0" y="16" width="16" height="224"/>
+  <object id="4" x="96" y="208" width="16" height="32"/>
+  <object id="5" x="112" y="208" width="16" height="16"/>
+  <object id="6" x="128" y="192" width="16" height="16"/>
+  <object id="7" x="144" y="176" width="64" height="16"/>
+  <object id="8" x="208" y="192" width="16" height="16"/>
+  <object id="9" x="224" y="208" width="16" height="32"/>
+  <object id="15" x="0" y="0" width="672" height="16"/>
+  <object id="17" x="656" y="16" width="16" height="224"/>
+  <object id="18" x="0" y="240" width="672" height="16"/>
+  <object id="30" x="320" y="224" width="64" height="16"/>
+  <object id="31" x="384" y="208" width="32" height="16"/>
+  <object id="32" x="416" y="192" width="64" height="16"/>
+  <object id="33" x="480" y="208" width="16" height="16"/>
+  <object id="34" x="496" y="224" width="32" height="16"/>
+  <object id="36" x="576" y="224" width="32" height="16"/>
+ </objectgroup>
+ <objectgroup name="guns"/>
+ <objectgroup name="normalGunBox">
+  <object id="21" x="48" y="192" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="blueGunBox">
+  <object id="22" x="144" y="128" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="greenGunBox">
+  <object id="23" x="160" y="128" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="pinkGunBox">
+  <object id="24" x="176" y="128" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="purpleGunBox">
+  <object id="25" x="192" y="128" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="redGunBox">
+  <object id="27" x="416" y="144" width="16" height="16"/>
+ </objectgroup>
+ <objectgroup name="yellowGunBox">
+  <object id="29" x="464" y="144" width="16" height="16"/>
+ </objectgroup>
+</map>
