@@ -48,6 +48,7 @@ public class Dino extends Sprite {
     private Animation<TextureRegion> dinoDuckRun;
     private Animation<TextureRegion> dinoDies;
     private Animation<TextureRegion> dinoClimb;
+    private TextureRegion dinoStationaryClimb;
 
     //Used for mapping the textures
     private boolean runningRight;
@@ -142,7 +143,6 @@ public class Dino extends Sprite {
         }
         dinoClimb = new Animation(0.1f, frames);
         frames.clear();
-
         //Dies
         frames.add(new TextureRegion(getTexture(), 15 * 24, dinoNumber * 24, 24, 24));
         frames.add(new TextureRegion(getTexture(), 14 * 24, dinoNumber * 24, 24, 24));
@@ -159,6 +159,7 @@ public class Dino extends Sprite {
         dinoIdle0 = new TextureRegion(getTexture(), 0, dinoNumber * 24, 24, 24);
         dinoDuck = new TextureRegion(getTexture(), 17 * 24, dinoNumber * 24, 24, 24);
         dinoDead = new TextureRegion(getTexture(), 0, dinoNumber * 24, 1, 1);
+        dinoStationaryClimb = new TextureRegion(getTexture(), 20 * 24, dinoNumber * 24, 24, 24);
         setBounds(0, 0, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
         setRegion(dinoIdle0);
 
@@ -221,10 +222,10 @@ public class Dino extends Sprite {
                 region = dinoDuck;
                 break;
             case CLIMBING:
-                if (b2body.getLinearVelocity().x!=0 || b2body.getLinearVelocity().y!=0)
+                if (b2body.getLinearVelocity().x != 0 || b2body.getLinearVelocity().y != 0)
                     region = dinoClimb.getKeyFrame(stateTimer, true);
                 else
-                    region = dinoIdle0;
+                    region = dinoStationaryClimb;
                 break;
             case FALLING:
                 region = dinoIdle0;
@@ -439,7 +440,7 @@ public class Dino extends Sprite {
 
     public void pickupWeapon(ArrayList<Weapon> allWeapons) {
         for (Weapon weapon : allWeapons) {
-            if (!hasWeapon && weapon.getUser()==null) {
+            if (!hasWeapon && weapon.getUser() == null) {
                 //Checks to see if the x and y coordinate of the Dino is inside of the gun (+ of - a couple of pixels to be safe)
                 /*
                 if (((weapon.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) && weapon.getUser() == null) {
@@ -493,21 +494,21 @@ public class Dino extends Sprite {
 
     public void kick(ArrayList<Dino> allPlayers) {
         kicking = true;
-        for (Dino player: allPlayers
-             ) {
+        for (Dino player : allPlayers
+        ) {
             if (player != this) {
                 if (player.playerDucking) {
-                    if (new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .08f, player.getB2body().getPosition().y - .08f, .16f, .10f))  ) {
+                    if (new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .08f, player.getB2body().getPosition().y - .08f, .16f, .10f))) {
                         player.headKicked();
                     }
                 } else {
                     System.out.println("This y" + b2body.getPosition().y);
                     System.out.println("their y" + player.getB2body().getPosition().y);
 
-                    if ((new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .06f, player.getB2body().getPosition().y + .03f, .12f, .06f))) && this.b2body.getPosition().y>player.getB2body().getPosition().y+0.01f){
+                    if ((new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .06f, player.getB2body().getPosition().y + .03f, .12f, .06f))) && this.b2body.getPosition().y > player.getB2body().getPosition().y + 0.01f) {
                         player.headKicked();
                         System.out.println("head hit");
-                    } else if (new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .06f, player.getB2body().getPosition().y - .07f, .12f, .14f))  ) {
+                    } else if (new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .06f, player.getB2body().getPosition().y - .07f, .12f, .14f))) {
                         player.kicked();
                     }
                 }
@@ -548,10 +549,10 @@ public class Dino extends Sprite {
     }//end getName
 
     public void kicked() {
-        health-=.11f;
+        health -= .11f;
     }
 
-    public void headKicked(){
-        health-=.21f;
+    public void headKicked() {
+        health -= .21f;
     }
 }//end Dino
