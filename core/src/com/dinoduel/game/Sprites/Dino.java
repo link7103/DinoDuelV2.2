@@ -47,6 +47,7 @@ public class Dino extends Sprite {
     private Animation<TextureRegion> dinoJump;
     private Animation<TextureRegion> dinoDuckRun;
     private Animation<TextureRegion> dinoDies;
+    private Animation<TextureRegion> dinoClimb;
 
     //Used for mapping the textures
     private boolean runningRight;
@@ -136,6 +137,11 @@ public class Dino extends Sprite {
         }
         dinoDuckRun = new Animation(0.1f, frames);
         frames.clear();
+        for (int i = 19; i < 22; i++) {
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
+        }
+        dinoClimb = new Animation(0.1f, frames);
+        frames.clear();
 
         //Dies
         frames.add(new TextureRegion(getTexture(), 15 * 24, dinoNumber * 24, 24, 24));
@@ -215,6 +221,11 @@ public class Dino extends Sprite {
                 region = dinoDuck;
                 break;
             case CLIMBING:
+                if (b2body.getLinearVelocity().x!=0 || b2body.getLinearVelocity().y!=0)
+                    region = dinoClimb.getKeyFrame(stateTimer, true);
+                else
+                    region = dinoIdle0;
+                break;
             case FALLING:
                 region = dinoIdle0;
                 break;
