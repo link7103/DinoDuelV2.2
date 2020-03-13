@@ -36,7 +36,6 @@ public class Shotgun extends Gun {
         setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
 
 
-        setReload();
 
     }//end constructor
 
@@ -97,29 +96,6 @@ public class Shotgun extends Gun {
         return "Shotgun";
     }//end getName
 
-    @Override
-    void setReload() {
-        Sprite temp = new Sprite(img);
-        ArrayList<TextureRegion> frames = new ArrayList<>();
-        frames.add(new TextureRegion(temp.getTexture()));
-        for (int i = 0; i < 18; i++) {
-            temp.rotate(5);
-            frames.add(new TextureRegion(temp.getTexture()));
-        }
-        for (int i = 0; i < 5; i++) {
-            temp.translateY(1);
-            frames.add(new TextureRegion(temp.getTexture()));
-        }
-        for (int i = 0; i < 5; i++) {
-            temp.translateY(-1);
-            frames.add(new TextureRegion(temp.getTexture()));
-        }
-        for (int i = 0; i < 18; i++) {
-            temp.rotate(-5);
-            frames.add(new TextureRegion(temp.getTexture()));
-        }
-        reload = new Animation(0.1f, frames);
 
-    }
 }//end class
 

@@ -70,28 +70,6 @@ public abstract class Gun extends Weapon {
         }
     }//end useWeapon
 
-     void setReload() {
-        Sprite temp = this;
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-        frames.add(new TextureRegion(temp.getTexture()));
-        for (int i = 0; i < 18; i++) {
-            temp.rotate(5);
-            frames.add(new TextureRegion(temp.getTexture()));
-        }
-        for (int i = 0; i < 5; i++) {
-            temp.translateY(1);
-            frames.add(new TextureRegion(temp.getTexture()));
-        }
-        for (int i = 0; i < 5; i++) {
-            temp.translateY(-1);
-            frames.add(new TextureRegion(temp.getTexture()));
-        }
-        for (int i = 0; i < 18; i++) {
-            temp.rotate(-5);
-            frames.add(new TextureRegion(temp.getTexture()));
-        }
-        reload = new Animation(0.1f, frames);
 
-    }
 }//end class
 

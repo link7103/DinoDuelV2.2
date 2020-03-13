@@ -282,5 +282,4 @@ public abstract class Weapon extends Sprite {
 
     }//end dropped
 
-    abstract void setReload();
 }//end class
