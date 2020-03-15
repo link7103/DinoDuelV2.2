@@ -40,7 +40,7 @@ public class Shotgun extends Gun {
         for (int i = 1; i < 4; i++) {
             frames.add(new TextureRegion(getTexture(), i * xSize, 437, xSize, ySize));
         }
-        weaponEmpty = new Animation(0.1f, frames);
+        weaponEmpty = new Animation(1f, frames);
         frames.clear();
 
 

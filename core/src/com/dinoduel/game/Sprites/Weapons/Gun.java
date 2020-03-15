@@ -35,7 +35,7 @@ public abstract class Gun extends Weapon {
     public abstract String getName();
 
     public void useWeapon() {
-        if (mag ==0 && reloadCount ==-1) {
+        if (mag ==0 && reloadCount ==-1 || empty) {
             //reload
             reloading = true;
             mag = magCap;

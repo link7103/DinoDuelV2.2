@@ -84,7 +84,7 @@ public abstract class Weapon extends Sprite {
         }
 
         if(reloading) {
-            System.out.println("Should be changing region");
+
             reloading = false;
             reloadCount = 0;
         } else if (reloadCount >=0) {
@@ -137,6 +137,15 @@ public abstract class Weapon extends Sprite {
             setRegion(this.getFrame(dt));
 
         } else {
+
+            if( isFlipX() && !img.isFlipX())
+                img.flip(true,false);
+            else if(!isFlipX() && img.isFlipX())
+                img.flip(true,false);
+
+            setRegion(img);
+
+
             if (spinStop) {
                 //System.out.println("stop check angle" + (3/4*3.14)%(3.14/2));
                 if ((wBody.getAngle() > (Math.PI/2) && wBody.getAngle() < (3*Math.PI/2) )|| (wBody.getAngle() < (-Math.PI/2) && wBody.getAngle() > (-3*Math.PI/2) )) {
