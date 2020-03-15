@@ -19,14 +19,15 @@ public abstract class Weapon extends Sprite {
     public Body wBody;
     TextureRegion img;
     protected boolean reloading = false;
-    protected Animation<TextureRegion> reload;
+    protected Animation<TextureRegion> weaponEmpty;
+    protected TextureRegion idle;
 
     double damage;
     protected PlayScreen screen;
 
     public Dino.State currentState;
     public Dino.State previousState;
-    private float stateTimer;
+    protected float stateTimer;
 
     boolean empty = false;
     public boolean flag = false;
@@ -55,7 +56,7 @@ public abstract class Weapon extends Sprite {
     int reloadCount = -1;
 
     Weapon(float x, float y, World world, PlayScreen screen) {
-        super(screen.getweaponAtlas().findRegion("weapons"));
+        super(screen.getweaponAtlas().findRegion("weaponsV2"));
         this.x = x;
         this.y = y;
         this.world = world;
@@ -64,7 +65,12 @@ public abstract class Weapon extends Sprite {
     }//end Constructor
 
     protected TextureRegion getFrame(float dt) {
-        TextureRegion region = img;
+        TextureRegion region;
+        if (!empty)
+            region = img;
+        else
+            region = weaponEmpty.getKeyFrame(stateTimer, true);
+
         float neg;
         if (user.isRunningRight()) {
              neg = 1;

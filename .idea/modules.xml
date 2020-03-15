@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DinoDuel.iml" filepath="$PROJECT_DIR$/DinoDuel.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Dino Duel.iml" filepath="$PROJECT_DIR$/Dino Duel.iml" />
       <module fileurl="file://$PROJECT_DIR$/android/android.iml" filepath="$PROJECT_DIR$/android/android.iml" group="DinoDuelV2.2/android" />
       <module fileurl="file://$PROJECT_DIR$/core/core.iml" filepath="$PROJECT_DIR$/core/core.iml" group="DinoDuelV2.2/core" />
       <module fileurl="file://$PROJECT_DIR$/desktop/desktop.iml" filepath="$PROJECT_DIR$/desktop/desktop.iml" group="DinoDuelV2.2/desktop" />
