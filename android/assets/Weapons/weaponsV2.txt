@@ -1,12 +1,12 @@
-weapons.png
-size: 401, 192
+weaponsV2.png
+size: 918, 630
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 weapons
   rotate: false
   xy: 0, 0
-  size: 401, 192
-  orig: 401, 192
+  size: 918, 630
+  orig: 918, 630
   offset: 0, 0
   index: -1
