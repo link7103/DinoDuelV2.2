@@ -1,7 +1,9 @@
 package com.dinoduel.game.Sprites.Weapons;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 
@@ -9,8 +11,8 @@ public class Pistol extends Gun {
     public Pistol(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
 
-        xSize = 120;
-        ySize = 66;
+        xSize = 138;
+        ySize = 67;
         heldXOffset = 0.03f;
         heldYOffset = -0.018f;
 
@@ -23,7 +25,7 @@ public class Pistol extends Gun {
         damage = 3.4;
         duration = .5f;
         bulletHeightOffset = 0.007f;
-        img = new TextureRegion(getTexture(), 0, 120, xSize, ySize);
+        img = new TextureRegion(getTexture(), 0, 335, xSize, ySize);
 
         defineWeapon();
 
@@ -31,6 +33,14 @@ public class Pistol extends Gun {
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
         setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
+
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+
+        for (int i = 1; i < 4; i++) {
+            frames.add(new TextureRegion(getTexture(), i * xSize, 335, xSize, ySize));
+        }
+        weaponEmpty = new Animation(1f, frames);
+        frames.clear();
 
     }//end constructor
 

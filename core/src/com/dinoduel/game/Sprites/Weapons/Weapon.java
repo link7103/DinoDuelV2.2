@@ -19,14 +19,15 @@ public abstract class Weapon extends Sprite {
     public Body wBody;
     TextureRegion img;
     protected boolean reloading = false;
-    protected Animation<TextureRegion> reload;
+    protected Animation<TextureRegion> weaponEmpty;
+    protected TextureRegion idle;
 
     double damage;
     protected PlayScreen screen;
 
     public Dino.State currentState;
     public Dino.State previousState;
-    private float stateTimer;
+    protected float stateTimer;
 
     boolean empty = false;
     public boolean flag = false;
@@ -55,7 +56,7 @@ public abstract class Weapon extends Sprite {
     int reloadCount = -1;
 
     Weapon(float x, float y, World world, PlayScreen screen) {
-        super(screen.getweaponAtlas().findRegion("weapons"));
+        super(screen.getweaponAtlas().findRegion("weaponsV2"));
         this.x = x;
         this.y = y;
         this.world = world;
@@ -64,7 +65,12 @@ public abstract class Weapon extends Sprite {
     }//end Constructor
 
     protected TextureRegion getFrame(float dt) {
-        TextureRegion region = img;
+        TextureRegion region;
+        if (!empty)
+            region = img;
+        else
+            region = weaponEmpty.getKeyFrame(stateTimer, true);
+
         float neg;
         if (user.isRunningRight()) {
              neg = 1;
@@ -78,7 +84,7 @@ public abstract class Weapon extends Sprite {
         }
 
         if(reloading) {
-            System.out.println("Should be changing region");
+
             reloading = false;
             reloadCount = 0;
         } else if (reloadCount >=0) {
@@ -131,6 +137,15 @@ public abstract class Weapon extends Sprite {
             setRegion(this.getFrame(dt));
 
         } else {
+
+            if( isFlipX() && !img.isFlipX())
+                img.flip(true,false);
+            else if(!isFlipX() && img.isFlipX())
+                img.flip(true,false);
+
+            setRegion(img);
+
+
             if (spinStop) {
                 //System.out.println("stop check angle" + (3/4*3.14)%(3.14/2));
                 if ((wBody.getAngle() > (Math.PI/2) && wBody.getAngle() < (3*Math.PI/2) )|| (wBody.getAngle() < (-Math.PI/2) && wBody.getAngle() > (-3*Math.PI/2) )) {

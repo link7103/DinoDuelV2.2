@@ -37,6 +37,7 @@ public class Dino extends Sprite {
 
     public World world;
     private Body b2body;
+    private boolean firstKickFrame = false;
 
     //Animations and Textures
     private TextureRegion dinoIdle0;
@@ -48,6 +49,7 @@ public class Dino extends Sprite {
     private Animation<TextureRegion> dinoDuckRun;
     private Animation<TextureRegion> dinoDies;
     private Animation<TextureRegion> dinoClimb;
+    private Animation<TextureRegion> dinoKick;
     private TextureRegion dinoStationaryClimb;
 
     //Used for mapping the textures
@@ -133,6 +135,13 @@ public class Dino extends Sprite {
         dinoJump = new Animation(0.1f, frames);
         frames.clear();
 
+        for (int i = 11; i < 13; i++) {
+            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
+        }
+        dinoKick = new Animation(0.1f, frames);
+        frames.clear();
+
+        // FIXME: 2020-03-15
         for (int i = 18; i < 23; i++) {
             frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
@@ -206,7 +215,13 @@ public class Dino extends Sprite {
                 }
                 break;
             case KICKING:
-                region = dinoJump.getKeyFrame(stateTimer, true);
+
+                region = dinoKick.getKeyFrame(stateTimer, false);
+
+                if (dinoKick.isAnimationFinished(stateTimer) && !firstKickFrame) {
+                    kicking = false;
+                }
+                firstKickFrame = false;
                 break;
             case JUMPING:
                 region = dinoJump.getKeyFrame(stateTimer);
@@ -250,11 +265,11 @@ public class Dino extends Sprite {
 
     private State getState() {
         //Sets different states
+
         if (health <= 0) {
             health = 0;
             return State.DYING;
         } else if (kicking) {
-            kicking = false;
             return State.KICKING;
         } else if (getB2body().getLinearVelocity().y > 0 && previousState == State.DUCKING) {
             defineDino(2);
@@ -494,6 +509,7 @@ public class Dino extends Sprite {
 
     public void kick(ArrayList<Dino> allPlayers) {
         kicking = true;
+        firstKickFrame = true;
         for (Dino player : allPlayers
         ) {
             if (player != this) {
@@ -502,12 +518,10 @@ public class Dino extends Sprite {
                         player.headKicked();
                     }
                 } else {
-                    System.out.println("This y" + b2body.getPosition().y);
-                    System.out.println("their y" + player.getB2body().getPosition().y);
+
 
                     if ((new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .06f, player.getB2body().getPosition().y + .03f, .12f, .06f))) && this.b2body.getPosition().y > player.getB2body().getPosition().y + 0.01f) {
                         player.headKicked();
-                        System.out.println("head hit");
                     } else if (new Rectangle(b2body.getPosition().x - .06f, b2body.getPosition().y - .07f, .12f, .14f).overlaps(new Rectangle(player.getB2body().getPosition().x - .06f, player.getB2body().getPosition().y - .07f, .12f, .14f))) {
                         player.kicked();
                     }

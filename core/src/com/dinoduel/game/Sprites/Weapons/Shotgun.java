@@ -15,8 +15,8 @@ public class Shotgun extends Gun {
 
     public Shotgun(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
-        xSize = 161;
-        ySize = 54;
+        xSize = 179;
+        ySize = 55;
         heldXOffset = 0.05f;
         heldYOffset = -0.02f;
         ammo = 8;
@@ -28,12 +28,20 @@ public class Shotgun extends Gun {
         damage = 1;
         duration = .25f;
         bulletHeightOffset = 0.005f ;
-        img = new TextureRegion(getTexture(), 240, 0, xSize, ySize);
+        img = new TextureRegion(getTexture(), 0, 437, xSize, ySize);
 
         defineWeapon();
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
         setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
+
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+
+        for (int i = 1; i < 4; i++) {
+            frames.add(new TextureRegion(getTexture(), i * xSize, 437, xSize, ySize));
+        }
+        weaponEmpty = new Animation(1f, frames);
+        frames.clear();
 
 
 

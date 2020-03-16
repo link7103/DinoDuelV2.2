@@ -35,7 +35,7 @@ public class Bullet extends Sprite {
     private float buildTime = 0;
 
     Bullet(float sX, float sY, float dr, double dm, float x, float y, Dino u, PlayScreen screen, World world, Gun gun, float heightOffset) {
-        super(screen.getweaponAtlas().findRegion("weapons"));
+        super(screen.getweaponAtlas().findRegion("weaponsV2"));
         this.speedX = sX;
         this.speedY = sY;
         this.duration = dr;
@@ -47,7 +47,7 @@ public class Bullet extends Sprite {
         this.gun = gun;
         this.screen = screen;
         this.heightOffset = heightOffset;
-        TextureRegion img = new TextureRegion(getTexture(), 358, 138, 12, 6);
+        TextureRegion img = new TextureRegion(getTexture(), 0, 0, 12, 6);
         defineBullet();
         fixture.setUserData(this);
         if (speedX < 0) {

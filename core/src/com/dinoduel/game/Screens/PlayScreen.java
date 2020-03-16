@@ -106,7 +106,7 @@ public class PlayScreen extends AbstractScreen {
         super(game);
         screen = this;
         dinoAtlas = new TextureAtlas("Dinos/DinoSprites.txt");
-        weaponAtlas = new TextureAtlas("Weapons/weapons.txt");
+        weaponAtlas = new TextureAtlas("Weapons/weaponsV2.txt");
         crateAtlas = new TextureAtlas("DinoDuel Basic Tilesets/crates.txt");
 
         this.game = game;
