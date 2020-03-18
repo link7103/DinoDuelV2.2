@@ -113,7 +113,7 @@ public class PlayScreen extends AbstractScreen {
         //Camera that follows the players
         gameCam = new OrthographicCamera();
         //Fits the proper aspect ratio
-        gamePort = new FillViewport(DinoDuel.V_WIDTH /2 / DinoDuel.PPM, DinoDuel.V_HEIGHT /2 / DinoDuel.PPM, gameCam);
+        gamePort = new FillViewport(DinoDuel.V_WIDTH / 2 / DinoDuel.PPM, DinoDuel.V_HEIGHT / 2 / DinoDuel.PPM, gameCam);
         //Creates the hud
         hud = new Hud(game.batch);
         //Renders the map
@@ -321,7 +321,9 @@ public class PlayScreen extends AbstractScreen {
 
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player1.getB2body().getLinearVelocity().x <= 2) {
                 player1.KEYRIGHT = true;
-                player1.getB2body().applyLinearImpulse(new Vector2(0.1f, 0), player1.getB2body().getWorldCenter(), true);
+                if (player1.currentState != Dino.State.SLIDING) {
+                    player1.getB2body().applyLinearImpulse(new Vector2(0.1f, 0), player1.getB2body().getWorldCenter(), true);
+                }
                 if (player1.currentState == Dino.State.CLIMBING) {
                     player1.getB2body().setLinearVelocity(1f, 0);
                 }
@@ -329,7 +331,9 @@ public class PlayScreen extends AbstractScreen {
 
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && player1.getB2body().getLinearVelocity().x >= -2) {
                 player1.KEYLEFT = true;
-                player1.getB2body().applyLinearImpulse(new Vector2(-0.1f, 0), player1.getB2body().getWorldCenter(), true);
+                if (player1.currentState != Dino.State.SLIDING) {
+                    player1.getB2body().applyLinearImpulse(new Vector2(-0.1f, 0), player1.getB2body().getWorldCenter(), true);
+                }
                 if (player1.currentState == Dino.State.CLIMBING) {
                     player1.getB2body().setLinearVelocity(-1f, 0);
                 }
@@ -359,7 +363,7 @@ public class PlayScreen extends AbstractScreen {
             if (Gdx.input.isKeyJustPressed(Input.Keys.SLASH)) {
                 if (player1.hasWeapon) {
                     player1.useWeapon();
-                } else if (!player1.playerDucking){
+                } else if (!player1.playerDucking) {
                     //kick implentation
                     player1.kick(allLivingPlayers);
                 }
@@ -605,26 +609,26 @@ public class PlayScreen extends AbstractScreen {
         gameCam.position.x = (player1.getB2body().getPosition().x + player2.getB2body().getPosition().x) / 2;
         gameCam.position.y = (player1.getB2body().getPosition().y + player1.getB2body().getPosition().y) / 2;
 
-        float xRatio = DinoDuel.V_WIDTH /2 / DinoDuel.PPM / abs(player1.getB2body().getPosition().x - player2.getB2body().getPosition().x);
-        float yRatio = DinoDuel.V_HEIGHT /2/ DinoDuel.PPM / abs(player1.getB2body().getPosition().y - player2.getB2body().getPosition().y);
+        float xRatio = DinoDuel.V_WIDTH / 2 / DinoDuel.PPM / abs(player1.getB2body().getPosition().x - player2.getB2body().getPosition().x);
+        float yRatio = DinoDuel.V_HEIGHT / 2 / DinoDuel.PPM / abs(player1.getB2body().getPosition().y - player2.getB2body().getPosition().y);
         if (xRatio < yRatio) {
             float tempX = abs(player1.getB2body().getPosition().x - player2.getB2body().getPosition().x);
-            if (DinoDuel.V_WIDTH/2 / DinoDuel.PPM > tempX) {
-                gameCam.viewportWidth = DinoDuel.V_WIDTH/2 / DinoDuel.PPM + 1f;
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM + 1f;
+            if (DinoDuel.V_WIDTH / 2 / DinoDuel.PPM > tempX) {
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / 2 / DinoDuel.PPM + 1f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / 2 / DinoDuel.PPM + 1f;
 
             } else {
                 gameCam.viewportWidth = tempX + 1f;
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM / xRatio + 1f;
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / 2 / DinoDuel.PPM / xRatio + 1f;
             }
         } else {
             float tempY = abs(player1.getB2body().getPosition().y - player2.getB2body().getPosition().y);
-            if (DinoDuel.V_HEIGHT/2 / DinoDuel.PPM > tempY) {
-                gameCam.viewportHeight = DinoDuel.V_HEIGHT/2 / DinoDuel.PPM + 1f;
-                gameCam.viewportWidth = DinoDuel.V_WIDTH/2 / DinoDuel.PPM + 1f;
+            if (DinoDuel.V_HEIGHT / 2 / DinoDuel.PPM > tempY) {
+                gameCam.viewportHeight = DinoDuel.V_HEIGHT / 2 / DinoDuel.PPM + 1f;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / 2 / DinoDuel.PPM + 1f;
             } else {
                 gameCam.viewportHeight = tempY + 1f;
-                gameCam.viewportWidth = DinoDuel.V_WIDTH/2 / DinoDuel.PPM / yRatio + 1;
+                gameCam.viewportWidth = DinoDuel.V_WIDTH / 2 / DinoDuel.PPM / yRatio + 1;
             }
         }
 

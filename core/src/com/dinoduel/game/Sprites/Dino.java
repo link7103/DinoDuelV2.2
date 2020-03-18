@@ -29,7 +29,7 @@ public class Dino extends Sprite {
     }
 
     //States
-    public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, DUCKRUNNING, DUCKFALLING, CLIMBING, KICKING, DYING}
+    public enum State {FALLING, JUMPING, STANDING, RUNNING, DUCKING, SLIDING, DUCKFALLING, CLIMBING, KICKING, DYING}
 
     public State currentState;
     public State previousState;
@@ -46,7 +46,7 @@ public class Dino extends Sprite {
     private TextureRegion dinoDuck;
     private Animation<TextureRegion> dinoRun;
     private Animation<TextureRegion> dinoJump;
-    private Animation<TextureRegion> dinoDuckRun;
+    private TextureRegion dinoSlide;
     private Animation<TextureRegion> dinoDies;
     private Animation<TextureRegion> dinoClimb;
     private Animation<TextureRegion> dinoKick;
@@ -116,7 +116,7 @@ public class Dino extends Sprite {
         this.lives = lives;
         this.startingPos = startingPos;
         //Sets up the various animations - will need to adjust the y value for subsequent players
-        Array<TextureRegion> frames = new Array<TextureRegion>();
+        Array<TextureRegion> frames = new Array<>();
         for (int i = 0; i < 3; i++) {
             frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
@@ -141,12 +141,6 @@ public class Dino extends Sprite {
         dinoKick = new Animation(0.1f, frames);
         frames.clear();
 
-        // FIXME: 2020-03-15
-        for (int i = 18; i < 23; i++) {
-            frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
-        }
-        dinoDuckRun = new Animation(0.1f, frames);
-        frames.clear();
         for (int i = 19; i < 22; i++) {
             frames.add(new TextureRegion(getTexture(), i * 24, dinoNumber * 24, 24, 24));
         }
@@ -167,6 +161,7 @@ public class Dino extends Sprite {
         defineDino(0);
         dinoIdle0 = new TextureRegion(getTexture(), 0, dinoNumber * 24, 24, 24);
         dinoDuck = new TextureRegion(getTexture(), 17 * 24, dinoNumber * 24, 24, 24);
+        dinoSlide = new TextureRegion(getTexture(), 18 * 24, dinoNumber * 24, 24, 24);
         dinoDead = new TextureRegion(getTexture(), 0, dinoNumber * 24, 1, 1);
         dinoStationaryClimb = new TextureRegion(getTexture(), 20 * 24, dinoNumber * 24, 24, 24);
         setBounds(0, 0, 24 / DinoDuel.PPM, 24 / DinoDuel.PPM);
@@ -178,11 +173,10 @@ public class Dino extends Sprite {
 
     public void update(float dt) { //Updates the sprite every frame
         if (playerDucking && currentState != State.FALLING && currentState != State.JUMPING && currentState != State.CLIMBING) {
-            if (runningRight) {
-                setPosition(getB2body().getPosition().x - 0.025f - getWidth() / 2, getB2body().getPosition().y + 0.0125f - getHeight() / 2);
+            if (currentState == State.SLIDING) {
+                setPosition(getB2body().getPosition().x - 0.015f - getWidth() / 2, getB2body().getPosition().y - 0.025f - getHeight() / 2);
             } else {
                 setPosition(getB2body().getPosition().x + 0.025f - getWidth() / 2, getB2body().getPosition().y + 0.0125f - getHeight() / 2);
-
             }
         } else {
             setPosition(getB2body().getPosition().x - getWidth() / 2, getB2body().getPosition().y - getHeight() / 2);
@@ -201,7 +195,6 @@ public class Dino extends Sprite {
     private TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
 
         currentState = getState();
-
         TextureRegion region;
         switch (currentState) {
             case DYING:
@@ -229,8 +222,8 @@ public class Dino extends Sprite {
             case RUNNING:
                 region = dinoRun.getKeyFrame(stateTimer, true);
                 break;
-            case DUCKRUNNING:
-                region = dinoDuckRun.getKeyFrame(stateTimer, true);
+            case SLIDING:
+                region = dinoSlide;
                 break;
             case DUCKING:
             case DUCKFALLING:
@@ -265,7 +258,6 @@ public class Dino extends Sprite {
 
     private State getState() {
         //Sets different states
-
         if (health <= 0) {
             health = 0;
             return State.DYING;
@@ -276,12 +268,12 @@ public class Dino extends Sprite {
             return State.JUMPING;
         } else if (getB2body().getLinearVelocity().y < 0 && !playerDucking && previousState == State.DUCKFALLING) {
             defineDino(2);
-
             return State.FALLING;
-        } else if ((playerDucking && previousState != State.DUCKING && previousState != State.DUCKRUNNING && getB2body().getLinearVelocity().y == 0)) {
+        } else if (playerDucking && getB2body().getLinearVelocity().x != 0 && getB2body().getLinearVelocity().y == 0) {
+            defineDino(4);
+        } else if ((playerDucking && previousState != State.DUCKING && previousState != State.SLIDING && getB2body().getLinearVelocity().y == 0)) {
             defineDino(1);
-
-        } else if ((!playerDucking && (previousState == State.DUCKING || previousState == State.DUCKRUNNING)) || (previousState == State.CLIMBING && !climbing)) {
+        } else if ((!playerDucking && (previousState == State.DUCKING || previousState == State.SLIDING)) || (previousState == State.CLIMBING && !climbing)) {
             defineDino(2);
 
         }
@@ -292,18 +284,22 @@ public class Dino extends Sprite {
             return State.CLIMBING;
         } else if (getB2body().getLinearVelocity().y > 0 || (getB2body().getLinearVelocity().y < 0 && previousState == State.JUMPING)) {
             return State.JUMPING;
-        } else if (getB2body().getLinearVelocity().y < 0 && (previousState == State.DUCKING || previousState == State.DUCKRUNNING || previousState == State.DUCKFALLING)) {
+        } else if (getB2body().getLinearVelocity().y < 0 && (previousState == State.DUCKING || previousState == State.DUCKFALLING) && previousState != State.SLIDING) {
             return State.DUCKFALLING;
-        } else if (getB2body().getLinearVelocity().y < 0) {
+        } else if (getB2body().getLinearVelocity().y < 0 && previousState != State.SLIDING) {
             return State.FALLING;
         } else if (getB2body().getLinearVelocity().x != 0) {
             if (playerDucking) {
-                return State.DUCKRUNNING;
+                return State.SLIDING;
             } else {
                 return State.RUNNING;
             }
         } else if (playerDucking) {
-            return State.DUCKING;
+            if (previousState == State.SLIDING) {
+                return State.SLIDING;
+            } else {
+                return State.DUCKING;
+            }
         } else {
             return State.STANDING;
         }
@@ -311,9 +307,8 @@ public class Dino extends Sprite {
     }//end getState
 
     private void defineDino(int instruction) { //Side Sensors may need to be tweaked - (Head area?)
-        //0 = Initialize, 1 = Ducking, 2 = Not Ducking, 3 climbing
+        //0 = Initialize, 1 = Ducking, 2 = Not Ducking, 3 = Climbing, 4 = Sliding
         BodyDef bdef = new BodyDef();
-
         if (instruction == 0) {
             //starting position. (Pass in for multiple players?)
             canMove = true;
@@ -363,7 +358,6 @@ public class Dino extends Sprite {
             bdef.position.set(currentPosition);
 
             if (instruction == 1 && currentLadder == null) {//Duck
-                //System.out.println(1);
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 setB2body(world.createBody(bdef));
 
@@ -401,6 +395,22 @@ public class Dino extends Sprite {
                 fdef.isSensor = true;
                 b2body.createFixture(fdef).setUserData("side");
                  */
+            } else if (instruction == 4) {//Slide
+                bdef.type = BodyDef.BodyType.DynamicBody;
+                setB2body(world.createBody(bdef));
+
+                FixtureDef fdef = new FixtureDef();
+                PolygonShape shape = new PolygonShape();
+                shape.setAsBox(11f / DinoDuel.PPM, 3f / DinoDuel.PPM);
+
+
+                fdef.shape = shape;
+                fdef.filter.categoryBits = DinoDuel.CATEGORY_DINO;
+                fdef.filter.maskBits = DinoDuel.MASK_DINO;
+                getB2body().createFixture(fdef);
+                getB2body().createFixture(fdef).setUserData(this);
+
+
             } else if (instruction == 2) {//Unduck
                 bdef.type = BodyDef.BodyType.DynamicBody;
                 setB2body(world.createBody(bdef));
@@ -456,18 +466,8 @@ public class Dino extends Sprite {
     public void pickupWeapon(ArrayList<Weapon> allWeapons) {
         for (Weapon weapon : allWeapons) {
             if (!hasWeapon && weapon.getUser() == null) {
-                //Checks to see if the x and y coordinate of the Dino is inside of the gun (+ of - a couple of pixels to be safe)
-                /*
-                if (((weapon.getBoundingRectangle().contains(b2body.getPosition().x, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x - 0.02f, b2body.getPosition().y - 0.04f)) || (weapon.getBoundingRectangle().contains(b2body.getPosition().x + 0.02f, b2body.getPosition().y - 0.04f))) && weapon.getUser() == null) {
-                    hasWeapon = true;
-                    weapon.setUser(this);
-                    this.weapon = weapon;
-                    break;
-                }
-
-                 */
-
-                if (weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .04f, getB2body().getPosition().y - .07f, .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .04f, getB2body().getPosition().y + .03f, .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.DUCKRUNNING) && weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .08f, getB2body().getPosition().y - .05f, .16f, .10f)))) {
+                //Checks to see if the x and y coordinate of the Dino is inside of the gun
+                if (weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .04f, getB2body().getPosition().y - .07f, .08f, .14f)) || weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .04f, getB2body().getPosition().y + .03f, .12f, .06f)) || ((currentState == State.DUCKING || currentState == State.SLIDING) && weapon.getBoundingRectangle().overlaps(new Rectangle(getB2body().getPosition().x - .08f, getB2body().getPosition().y - .05f, .16f, .10f)))) {
                     hasWeapon = true;
                     weapon.setUser(this);
                     this.weapon = weapon;
@@ -501,10 +501,6 @@ public class Dino extends Sprite {
 
     public float getYVel() {
         return getB2body().getLinearVelocity().y;
-    }
-
-    public void climbing() {
-
     }
 
     public void kick(ArrayList<Dino> allPlayers) {
