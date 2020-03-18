@@ -573,10 +573,10 @@ public class Dino extends Sprite {
     }
 
     public void explosionDamage(Circle blastArea) {
-        int divisor = (int) b2body.getPosition().dst(blastArea.x, blastArea.y);
+        int divisor = (int) (b2body.getPosition().dst(blastArea.x, blastArea.y)*DinoDuel.PPM);
         System.out.println("divisor" + divisor);
 
-        if (divisor < blastArea.radius && divisor>0) {
+        if (divisor < blastArea.radius * DinoDuel.PPM && divisor>0) {
             health -= 1f/divisor;
         } else if (divisor == 0) {
             health-=1f;

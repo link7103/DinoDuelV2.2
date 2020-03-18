@@ -31,7 +31,7 @@ public class Grenade extends Explosive {
         setBounds(x, y, xSize / DinoDuel.PPM, ySize / DinoDuel.PPM);
         setRegion(img);
         setPosition(wBody.getPosition().x / DinoDuel.PPM - getWidth() / 2, wBody.getPosition().y / DinoDuel.PPM - getHeight() / 2);
-        blastArea = new Circle(wBody.getPosition(), .10f);
+        blastArea = new Circle(wBody.getPosition(), .20f);
     }//end Constructor
 
 }

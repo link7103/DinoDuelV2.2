@@ -49,7 +49,7 @@ public abstract class Explosive extends Weapon {
                 System.out.println("Damages" + player.getName());
             }
         }
-        this.dropped();
+        this.clearUser();
         flag = true;
 
     }

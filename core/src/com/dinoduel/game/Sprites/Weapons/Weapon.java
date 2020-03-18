@@ -255,8 +255,7 @@ public abstract class Weapon extends Sprite {
 
     public void dropped() {
         //recreates fixture
-        if (user!= null)
-            user.setWeapon(null);
+
         if(reloadCount !=-1) {
             setRotation(0);
             reloadCount = -1;
