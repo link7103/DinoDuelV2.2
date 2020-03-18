@@ -24,6 +24,8 @@ import com.dinoduel.game.Sprites.InteractiveTileObject;
 import com.dinoduel.game.Sprites.Ladder;
 import com.dinoduel.game.Sprites.Weapons.AK;
 import com.dinoduel.game.Sprites.Weapons.Bullet;
+import com.dinoduel.game.Sprites.Weapons.Explosive;
+import com.dinoduel.game.Sprites.Weapons.Grenade;
 import com.dinoduel.game.Sprites.Weapons.Pistol;
 import com.dinoduel.game.Sprites.Weapons.Shotgun;
 import com.dinoduel.game.Sprites.Weapons.Sniper;
@@ -152,6 +154,8 @@ public class PlayScreen extends AbstractScreen {
             }
         }
          */
+
+        allWeapons.add(new Grenade(30, 30, world, this));
     }//end constructor
 
     public TextureAtlas getDinoAtlas() {
@@ -203,9 +207,12 @@ public class PlayScreen extends AbstractScreen {
         // Destroys empty weapons
         for (int i = 0; i < allWeapons.size(); i++) {
             if (allWeapons.get(i).flag) {
-                allWeapons.get(i).wBody.setAwake(false);
-                world.destroyBody(allWeapons.get(i).wBody);
-                allWeapons.get(i).wBody = null;
+
+                if (allWeapons.get(i).wBody != null) {
+                    allWeapons.get(i).wBody.setAwake(false);
+                    world.destroyBody(allWeapons.get(i).wBody);
+                    allWeapons.get(i).wBody = null;
+                }
                 screen.allWeapons.remove(allWeapons.get(i));
             }
         }
@@ -262,6 +269,7 @@ public class PlayScreen extends AbstractScreen {
         player1.update(dt);
         for (Weapon updateWeapon : allWeapons) {
             if (updateWeapon.getUser() == player1) {
+
                 updateWeapon.update(dt);
                 updateWeapon.update = true;
             }
@@ -270,9 +278,9 @@ public class PlayScreen extends AbstractScreen {
         player2.update(dt);
 
         for (Weapon updateWeapon : allWeapons) {
-            if (!updateWeapon.drawn)
+            if (!updateWeapon.update) {
                 updateWeapon.update(dt);
-            else
+            }else
                 updateWeapon.update = false;
         }
         //updates bullets

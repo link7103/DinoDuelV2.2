@@ -120,7 +120,6 @@ public abstract class Weapon extends Sprite {
         buildTime += dt;
 
 
-
         if (user != null) {
 
 
@@ -182,6 +181,7 @@ public abstract class Weapon extends Sprite {
 
 
             previousAngle = wBody.getAngle();
+
         }
 
         if (empty && user == null) {
@@ -195,6 +195,10 @@ public abstract class Weapon extends Sprite {
         } else {
             dropTime = 0;
         }
+        if (this instanceof Explosive) {
+            ((Explosive) this).explosiveUpdate();
+        }
+
 
 
 
@@ -229,7 +233,7 @@ public abstract class Weapon extends Sprite {
 
 
             user = dino;
-            if (wBody != null) {
+            if (wBody != null ) {
                 wBody.setAwake(false);
                 world.destroyBody(wBody);
                 wBody = null;
@@ -242,7 +246,7 @@ public abstract class Weapon extends Sprite {
         return this.user;
     }//end getUser
 
-    private void clearUser() {
+    protected void clearUser() {
         this.user = null;
 
 
@@ -251,6 +255,8 @@ public abstract class Weapon extends Sprite {
 
     public void dropped() {
         //recreates fixture
+        if (user!= null)
+            user.setWeapon(null);
         if(reloadCount !=-1) {
             setRotation(0);
             reloadCount = -1;
@@ -293,7 +299,7 @@ public abstract class Weapon extends Sprite {
 
         }
         this.clearUser();
-        this.update(0);
+
 
     }//end dropped
 
