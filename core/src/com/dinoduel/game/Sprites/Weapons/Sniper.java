@@ -36,6 +36,7 @@ public class Sniper extends Gun {
         for (int i = 1; i < 4; i++) {
             frames.add(new TextureRegion(getTexture(), i * xSize, 35, xSize, ySize));
         }
+        frames.add(new TextureRegion(getTexture(), 2 * xSize, 35, xSize, ySize));
         weaponEmpty = new Animation(1f, frames);
         frames.clear();
 
