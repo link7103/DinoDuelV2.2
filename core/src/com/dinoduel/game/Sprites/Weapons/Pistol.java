@@ -12,7 +12,7 @@ public class Pistol extends Gun {
         super(x, y, world, screen);
 
         xSize = 138;
-        ySize = 67;
+        ySize = 103;
         heldXOffset = 0.03f;
         heldYOffset = -0.018f;
 
@@ -25,7 +25,7 @@ public class Pistol extends Gun {
         damage = 3.4;
         duration = .5f;
         bulletHeightOffset = 0.007f;
-        img = new TextureRegion(getTexture(), 0, 335, xSize, ySize);
+        img = new TextureRegion(getTexture(), 0, 299, xSize, ySize);
 
         defineWeapon();
 
@@ -37,7 +37,7 @@ public class Pistol extends Gun {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(getTexture(), i * xSize, 335, xSize, ySize));
+            frames.add(new TextureRegion(getTexture(), i * xSize, 299, xSize, ySize));
         }
         weaponEmpty = new Animation(1f, frames);
         frames.clear();

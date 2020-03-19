@@ -11,7 +11,7 @@ public class AK extends Gun {
     public AK(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
         xSize = 210;
-        ySize = 67;
+        ySize = 103;
         heldXOffset = 0.05f;
         heldYOffset = -0.03f;
 
@@ -24,7 +24,7 @@ public class AK extends Gun {
         damage = 3.4;
         duration = .75f;
         bulletHeightOffset = 0.005f;
-        img = new TextureRegion(getTexture(), 0, 233, xSize, ySize);
+        img = new TextureRegion(getTexture(), 0, 197, xSize, ySize);
 
         defineWeapon();
 
@@ -35,7 +35,7 @@ public class AK extends Gun {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(getTexture(), i * xSize, 233, xSize, ySize));
+            frames.add(new TextureRegion(getTexture(), i * xSize, 197, xSize, ySize));
         }
         weaponEmpty = new Animation(1f, frames);
         frames.clear();

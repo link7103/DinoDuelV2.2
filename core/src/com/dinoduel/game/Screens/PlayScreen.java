@@ -207,7 +207,7 @@ public class PlayScreen extends AbstractScreen {
         // Destroys empty weapons
         for (int i = 0; i < allWeapons.size(); i++) {
             if (allWeapons.get(i).flag) {
-
+                System.out.println("Destroys");
                 if (allWeapons.get(i).wBody != null) {
                     allWeapons.get(i).wBody.setAwake(false);
                     world.destroyBody(allWeapons.get(i).wBody);

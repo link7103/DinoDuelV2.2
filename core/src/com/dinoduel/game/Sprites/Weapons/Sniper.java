@@ -11,7 +11,7 @@ public class Sniper extends Gun {
     public Sniper(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
         xSize = 234;
-        ySize = 73;
+        ySize = 103;
         heldXOffset =  0.07f;
         heldYOffset =  0.01f;
         ammo = 5;
@@ -23,7 +23,7 @@ public class Sniper extends Gun {
         damage = 10;
         duration = 10;
         bulletHeightOffset = 0.005f;
-        img = new TextureRegion(getTexture(), 0, 35, xSize, ySize);
+        img = new TextureRegion(getTexture(), 0, 5, xSize, ySize);
 
         defineWeapon();
 
@@ -34,7 +34,7 @@ public class Sniper extends Gun {
         Array<TextureRegion> frames = new Array<TextureRegion>();
 
         for (int i = 1; i < 4; i++) {
-            frames.add(new TextureRegion(getTexture(), i * xSize, 35, xSize, ySize));
+            frames.add(new TextureRegion(getTexture(), i * xSize, 5, xSize, ySize));
         }
         weaponEmpty = new Animation(1f, frames);
         frames.clear();
