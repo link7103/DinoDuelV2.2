@@ -16,7 +16,7 @@ public class Shotgun extends Gun {
     public Shotgun(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
         xSize = 179;
-        ySize = 91;
+        ySize = 90;
         heldXOffset = 0.05f;
         heldYOffset = -0.02f;
         ammo = 8;

@@ -18,6 +18,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.dinoduel.game.DinoDuel;
 import com.dinoduel.game.Screens.PlayScreen;
 import com.dinoduel.game.Sprites.GunBox.AKGunBox;
+import com.dinoduel.game.Sprites.GunBox.GrenadeGunBox;
 import com.dinoduel.game.Sprites.GunBox.GunBox;
 
 import com.dinoduel.game.Sprites.GunBox.PistolGunBox;
@@ -104,6 +105,13 @@ public class B2WorldCreator {
         for (MapObject object : map.getLayers().get(12).getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rect = ((RectangleMapObject) object).getRectangle();
             InteractiveTileObject newBox = new PistolGunBox(world, map, rect, screen);
+            screen.allBoxes.add(newBox);
+        }
+
+        //Pistol (Red) GunBox 13
+        for (MapObject object : map.getLayers().get(13).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rect = ((RectangleMapObject) object).getRectangle();
+            InteractiveTileObject newBox = new GrenadeGunBox(world, map, rect, screen);
             screen.allBoxes.add(newBox);
         }
 

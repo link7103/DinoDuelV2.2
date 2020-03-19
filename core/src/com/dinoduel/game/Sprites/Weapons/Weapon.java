@@ -261,45 +261,46 @@ public abstract class Weapon extends Sprite {
             reloadCount = -1;
         }
 
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(user.getB2body().getPosition().x, user.getB2body().getPosition().y);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        wBody = world.createBody(bdef);
+        if (user != null) {
+            BodyDef bdef = new BodyDef();
+            bdef.position.set(user.getB2body().getPosition().x, user.getB2body().getPosition().y);
+            bdef.type = BodyDef.BodyType.DynamicBody;
+            wBody = world.createBody(bdef);
 
-        FixtureDef fdef = new FixtureDef();
-        PolygonShape shape = new PolygonShape();
-        shape.setAsBox(xSize / 20f / DinoDuel.PPM, ySize / 20f / DinoDuel.PPM);
+            FixtureDef fdef = new FixtureDef();
+            PolygonShape shape = new PolygonShape();
+            shape.setAsBox(xSize / 20f / DinoDuel.PPM, ySize / 20f / DinoDuel.PPM);
 
-        fdef.shape = shape;
+            fdef.shape = shape;
 
-        fdef.filter.categoryBits = DinoDuel.CATEGORY_WEAPON;
-        fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
-        fixture = wBody.createFixture(fdef);
-        fixture.setUserData(this);
+            fdef.filter.categoryBits = DinoDuel.CATEGORY_WEAPON;
+            fdef.filter.maskBits = DinoDuel.MASK_WEAPON;
+            fixture = wBody.createFixture(fdef);
+            fixture.setUserData(this);
 
-        wBody.setLinearVelocity(user.getB2body().getLinearVelocity());
-        wBody.setFixedRotation(false);
-        //System.out.println("start angle" + wBody.getAngle());
+            wBody.setLinearVelocity(user.getB2body().getLinearVelocity());
+            wBody.setFixedRotation(false);
+            //System.out.println("start angle" + wBody.getAngle());
 
-        if (user.getB2body().getLinearVelocity().equals(new Vector2(0,0))) {
-            wBody.setAngularVelocity(0);
-        } else if (user.isRunningRight()) {
-            //wBody.applyAngularImpulse(-4000f, true);
-            wBody.setAngularVelocity(-10f);
-            wBody.applyLinearImpulse(new Vector2(.5f, 2f), new Vector2(wBody.getWorldCenter()), true);
-            previousAngle = wBody.getAngle();
+            if (user.getB2body().getLinearVelocity().equals(new Vector2(0, 0)))
+                wBody.setAngularVelocity(0);
+            else if (user.isRunningRight()) {
+                //wBody.applyAngularImpulse(-4000f, true);
+                wBody.setAngularVelocity(-10f);
+                wBody.applyLinearImpulse(new Vector2(.5f, 2f), new Vector2(wBody.getWorldCenter()), true);
+                previousAngle = wBody.getAngle();
 
 
-        } else {
-            //wBody.applyAngularImpulse(4000f, true);
-            wBody.setAngularVelocity(10f);
-            wBody.applyLinearImpulse(new Vector2(-.5f, 2f), new Vector2(wBody.getWorldCenter()), true);
-            previousAngle = wBody.getAngle();
+            } else {
+                //wBody.applyAngularImpulse(4000f, true);
+                wBody.setAngularVelocity(10f);
+                wBody.applyLinearImpulse(new Vector2(-.5f, 2f), new Vector2(wBody.getWorldCenter()), true);
+                previousAngle = wBody.getAngle();
+
+            }
+            this.clearUser();
 
         }
-        this.clearUser();
-
-
     }//end dropped
 
 }//end class

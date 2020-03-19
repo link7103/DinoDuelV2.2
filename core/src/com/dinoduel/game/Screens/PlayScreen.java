@@ -243,6 +243,9 @@ public class PlayScreen extends AbstractScreen {
                     //AK
                     spawn = new AK(spawnX, spawnY, world, this);
                     break;
+                case 4:
+                    //Grenade
+                    spawn = new Grenade(spawnX, spawnY, world, this);
             }
             spawnWeapon = false;
             spawnType = -1;
@@ -270,7 +273,6 @@ public class PlayScreen extends AbstractScreen {
         player1.update(dt);
         for (Weapon updateWeapon : allWeapons) {
             if (updateWeapon.getUser() == player1) {
-                System.out.println("Player 1 updates");
                 updateWeapon.update(dt);
                 updateWeapon.update = true;
             }
@@ -280,13 +282,11 @@ public class PlayScreen extends AbstractScreen {
 
         for (Weapon updateWeapon : allWeapons) {
             if (!updateWeapon.update) {
-                System.out.println("everything left updates");
                 updateWeapon.update(dt);
             }else
                 updateWeapon.update = false;
         }
 
-        System.out.println("gun updates done");
         //updates bullets
         for (Bullet updateBullet : allBullets) {
             updateBullet.update(dt);

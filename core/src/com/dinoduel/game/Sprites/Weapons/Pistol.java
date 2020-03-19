@@ -12,7 +12,7 @@ public class Pistol extends Gun {
         super(x, y, world, screen);
 
         xSize = 138;
-        ySize = 103;
+        ySize = 102;
         heldXOffset = 0.03f;
         heldYOffset = -0.018f;
 

@@ -10,8 +10,8 @@ public class Grenade extends Explosive {
 
     public Grenade(float x, float y, World world, PlayScreen screen) {
         super(x, y, world, screen);
-        xSize = 40;
-        ySize = 40;
+        xSize = 53;
+        ySize = 65;
         heldXOffset = 0.05f;
         heldYOffset = -0.03f;
         timer = 5;
@@ -24,7 +24,7 @@ public class Grenade extends Explosive {
         damage = 10;
 
 
-        img = new TextureRegion(getTexture(), 198, 54, xSize, ySize);
+        img = new TextureRegion(getTexture(), 0, 630, xSize, ySize);
 
         defineWeapon();
 
