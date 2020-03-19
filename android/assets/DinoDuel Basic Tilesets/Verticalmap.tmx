@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="100" tilewidth="16" tileheight="16" nextobjectid="1">
+ <tileset firstgid="1" name="varietyTiles" tilewidth="16" tileheight="16" tilecount="384" columns="24">
+  <image source="varietyTiles.png" trans="ff00ff" width="384" height="256"/>
+ </tileset>
+ <tileset firstgid="385" name="grassland" tilewidth="16" tileheight="16" tilecount="783" columns="29">
+  <image source="grassland.png" trans="ff00ff" width="464" height="432"/>
+ </tileset>
+ <layer name="background" width="50" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2tENgCAMBcC6/4Ys4BpOYAIBxdb7uH8gtPQltCOiAQAAvOCMPrvXCXey3U91BvmpY4Dvk3GooDevu99ARnoYAIyRCwD6/b03VtmnNw9gTrb8sGJtT+8jwzkCAEA2VebomX9esgUAABWMzLar5+ddLqsEv2E=
+  </data>
+ </layer>
+</map>
