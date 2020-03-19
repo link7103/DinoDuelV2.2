@@ -3,6 +3,7 @@ package com.dinoduel.game.Sprites;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -474,6 +475,7 @@ public class Dino extends Sprite {
                     break;
                 }
             }
+
         }
     }//end pickupGun
 
@@ -485,6 +487,10 @@ public class Dino extends Sprite {
 
     public void useWeapon() {
         weapon.useWeapon();
+    }
+
+    public void setWeapon(Weapon newWeapon) {
+        weapon = newWeapon;
     }
 
     public Weapon getWeapon() {
@@ -564,5 +570,17 @@ public class Dino extends Sprite {
 
     public void headKicked() {
         health -= .21f;
+    }
+
+    public void explosionDamage(Circle blastArea) {
+        int divisor = (int) (b2body.getPosition().dst(blastArea.x, blastArea.y)*DinoDuel.PPM);
+        System.out.println("divisor" + divisor);
+
+        if (divisor < blastArea.radius * DinoDuel.PPM && divisor>0) {
+            health -= 1f/divisor;
+        } else if (divisor == 0) {
+            health-=1f;
+            this.dies();
+        }
     }
 }//end Dino
