@@ -214,6 +214,7 @@ public class PlayScreen extends AbstractScreen {
                     allWeapons.get(i).wBody = null;
                 }
                 screen.allWeapons.remove(allWeapons.get(i));
+                i--;
             }
         }
 
@@ -269,7 +270,7 @@ public class PlayScreen extends AbstractScreen {
         player1.update(dt);
         for (Weapon updateWeapon : allWeapons) {
             if (updateWeapon.getUser() == player1) {
-
+                System.out.println("Player 1 updates");
                 updateWeapon.update(dt);
                 updateWeapon.update = true;
             }
@@ -279,10 +280,13 @@ public class PlayScreen extends AbstractScreen {
 
         for (Weapon updateWeapon : allWeapons) {
             if (!updateWeapon.update) {
+                System.out.println("everything left updates");
                 updateWeapon.update(dt);
             }else
                 updateWeapon.update = false;
         }
+
+        System.out.println("gun updates done");
         //updates bullets
         for (Bullet updateBullet : allBullets) {
             updateBullet.update(dt);

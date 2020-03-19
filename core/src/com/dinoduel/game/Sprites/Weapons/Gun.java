@@ -35,12 +35,12 @@ public abstract class Gun extends Weapon {
     public abstract String getName();
 
     public void useWeapon() {
-        if (mag ==0 && reloadCount ==-1 || empty) {
+        if (mag ==0 && reloadCount ==-1 && !empty) {
             //reload
             reloading = true;
             mag = magCap;
             lastFireTime = buildTime;
-        } else if (buildTime - lastFireTime > firerate && reloadCount == -1) {
+        } else if (buildTime - lastFireTime > firerate && reloadCount == -1 && !empty) {
             if (ammo > 0) {
 
                     //fire
@@ -96,7 +96,6 @@ public abstract class Gun extends Weapon {
         }
 
         if(reloading) {
-            System.out.println("Should be changing region");
             reloading = false;
             reloadCount = 0;
         } else if (reloadCount >=0) {

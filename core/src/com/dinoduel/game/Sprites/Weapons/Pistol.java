@@ -46,7 +46,14 @@ public class Pistol extends Gun {
 
     @Override
     protected TextureRegion getFrame(float dt) {
-        TextureRegion region = img;
+        TextureRegion region;
+
+        if (empty  || mag == 0)
+            region = weaponEmpty.getKeyFrame(stateTimer, true);
+        else
+            region = img;
+
+
         float neg;
         if (user.isRunningRight()) {
             neg = 1;

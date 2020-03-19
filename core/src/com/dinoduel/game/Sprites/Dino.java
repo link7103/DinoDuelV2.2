@@ -188,9 +188,7 @@ public class Dino extends Sprite {
             setRegion(dinoDead);
         }
 
-        if (weapon != null) {
-            weapon.update(dt);
-        }
+
     }//end update
 
     private TextureRegion getFrame(float dt) { // Controls which animation or frame is played.
