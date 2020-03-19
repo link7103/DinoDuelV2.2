@@ -427,7 +427,7 @@ public class Dino extends Sprite {
                 bodyShape.setAsBox(4 / DinoDuel.PPM, 7 / DinoDuel.PPM, new Vector2(+0, +1f / DinoDuel.PPM), 0);
                 fdef.shape = bodyShape;
                 getB2body().createFixture(fdef).setUserData(this);
-
+//
 
                 //head sensor
                 EdgeShape head = new EdgeShape();
